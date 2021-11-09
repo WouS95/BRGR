@@ -2,11 +2,11 @@
   <img src="../../assets/img/brgr-logo-black.svg" alt="logo" class="logo" />
   <h1>Log in</h1>
   <form @submit.prevent="handleSubmit">
-    <label for="email">Username</label>
+    <label for="email">Email</label>
     <input
-      type="text"
+      type="email"
       required
-      placeholder="username"
+      placeholder="email"
       v-model="displayName"
       id="email"
     />
@@ -18,23 +18,30 @@
       id="password"
       v-model="password"
     />
+    <div class="error">{{ error }}</div>
     <button>Log in</button>
   </form>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
+import useLogin from "../../composables/useLogin";
 export default {
   setup() {
     // refs
     const displayName = ref("");
     const password = ref("");
 
-    const handleSubmit = () => {
-      console.log(displayName.value, password.value);
+    const { error, login } = useLogin();
+
+    const handleSubmit = async () => {
+      await login(email.value, password.value);
+      if (!error.value) {
+        console.log("user logged in");
+      }
     };
 
-    return { displayName, password, handleSubmit };
+    return { displayName, password, handleSubmit, error };
   },
 };
 </script>
