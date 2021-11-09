@@ -3,6 +3,9 @@
 </template>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 body,
 html {
   background: #1b5e20;

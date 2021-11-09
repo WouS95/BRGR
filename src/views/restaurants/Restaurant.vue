@@ -32,8 +32,8 @@ export default {
 <style>
 .login {
   background: white;
-  width: 400px;
-  max-width: 100vw;
+  width: 500px;
+  max-width: 95vw;
   margin: 40px auto;
   padding: 50px;
   border-radius: 20px;
@@ -67,5 +67,10 @@ export default {
 }
 .login .togglelogin:hover {
   text-decoration: underline;
+}
+.login .error {
+  color: #d32f2f;
+  font-size: 80%;
+  font-weight: 600;
 }
 </style>
