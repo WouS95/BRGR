@@ -5,8 +5,9 @@ const getOrders = () => {
     const documents = ref(null)
     const error = ref(null)
 
-    let ordersRef = projectFirestore.collection(orders)
+    let ordersRef = projectFirestore.collection('orders')
         .orderBy('orderTime')
+        console.log(ordersRef)
 
     ordersRef.onSnapshot((snap) => {
         let results = []
