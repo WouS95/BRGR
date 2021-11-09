@@ -1,15 +1,71 @@
 <template>
-  <RestaurantLogin/>
-  <p>login</p>
+  <div class="login">
+    <div v-if="showLogin">
+      <RestaurantLogin />
+      <p class="togglelogin" @click="showLogin = false">
+        No member yet? create account
+      </p>
+    </div>
+    <div v-else>
+      <RestaurantSignup />
+      <p class="togglelogin" @click="showLogin = true">
+        Already a member? Log in
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
-import RestaurantLogin from '../../components/restaurant/RestaurantLogin.vue'
+import { ref } from "@vue/reactivity";
+import RestaurantLogin from "../../components/restaurant/RestaurantLogin.vue";
+import RestaurantSignup from "../../components/restaurant/RestaurantSignup.vue";
 export default {
-    components: {RestaurantLogin}
-}
+  components: { RestaurantLogin, RestaurantSignup },
+  setup() {
+    const showLogin = ref(true);
+
+    return { showLogin };
+  },
+};
 </script>
 
 <style>
+.login {
+  background: white;
+  width: 400px;
+  max-width: 100vw;
+  margin: 40px auto;
+  padding: 50px;
+  border-radius: 20px;
+}
+.login .logo {
+  width: 35%;
+}
+.login h1 {
+  font: normal normal 600 40px/60px Poppins;
+}
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+.login form input {
+  padding: 15px;
+  font-size: 100%;
+  border: 1px solid #e0e0e0;
+  border-bottom: 2px solid #757575;
+}
 
+.login form button {
+  align-self: flex-start;
+  font-size: 100%;
+}
+.login .togglelogin {
+  align-self: flex-start;
+  cursor: pointer;
+}
+.login .togglelogin:hover {
+  text-decoration: underline;
+}
 </style>
