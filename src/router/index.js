@@ -1,11 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
+import Restaurant from '../views/restaurants/Restaurant.vue'
 
-const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
+const routes = [{
+    path: '/restaurant',
+    name: 'Restaurant',
+    component: Restaurant
+  },
   // {
   //   path: '/about',
   //   name: 'About',

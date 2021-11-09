@@ -2,6 +2,7 @@
   <div id="nav">
     hier komen dingen
   </div>
+  <router-view/>
 </template>
 
 <style>
