@@ -1,13 +1,13 @@
 <template>
   <div class="login">
     <div v-if="showLogin">
-      <RestaurantLogin />
+      <RestaurantLogin @login="toOrders" />
       <p class="togglelogin" @click="showLogin = false">
         No member yet? create account
       </p>
     </div>
     <div v-else>
-      <RestaurantSignup />
+      <RestaurantSignup @signup="toOrders" />
       <p class="togglelogin" @click="showLogin = true">
         Already a member? Log in
       </p>
@@ -19,12 +19,17 @@
 import { ref } from "@vue/reactivity";
 import RestaurantLogin from "../../components/restaurant/RestaurantLogin.vue";
 import RestaurantSignup from "../../components/restaurant/RestaurantSignup.vue";
+import { useRouter } from "vue-router";
 export default {
   components: { RestaurantLogin, RestaurantSignup },
   setup() {
     const showLogin = ref(true);
+    const router = useRouter();
+    const toOrders = () => {
+      router.push({ name: "Orders" });
+    };
 
-    return { showLogin };
+    return { showLogin, toOrders };
   },
 };
 </script>

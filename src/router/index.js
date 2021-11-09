@@ -3,11 +3,17 @@ import {
   createWebHistory
 } from 'vue-router'
 import Restaurant from '../views/restaurants/Restaurant.vue'
+import Orders from '../views/restaurants/RestaurantOrders.vue'
 
 const routes = [{
     path: '/restaurant',
     name: 'Restaurant',
     component: Restaurant
+  },
+  {
+    path: '/restaurant/orders',
+    name: 'Orders',
+    component: Orders
   },
   // {
   //   path: '/about',
