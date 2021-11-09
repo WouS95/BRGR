@@ -19,7 +19,7 @@
             <h3 class="price">{{ totalPrice }}</h3>
             <button>
                 Details 
-                <span class="material-icons-outlined">arrow_forward</span>
+                <span class="material-icons">arrow_forward</span>
             </button>
         </div>
 
@@ -64,7 +64,8 @@ export default {
         background: #fff;
         width: 80%;
         max-width: 350px;
-        border-radius: 10px;;
+        border-radius: 10px;
+        margin: 20px 0px;
     }
     .subtitle {
         margin: 0px;

@@ -1,24 +1,28 @@
-import { projectFirestore } from '../firebase/config'
 import { ref } from 'vue'
+import { projectFirestore } from '../firebase/config'
 
 const getOrders = () => {
-    const orders = ref([])
+    const documents = ref(null)
     const error = ref(null)
 
-    const load = async () => {
-        console.log('loading')
-        try{
-            const res = await projectFirestore.collection('orders').get()
-            orders.value = res.docs.map(doc => {
-                return { ...doc.data(), id: doc.id }
-            })
-        } catch(err){
-            error.value = err.message
-            console.log(error.value)
-        }
+    let ordersRef = projectFirestore.collection(orders)
+        .orderBy('orderTime')
+
+    ordersRef.onSnapshot((snap) => {
+        let results = []
+        snap.docs.forEach(doc => {
+            doc.data.orderTime && results.push({ ...doc.data(), id: doc.id })
+        })
+        documents.value = results
+        error.value = null
+    }), (err) => {
+        console.log(err.message)
+        documents.value = null
+        error.value = "could not fetch data for document"
     }
 
-    return{orders, load, error}
+    return {documents, error}
+    
 }
 
 export default getOrders

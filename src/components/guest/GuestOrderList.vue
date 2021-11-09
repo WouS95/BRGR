@@ -6,14 +6,14 @@
 
 <script>
 import GuestOrderSummary from '../../components/guest/GuestOrderSummary.vue'
-import getOrders from '../../composables/getOrders'
+import useOrders from '../../composables/useOrders'
 
 export default {
     components: {
         GuestOrderSummary
     },
     setup(){
-        const {orders, error, load} = getOrders()
+        const {orders, error, load} = useOrders()
             load()
 
             return{orders, load}
