@@ -2,13 +2,13 @@
 <div>
     <edit-ingredients-menu />
     <button> add </button>
-    <ul v-for="sideItem in sideItems" :key="sideItem.id">
-        <li> {{sideItem.name}}
+    <div v-for="sideItem in sideItems" :key="sideItem.id">
+        <p> {{sideItem.name}} $ {{sideItem.price}}.00
             <button>edit</button>
             <button>remove</button>
             <button class="slideButton" @click="toggleAvailability">available?</button>
-        </li>
-    </ul>
+        </p>
+    </div>
 </div>
 </template>
 
@@ -20,6 +20,11 @@ export default {
     name: 'Sides',
     components: {
         EditIngredientsMenu
+    },
+    methods: {
+        toggleAvailability(){
+            console.log("toggle it")
+        }
     },
     setup(){
         const sideItems = ref([])
