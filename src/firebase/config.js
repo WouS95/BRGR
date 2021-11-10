@@ -15,6 +15,8 @@ firebase.initializeApp(firebaseConfig);
 
 // init firestore service
 const projectFirestore = firebase.firestore();
+const fieldValue = firebase.firestore.FieldValue;
 export {
-    projectFirestore
+    projectFirestore,
+    fieldValue
 }

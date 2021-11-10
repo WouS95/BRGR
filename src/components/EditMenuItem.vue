@@ -1,16 +1,17 @@
 <template>
     <div class="backdrop">
-        <div class="additem">
+        <div class="edititem">
       <form>
-        <h2>Add to {{type}}</h2>
+          {{itemToEdit}}
+        <h2>Edit {{itemToEdit.name}}</h2>
         <button @click="$emit('cancel')">Cancel</button>
         <br>
         <label>Name: </label>
-        <input v-model="name" type="text" required>
+        <input v-model="itemToEdit.name" type="text" required>
         <label>Price: </label>
-        <input v-model="price" type="Number" step="0.01" required>
+        <input v-model="itemToEdit.price" type="Number" step="0.01" required>
         <br>
-        <button @click="addToFirebase">Confirm</button>
+        <button @click="editItem">save</button>
       </form>
         </div>
     </div>
@@ -18,32 +19,16 @@
 
 <script>
 import DisplayMenuEdits from './DisplayMenuEdits.vue'
-import {projectFirestore, fieldValue} from '../firebase/config' 
+import {projectFirestore} from '../firebase/config' 
 export default {
   components: { DisplayMenuEdits },
-  props: { type: String },
-
-  data() {
-      return{
-          name: "",
-          price: null
-      }
-  },
-  methods: {
-      addToFirebase(){
-          let data = { 
-            isAvailable: true,
-            name: this.name,
-            price: this.price,
-      }
-          console.log("add menu item to the firebase")
-          //projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks' : [data]})
-          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
-            [this.type]: fieldValue.arrayUnion(data)
-          
-          })
+  props: { itemToEdit: Object},
+   emits: ['save-changes'],
+    methods: {
+      editItem(){
+          const editedItem = this.itemToEdit
+          this.$emit('save-changes', editedItem)
       },
-      
   }
 
 }
@@ -58,7 +43,7 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number]{
     width: 25px;
 }
-.additem {
+.edititem {
   position: fixed;
   top: 35%;
   left: 35%;

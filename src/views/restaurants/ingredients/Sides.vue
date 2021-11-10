@@ -1,43 +1,58 @@
 <template>
 <div>
     <edit-ingredients-menu />
-    <button> add </button>
+    <button @click="addingMenuItem=true"> add </button>
+    <add-menu-item type="sides" v-if="addingMenuItem" @cancel="addingMenuItem=false"/>
     <div v-for="(sideItem, index) in sideItems" :key="sideItem.id">
-        <p> {{sideItem.name}} $ {{sideItem.price}}.00
-            <button>edit</button>
-            <button>remove</button>
+        {{sideItem.name}} &#9; euro: {{sideItem.price}}
+            <!-- add icon to click -->
+            <edit-menu-item :itemToEdit="menuItemToEdit" @save-changes="updateDB($event)" v-if="editingMenuItem" @cancel="editingMenuItem=false"/>
+            <button @click="editItem(sideItem, index)" >edit </button>
+            <!-- add icon to click -->
+            <button @click="removeItem">remove</button>
             <label style="font-size: 70%;"> available: </label>
-            <button v-if="sideItem.isAvailable" class="available" @click="changeAvailability(sideItem, index)"> O---</button>
-            <button v-else class="unavailable" @click="changeAvailability(sideItem, index)">---O</button>
-        </p>
+            <button v-if="sideItem.isAvailable" class="available" @click="changeAvailability(sideItem, index)"> </button>
+            <button v-else class="unavailable" @click="changeAvailability(sideItem, index)"></button>
+        
     </div>
 </div>
 </template>
 
 <script>
-import {useRouter} from 'vue-router'
 import EditIngredientsMenu from '../../../components/EditIngredientsMenu.vue'
 import {projectFirestore} from '../../../firebase/config'
 import {ref} from 'vue'
+import EditMenuItem from '../../../components/EditMenuItem.vue'
+import AddMenuItem from '../../../components/AddMenuItem.vue'
+
 export default {
     name: 'Sides',
     components: {
-        EditIngredientsMenu
+        EditIngredientsMenu,
+        EditMenuItem,
+        AddMenuItem
     },
-    methods: {
-        // changeAvailability(index, changeTo){
-        //     console.log("toggle it"+index+" change it to: "+changeTo)
-        //     const changeitem = "sides."+index+".isAvailable"
-        //      projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({changeitem: changeTo} )
-
-        // },
-
-              setToAvailable(){
-          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': true} )
-      },
-      setToUnavailable(){
-          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': false} )
-      }
+    data(){
+        return {
+            addingMenuItem: false,
+            editingMenuItem: false,
+            menuItemToEdit: {},
+            editIndex: null
+        }
+    },
+    methods:{
+        editItem(itemToEdit, index){
+            this.editingMenuItem=true
+            this.menuItemToEdit = itemToEdit
+            this.editIndex = index
+        },
+        updateDB(newValues){
+            this.editingMenuItem=false
+            console.log(newValues, this.editIndex)
+            var updateTekst = 'sides.'+this.editIndex
+            console.log(updateTekst)
+            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[updateTekst] : newValues} )
+        }
     },
     setup(){
         const sideItems = ref([])
@@ -64,29 +79,42 @@ export default {
             console.log("currently: "+ side.isAvailable)
             const changeTo = !side.isAvailable
             console.log(changeTo)
-            const changeitem = "drinks."+index+".isAvailable"
-            if (index===0){
-                projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'sides.0.isAvailable' : changeTo} )
-            }
-            else if( index ===1){
-                projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'sides.1.isAvailable' : changeTo} )
-            }
+            var changeitem = "sides."+index+".isAvailable"
+            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[changeitem] : changeTo} )
+            sideItems.value[index].isAvailable = changeTo
         }
+
+        // const editItem = (itemToEdit) => {
+        //     this.data.editingMenuItem=true
+        //     console.log("edit the item")
+        //     console.log(itemToEdit)
+        // }
+
+        const removeItem = () => {
+            console.log("remove the item")
+        }
+    
 
         load()
         return {
-            sideItems, changeAvailability
+            sideItems, changeAvailability, removeItem
         }
     }
 
 }
 </script>
 
-<style>
-.available{
-    background-color: #9c0000;
+<style scoped>
+button{
+    background-color: white;
+    color: black;
 }
 .unavailable{
-    background-color: #ffaeae;
+    background-color: #9c0000;
 }
+.available{
+    background-color: #45be3a;
+}
+
+
 </style>
