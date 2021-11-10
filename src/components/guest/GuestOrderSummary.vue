@@ -1,14 +1,23 @@
 <template>
     <div class="orderSummary">
-        <p class="subtitle">Order nr:</p>
-        <h2 class="orderNumber">{{ order.orderNr }}</h2>
         <div class="status" :class="statusClassName">
             <div class="statusSphere"/>
             <p class="statusText">{{ order.orderStatus }}</p>
         </div>
+        <p class="subtitle">Order nr:</p>
+        <h2 class="orderNumber">
+            <span v-if="order.orderNr < 10">
+                0
+            </span>
+            <span v-if="order.orderNr < 100">
+                0
+            </span>
+            {{ order.orderNr }}
+            </h2>
         <div class="orderList">
             <div v-for="item in order.order.slice(0,3)" :key="item.id">
                 <div v-if="item.type === 'burger'">
+                    <!-- The program assumes the first ingredient in the burger is always the burger patty -->
                     <p>{{ item.ingredients[0].name }} {{ item.type }}</p>
                 </div>
                 <div v-else>
@@ -16,7 +25,10 @@
                 </div>
             </div>
             <div v-if="order.order.length > 3">...</div> 
-            <h3 class="price">{{ totalPrice }}</h3>
+            <h3 class="price">
+                € 
+                {{ totalPrice }}
+                </h3>
             <button>
                 Details 
                 <span class="material-icons">arrow_forward</span>
@@ -40,6 +52,7 @@ export default {
                 price += element.price
                 console.log(price)
             })
+
             return price
         })
 
@@ -60,15 +73,27 @@ export default {
 <style>
 
     .orderSummary {
-        padding: 20px;
+        padding: 20px 30px;
+        box-sizing: border-box;
         background: #fff;
-        width: 80%;
+        width: 90%;
         max-width: 350px;
         border-radius: 10px;
-        margin: 20px 0px;
+        margin: 20px auto;
     }
-    .subtitle {
+
+    .orderSummary h2 {
+        font-size: 2.2em;
+        letter-spacing: -0.1em;
+        line-height: 1em;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .orderSummary .subtitle {
         margin: 0px;
+        font-size: 0.9em;
+        color: #757575;
     }
 
     .orderNumber {
@@ -82,6 +107,10 @@ export default {
         border-radius: 100%;
         display: inline-block;
         margin-right: 10px;
+    }
+
+    .orderSummary .status {
+        float: right;
     }
 
     .orderSummary .statusText {
