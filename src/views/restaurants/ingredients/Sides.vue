@@ -2,17 +2,20 @@
 <div>
     <edit-ingredients-menu />
     <button> add </button>
-    <div v-for="sideItem in sideItems" :key="sideItem.id">
+    <div v-for="(sideItem, index) in sideItems" :key="sideItem.id">
         <p> {{sideItem.name}} $ {{sideItem.price}}.00
             <button>edit</button>
             <button>remove</button>
-            <button class="slideButton" @click="toggleAvailability">available?</button>
+            <label style="font-size: 70%;"> available: </label>
+            <button v-if="sideItem.isAvailable" class="available" @click="changeAvailability(sideItem, index)"> O---</button>
+            <button v-else class="unavailable" @click="changeAvailability(sideItem, index)">---O</button>
         </p>
     </div>
 </div>
 </template>
 
 <script>
+import {useRouter} from 'vue-router'
 import EditIngredientsMenu from '../../../components/EditIngredientsMenu.vue'
 import {projectFirestore} from '../../../firebase/config'
 import {ref} from 'vue'
@@ -22,9 +25,19 @@ export default {
         EditIngredientsMenu
     },
     methods: {
-        toggleAvailability(){
-            console.log("toggle it")
-        }
+        // changeAvailability(index, changeTo){
+        //     console.log("toggle it"+index+" change it to: "+changeTo)
+        //     const changeitem = "sides."+index+".isAvailable"
+        //      projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({changeitem: changeTo} )
+
+        // },
+
+              setToAvailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': true} )
+      },
+      setToUnavailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': false} )
+      }
     },
     setup(){
         const sideItems = ref([])
@@ -33,49 +46,36 @@ export default {
         const load = async () => {
             try{
                 const res = await projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').get()
-                // sideItems.value = res.data('drinks')
                 var sides = {...res.data().sides}
-                
-                // console.log(sides)
-
-                // sides.forEach(element => {
-                //     console.log(element)
-                // });
-                // for (var i = 0; i < sides.length ; i++){
-                //     console.log(sides[i])
-                //     console.log('he')
-                // }
-                
-                // for (side in sides){
-                //     console.log(x)
-                // }
+                                
                 for (const side in sides) {
-                    // console.log(sides[side])
                     const sideItem = sides[side]
-                    // sideItems.value = {sideItem}
                     console.log(sideItem)
                     sideItems.value.push(sideItem)
-                    // if (Object.hasOwnProperty.call(sides, key)) {
-                    //     const element = sides[key];
-                    //     console.log(sides[key])
-                        
-                    // }
                 }
-
-
-                //  sideItems.value = {sides}
-                
-                // console.log(res)
 
             } catch(err){
                 error.value = err.message
                 console.log(error.value)
             }
         }
-                console.log(sideItems)
+
+        const changeAvailability = (side, index) => {
+            console.log("currently: "+ side.isAvailable)
+            const changeTo = !side.isAvailable
+            console.log(changeTo)
+            const changeitem = "drinks."+index+".isAvailable"
+            if (index===0){
+                projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'sides.0.isAvailable' : changeTo} )
+            }
+            else if( index ===1){
+                projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'sides.1.isAvailable' : changeTo} )
+            }
+        }
+
         load()
         return {
-            sideItems
+            sideItems, changeAvailability
         }
     }
 
@@ -83,5 +83,10 @@ export default {
 </script>
 
 <style>
-
+.available{
+    background-color: #9c0000;
+}
+.unavailable{
+    background-color: #ffaeae;
+}
 </style>
