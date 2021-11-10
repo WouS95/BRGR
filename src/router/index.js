@@ -1,13 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import Restaurant from '../views/restaurants/Restaurant.vue'
+import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
 
-const routes = [
+const routes = [{
+    path: '/restaurant',
+    name: 'Restaurant',
+    component: Restaurant
+  },
   {
-    path: '/guest-orders',
+    path: '/restaurant/orders',
+    name: 'Orders',
+    component: Orders
+  },
+    {
+    path: '/guest/orders',
     name: 'GuestOrders',
     component: GuestOrders
   },
-  
 ]
 
 const router = createRouter({
