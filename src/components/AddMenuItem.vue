@@ -39,8 +39,9 @@ export default {
           console.log("add menu item to the firebase")
           //projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks' : [data]})
           projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
-            [this.type]: fieldValue.arrayUnion(data)
-          
+            [this.type]: fieldValue.arrayUnion({isAvailable: true,
+            name: this.name,
+            price: this.price})
           })
       },
       

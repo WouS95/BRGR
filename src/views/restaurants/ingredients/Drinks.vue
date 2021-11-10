@@ -20,7 +20,7 @@
 
 <script>
 import EditIngredientsMenu from '../../../components/EditIngredientsMenu.vue'
-import {projectFirestore} from '../../../firebase/config'
+import {fieldValue, projectFirestore} from '../../../firebase/config'
 import {ref} from 'vue'
 import EditMenuItem from '../../../components/EditMenuItem.vue'
 import AddMenuItem from '../../../components/AddMenuItem.vue'
@@ -47,11 +47,20 @@ export default {
             this.editIndex = index
         },
         updateDB(newValues){
-            this.editingMenuItem=false
-            console.log(newValues, this.editIndex)
-            var updateTekst = 'drinks.'+this.editIndex
+            // console.log(newValues, this.editIndex)
+            var updateTekst = 'drinks'
             console.log(updateTekst)
-            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[updateTekst] : newValues} )
+            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
+                drinks : (newValues)
+                // [updateTekst] : newValues
+            })
+            alert("...")
+            this.editingMenuItem=false
+
+            // projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
+            // [this.type]: fieldValue.arrayUnion({isAvailable: true,
+            // name: this.name,
+            // price: this.price})
         }
     },
     setup(){
@@ -76,12 +85,14 @@ export default {
         }
 
         const changeAvailability = (drink, index) => {
-            console.log("currently: "+ drink.isAvailable)
             const changeTo = !drink.isAvailable
-            console.log(changeTo)
-            var changeitem = "drinks."+index+".isAvailable"
-            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[changeitem] : changeTo} )
-            sideItems.value[index].isAvailable = changeTo
+            drinks.value[index].isAvailable = changeTo
+           
+            var changeitem = "drinks."+index
+            // console.log(projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc'))
+            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[changeitem] : drinks.value[index]} )
+            // console.log(changeitem)
+            // drinks.value[index].isAvailable = changeTo
         }
 
         const removeItem = () => {
@@ -98,5 +109,15 @@ export default {
 </script>
 
 <style>
+button{
+    background-color: white;
+    color: black;
+}
+.unavailable{
+    background-color: #9c0000;
+}
+.available{
+    background-color: #45be3a;
+}
 
 </style>

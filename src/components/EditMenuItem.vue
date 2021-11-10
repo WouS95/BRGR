@@ -19,15 +19,17 @@
 
 <script>
 import DisplayMenuEdits from './DisplayMenuEdits.vue'
-import {projectFirestore} from '../firebase/config' 
+// import {projectFirestore} from '../firebase/config' 
 export default {
   components: { DisplayMenuEdits },
   props: { itemToEdit: Object},
    emits: ['save-changes'],
     methods: {
       editItem(){
-          const editedItem = this.itemToEdit
-          this.$emit('save-changes', editedItem)
+        //   const editedItem = this.itemToEdit
+        //   console.log(editedItem)
+        //   alert(this.itemToEdit)
+          this.$emit('save-changes', [this.itemToEdit])
       },
   }
 
