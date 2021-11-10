@@ -1,7 +1,8 @@
 <template>
 <div>
     <edit-ingredients-menu />
-    <button> add </button>
+    <button @click="newBurger"> add </button>
+
 </div>
 </template>
 

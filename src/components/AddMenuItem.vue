@@ -37,14 +37,27 @@ export default {
             price: this.price,
       }
           console.log("add menu item to the firebase")
-          var nieuweInhoud = 
+        //   var nieuweInhoud = 
         //   projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({drinks: {isAvailable: true,
         //     name: this.name,
         //     price: this.price,}})
-        projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').arrayUnion({drinks: {isAvailable: true,
-            name: this.name,
-            price: this.price,}})
-          this.$emit('cancel')
+        // var updatedDrinks = projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
+        //     drinks: FieldValue.arrayUnion({isAvailable: true,  name: this.name,  price: this.price,})
+        // })
+        // const drinks = doc()
+        
+         //projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update('drinks', {isAvailable: true,  name: this.name,  price: this.price,})
+       
+        // projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').arrayUnion({drinks: {isAvailable: true,
+        //     name: this.name,
+        //     price: this.price,}})
+        //   this.$emit('cancel')
+      },
+      setToAvailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': true} )
+      },
+      setToUnavailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': false} )
       }
   }
 

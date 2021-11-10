@@ -30,6 +30,14 @@ export default {
             menuItems: ["iets", "anders"]
         }
     },
+    methods: {
+              setToAvailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': true} )
+      },
+      setToUnavailable(){
+          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks.isAvailable': false} )
+      }
+    },
     mounted() {
         let menuList = []
         const load = async () => {
