@@ -29,4 +29,7 @@ button {
   cursor: pointer;
   font-weight: 500;
 }
+img {
+  max-width: 100%;
+}
 </style>

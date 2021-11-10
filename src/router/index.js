@@ -2,13 +2,13 @@ import {
   createRouter,
   createWebHistory
 } from 'vue-router'
-import Restaurant from '../views/restaurants/Restaurant.vue'
+import Restaurant from '../views/restaurants/RestaurantWelcome.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
-import NewOrder from '../views/guest/GuestCreateOrder.vue'
 
 const routes = [{
-    path: '/restaurant',
+    // RESTAURANT PATHS
+    path: '/restaurant/login',
     name: 'Restaurant',
     component: Restaurant
   },
@@ -17,15 +17,13 @@ const routes = [{
     name: 'Orders',
     component: Orders
   },
+
+
+  // GUEST PATHS
   {
     path: '/guest/orders',
     name: 'GuestOrders',
     component: GuestOrders
-  },
-  {
-    path: '/guest/new-order',
-    name: 'NewOrder',
-    component: NewOrder
   },
 ]
 
