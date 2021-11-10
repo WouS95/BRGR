@@ -8,7 +8,7 @@
 <script>
 import EditIngredientsMenu from '../../../components/EditIngredientsMenu.vue'
 export default {
-    name: 'Burgers',
+    name: 'Sauces',
     components: {
         EditIngredientsMenu
         
