@@ -25,14 +25,18 @@
                 </div>
             </div>
             <div v-if="order.order.length > 3">...</div> 
-            <h3 class="price">
-                € 
-                {{ totalPrice }}
-                </h3>
-            <button>
-                Details 
-                <span class="material-icons">arrow_forward</span>
-            </button>
+            <div class="bottomItems">
+                <h3 class="price">
+                    € 
+                    {{ parseFloat(totalPrice).toFixed(2).replace(/\./g, ",") }}
+                    </h3>
+                <router-link :to="{name: 'GuestOrderDetails', params: {id: order.id,}}">
+                    <button>
+                        <p>Details</p> 
+                        <span class="material-icons">arrow_forward</span>
+                    </button>
+                </router-link>
+            </div>
         </div>
 
     </div>
@@ -40,21 +44,29 @@
 
 <script>
 import {computed} from 'vue'
+import {useRouter} from 'vue-router'
+import OrderStatus from '../OrderStatus.vue'
 
 export default {
     props: ["order"],
+    compontents: {OrderStatus},
     setup(props){
+        
+
+        const router = useRouter()
 
         const totalPrice = computed(() => {
             let price = 0
             props.order.order.forEach(element => {
-                console.log(element)
                 price += element.price
-                console.log(price)
             })
 
             return price
         })
+
+        const goToDetails = () => {
+            router.push('')
+        }
 
         const statusClassName = computed(() => {
             if(props.order.orderStatus === "preparing"){
@@ -65,7 +77,7 @@ export default {
             }
         })
 
-        return {statusClassName, totalPrice}
+        return {totalPrice, goToDetails, statusClassName}
     }
 }
 </script>
@@ -80,6 +92,7 @@ export default {
         max-width: 350px;
         border-radius: 10px;
         margin: 20px auto;
+        text-align: left;
     }
 
     .orderSummary h2 {
@@ -90,51 +103,32 @@ export default {
         margin-bottom: 20px;
     }
 
-    .orderSummary .subtitle {
+    .orderSummary button {
+        font-size: 100%;
+    }
+
+    .orderSummary .price {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 1.5em;
         margin: 0px;
-        font-size: 0.9em;
-        color: #757575;
     }
 
     .orderNumber {
         margin: 0px;
     }
 
-    .orderSummary .statusSphere {
-        width: 15px;
-        height: 15px;
-        background-color: grey;
-        border-radius: 100%;
-        display: inline-block;
-        margin-right: 10px;
-    }
-
-    .orderSummary .status {
-        float: right;
-    }
-
-    .orderSummary .statusText {
-        display: inline-block;
-    }
-
-    .status.orange .statusText {
-        color: orange;
-    }
-
-    .status.orange .statusSphere {
-        background: orange;
-    }
-
-    .status.green .statusText {
-        color: green;
-    }
-
-    .status.green .statusSphere {
-        background: green;
-    }
-
     .orderList p {
         margin: 0px;
     }
+
+    .orderSummary .bottomItems {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+
 
 </style>

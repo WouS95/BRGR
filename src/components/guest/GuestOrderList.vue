@@ -7,6 +7,7 @@
 <script>
 import GuestOrderSummary from '../../components/guest/GuestOrderSummary.vue'
 import getOrders from '../../composables/getOrders'
+import OrderStatus from '../../components/OrderStatus.vue'
 
 export default {
     components: {
