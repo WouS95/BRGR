@@ -1,36 +1,39 @@
 <template>
     <div class="backdrop">
         <div class="edititem">
-      <form>
-          {{itemToEdit}}
+      <form @submit.prevent="handleSubmit">
         <h2>Edit {{itemToEdit.name}}</h2>
         <button @click="$emit('cancel')">Cancel</button>
         <br>
         <label>Name: </label>
-        <input v-model="itemToEdit.name" type="text" required>
+        <input v-model="name" type="text" required>
         <label>Price: </label>
-        <input v-model="itemToEdit.price" type="Number" step="0.01" required>
+        <input v-model="price" type="Number" step="0.01" required>
         <br>
-        <button @click="editItem">save</button>
+        <div class="submit">
+        <button>save</button>
+        </div>
       </form>
         </div>
     </div>
 </template>
 
 <script>
-import DisplayMenuEdits from './DisplayMenuEdits.vue'
-// import {projectFirestore} from '../firebase/config' 
 export default {
-  components: { DisplayMenuEdits },
+  components: {  },
   props: { itemToEdit: Object},
-   emits: ['save-changes'],
-    methods: {
-      editItem(){
-        //   const editedItem = this.itemToEdit
-        //   console.log(editedItem)
-        //   alert(this.itemToEdit)
-          this.$emit('save-changes', [this.itemToEdit])
-      },
+  data(){
+    return{
+      availability: this.itemToEdit.isAvailable,
+      name: this.itemToEdit.name,
+      price: this.itemToEdit.price
+
+    }
+  },
+  methods: {
+    handleSubmit(){
+      this.$emit('save-changes', {name: this.name, price: Number.parseFloat(this.price).toFixed(2), isAvailable: this.availability})
+    }
   }
 
 }
@@ -61,7 +64,7 @@ input[type=number]{
   .backdrop{
       top: 0;
       position: fixed;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.25);
       width: 100%;
       height: 100%;
   }

@@ -1,7 +1,7 @@
 <template>
     <div class="backdrop">
         <div class="additem">
-      <form>
+      <form @submit.prevent="handleSubmit">
         <h2>Add to {{type}}</h2>
         <button @click="$emit('cancel')">Cancel</button>
         <br>
@@ -10,19 +10,19 @@
         <label>Price: </label>
         <input v-model="price" type="Number" step="0.01" required>
         <br>
-        <button @click="addToFirebase">Confirm</button>
+        <div class="submit">
+        <button>Confirm</button>
+        </div>
       </form>
         </div>
     </div>
 </template>
 
 <script>
-import DisplayMenuEdits from './DisplayMenuEdits.vue'
-import {projectFirestore, fieldValue} from '../firebase/config' 
+ 
 export default {
-  components: { DisplayMenuEdits },
+  components: {  },
   props: { type: String },
-
   data() {
       return{
           name: "",
@@ -30,23 +30,10 @@ export default {
       }
   },
   methods: {
-      addToFirebase(){
-          let data = { 
-            isAvailable: true,
-            name: this.name,
-            price: this.price,
-      }
-          console.log("add menu item to the firebase")
-          //projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({'drinks' : [data]})
-          projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({
-            [this.type]: fieldValue.arrayUnion({isAvailable: true,
-            name: this.name,
-            price: this.price})
-          })
-      },
-      
+    handleSubmit(){
+      this.$emit('addToFirebase', { isAvailable: true, name: this.name, price: Number.parseFloat(this.price).toFixed(2)})
+    }
   }
-
 }
 </script>
 

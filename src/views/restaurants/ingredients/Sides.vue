@@ -1,120 +1,177 @@
 <template>
-<div>
+  <div>
     <edit-ingredients-menu />
-    <button @click="addingMenuItem=true"> add </button>
-    <add-menu-item type="sides" v-if="addingMenuItem" @cancel="addingMenuItem=false"/>
-    <div v-for="(sideItem, index) in sideItems" :key="sideItem.id">
-        {{sideItem.name}} &#9; euro: {{sideItem.price}}
-            <!-- add icon to click -->
-            <edit-menu-item :itemToEdit="menuItemToEdit" @save-changes="updateDB($event)" v-if="editingMenuItem" @cancel="editingMenuItem=false"/>
-            <button @click="editItem(sideItem, index)" >edit </button>
-            <!-- add icon to click -->
-            <button @click="removeItem">remove</button>
-            <label style="font-size: 70%;"> available: </label>
-            <button v-if="sideItem.isAvailable" class="available" @click="changeAvailability(sideItem, index)"> </button>
-            <button v-else class="unavailable" @click="changeAvailability(sideItem, index)"></button>
-        
+    <button @click="addingMenuItem = true">add</button>
+    <add-menu-item
+      type="sides"
+      v-if="addingMenuItem"
+      @cancel="addingMenuItem = false"
+      @addToFirebase="addMenuItemToFirebase($event)"
+    />
+    <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
+      {{ side.name }} ............ euro: {{ Number.parseFloat(side.price).toFixed(2) }}......
+      <img
+        class="editicon"
+        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
+        @click="editItem(side, index)"
+      />
+      <edit-menu-item
+        v-if="editingMenuItem"
+        :itemToEdit="menuItemToEdit"
+        @save-changes="updateDB($event)"
+        @cancel="editingMenuItem = false"
+      />
+      ...
+      <img
+        class="trashcan"
+        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
+        @click="removeItem(side, index)"
+      />...
+      <label style="font-size: 70%"> available: </label>
+      <button
+        v-if="side.isAvailable"
+        class="available"
+        @click="changeAvailability(side, index)"
+      ></button>
+      <button
+        v-else
+        class="unavailable"
+        @click="changeAvailability(side, index)"
+      ></button>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import EditIngredientsMenu from '../../../components/EditIngredientsMenu.vue'
-import {projectFirestore} from '../../../firebase/config'
-import {ref} from 'vue'
-import EditMenuItem from '../../../components/EditMenuItem.vue'
-import AddMenuItem from '../../../components/AddMenuItem.vue'
+import EditIngredientsMenu from "../../../components/EditIngredientsMenu.vue";
+import { fieldValue, projectFirestore } from "../../../firebase/config";
+import { ref } from "vue";
+import EditMenuItem from "../../../components/EditMenuItem.vue";
+import AddMenuItem from "../../../components/AddMenuItem.vue";
 
 export default {
-    name: 'Sides',
-    components: {
-        EditIngredientsMenu,
-        EditMenuItem,
-        AddMenuItem
+  name: "Sides",
+  components: {
+    EditIngredientsMenu,
+    EditMenuItem,
+    AddMenuItem,
+  },
+  data() {
+    return {
+      addingMenuItem: false,
+      editingMenuItem: false,
+      menuItemToEdit: {},
+      editIndex: null,
+    };
+  },
+  methods: {
+    editItem(itemToEdit, index) {
+      this.editingMenuItem = true;
+      this.menuItemToEdit = itemToEdit;
+      this.editIndex = index;
     },
-    data(){
-        return {
-            addingMenuItem: false,
-            editingMenuItem: false,
-            menuItemToEdit: {},
-            editIndex: null
-        }
-    },
-    methods:{
-        editItem(itemToEdit, index){
-            this.editingMenuItem=true
-            this.menuItemToEdit = itemToEdit
-            this.editIndex = index
-        },
-        updateDB(newValues){
-            this.editingMenuItem=false
-            console.log(newValues, this.editIndex)
-            var updateTekst = 'sides.'+this.editIndex
-            console.log(updateTekst)
-            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[updateTekst] : newValues} )
-        }
-    },
-    setup(){
-        const sideItems = ref([])
-        const error = ref(null)
-        
-        const load = async () => {
-            try{
-                const res = await projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').get()
-                var sides = {...res.data().sides}
-                                
-                for (const side in sides) {
-                    const sideItem = sides[side]
-                    console.log(sideItem)
-                    sideItems.value.push(sideItem)
-                }
+    updateDB(newValues) {
+        const deleteThis = this.menuItemToEdit
 
-            } catch(err){
-                error.value = err.message
-                console.log(error.value)
-            }
-        }
-
-        const changeAvailability = (side, index) => {
-            console.log("currently: "+ side.isAvailable)
-            const changeTo = !side.isAvailable
-            console.log(changeTo)
-            var changeitem = "sides."+index+".isAvailable"
-            projectFirestore.collection('ingredients').doc('3EBiUmdwrZxSBPrIcUyc').update({[changeitem] : changeTo} )
-            sideItems.value[index].isAvailable = changeTo
-        }
-
-        // const editItem = (itemToEdit) => {
-        //     this.data.editingMenuItem=true
-        //     console.log("edit the item")
-        //     console.log(itemToEdit)
-        // }
-
-        const removeItem = () => {
-            console.log("remove the item")
-        }
+        projectFirestore.collection("ingredients").doc("sides").update({
+          sides: fieldValue.arrayRemove(deleteThis),
+        })
+       
+        projectFirestore.collection("ingredients").doc("sides").update({
+            sides: fieldValue.arrayUnion(newValues),
+        })
     
+    this.editingMenuItem = false;
+    this.sides[this.editIndex]=newValues
+    },
+    addMenuItemToFirebase(addthis) {
+      this.sides.push(addthis);
+      this.addingMenuItem = false;
+      console.log(addthis);
+      projectFirestore
+        .collection("ingredients")
+        .doc("sides")
+        .update({
+          sides: fieldValue.arrayUnion(addthis),
+        });
+    },
+    removeItem(removethis, index) {
+        this.sides.splice(index, 1);
+        console.log(removethis);
+        projectFirestore
+          .collection("ingredients")
+          .doc("sides")
+          .update({
+            sides: fieldValue.arrayRemove(removethis),
+          });
+      },
+      changeAvailability(side, index) {
+        const changeTo = !side.isAvailable;
+        projectFirestore
+          .collection("ingredients")
+          .doc("sides")
+          .update({
+            sides: fieldValue.arrayRemove(side),
+          });
+        this.sides[index].isAvailable = changeTo;
+        projectFirestore
+          .collection("ingredients")
+          .doc("sides")
+          .update({
+            sides: fieldValue.arrayUnion(side),
+          });
+      },
+    },
+  setup() {
+    const sides = ref([]);
+    const error = ref(null);
 
-        load()
-        return {
-            sideItems, changeAvailability, removeItem
+    const load = async () => {
+      try {
+        const res = await projectFirestore
+          .collection("ingredients")
+          .doc("sides")
+          .get();
+        var sideItems = { ...res.data().sides };
+
+        for (const sideItem in sideItems) {
+          const side = sideItems[sideItem];
+          sides.value.push(side);
         }
-    }
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
+    };
 
-}
+    load();
+    return {
+      sides
+    };
+  },
+};
 </script>
 
 <style scoped>
-button{
-    background-color: white;
-    color: black;
+.menuitemslist {
+  width: 70%;
+  text-align: right;
 }
-.unavailable{
-    background-color: #9c0000;
+button {
+  background-color: white;
+  color: black;
 }
-.available{
-    background-color: #45be3a;
+.unavailable {
+  background-color: #9c0000;
+}
+.available {
+  background-color: #45be3a;
+}
+.trashcan {
+  height: 15px;
 }
 
-
+.editicon {
+  height: 15px;
+}
 </style>
