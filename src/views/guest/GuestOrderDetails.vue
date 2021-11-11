@@ -22,10 +22,11 @@
              <div class="burger" v-if="item.type === 'burger'">
                  <p class="subtitle price">€ {{ parseFloat(item.price).toFixed(2).replace(/\./g, ",") }}</p>
                 <!-- The program assumes the first ingredient in the burger is always the burger patty -->
-                <h3>{{ item.ingredients[0].name }} {{ item.type }}</h3>
-                <p v-for="ingredient in item.ingredients" :key="ingredient.name">
+                <h3>{{ item.ingredients[0].name }} burger</h3>
+                <!-- The program assumes the second ingredient in the burger is always the bread -->
+                <p>{{ item.ingredients[1].name }} bread</p>
+                <p v-for="ingredient in item.ingredients.splice(2)" :key="ingredient.name">
                     {{ingredient.name}}
-                    <span v-if="ingredient.type === 'bread'">bread</span>
                 </p>
             </div>
             

@@ -30,7 +30,7 @@
                     € 
                     {{ parseFloat(totalPrice).toFixed(2).replace(/\./g, ",") }}
                     </h3>
-                <router-link :to="{name: 'GuestOrderDetails', params: {id: order.id,}}">
+                <router-link :to="{name: 'GuestOrderDetails', params: {id: order.id}}">
                     <button>
                         <p>Details</p> 
                         <span class="material-icons">arrow_forward</span>
