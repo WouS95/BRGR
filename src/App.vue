@@ -40,7 +40,7 @@ button .material-icons {
 
 button p {
   display: inline-block;
-  padding: 0px 6px;
+  padding: 0px 0.3em;
   margin: 0px;
 }
 

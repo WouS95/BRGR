@@ -11,9 +11,7 @@ export default {
         const totalPrice = computed(() => {
                 let price = 0
                 props.order.order.forEach(element => {
-                    console.log(element)
                     price += element.price
-                    console.log(price)
                 })
 
                 return price

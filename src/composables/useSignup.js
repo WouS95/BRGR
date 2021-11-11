@@ -17,7 +17,6 @@ const signup = async (email, password, displayName) => {
             displayName
         })
         error.value = null
-        console.log(res.user)
         return res
     } catch (err) {
         console.log(err.message)
