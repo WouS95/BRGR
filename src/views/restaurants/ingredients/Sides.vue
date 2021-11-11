@@ -9,9 +9,9 @@
       @addToFirebase="addMenuItemToFirebase($event)"
     />
     <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
-      {{ side.name }} ............ euro: {{ Number.parseFloat(side.price).toFixed(2) }}......
+      {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}......
       <img
-        class="editicon"
+        class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(side, index)"
       />
@@ -23,7 +23,7 @@
       />
       ...
       <img
-        class="trashcan"
+        class="icon"
         src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
         @click="removeItem(side, index)"
       />...
@@ -87,7 +87,6 @@ export default {
     addMenuItemToFirebase(addthis) {
       this.sides.push(addthis);
       this.addingMenuItem = false;
-      console.log(addthis);
       projectFirestore
         .collection("ingredients")
         .doc("sides")
@@ -97,7 +96,6 @@ export default {
     },
     removeItem(removethis, index) {
         this.sides.splice(index, 1);
-        console.log(removethis);
         projectFirestore
           .collection("ingredients")
           .doc("sides")
@@ -152,26 +150,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.menuitemslist {
-  width: 70%;
-  text-align: right;
-}
-button {
-  background-color: white;
-  color: black;
-}
-.unavailable {
-  background-color: #9c0000;
-}
-.available {
-  background-color: #45be3a;
-}
-.trashcan {
-  height: 15px;
-}
+<style>
 
-.editicon {
-  height: 15px;
-}
 </style>

@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* https://www.codegrepper.com/code-examples/css/input+type+number+hide+arrows */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
@@ -62,7 +62,7 @@ input[type=number]{
   .backdrop{
       top: 0;
       position: fixed;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.25);
       width: 100%;
       height: 100%;
   }

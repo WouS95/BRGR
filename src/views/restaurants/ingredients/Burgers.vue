@@ -13,7 +13,7 @@
       v-for="(burger, index) in burgers"
       :key="burger.id"
     >
-      {{ burger.name }} burger ............ euro: {{ Number.parseFloat(burger.price).toFixed(2) }}......
+      {{ burger.name }} burger ............ €{{ Number.parseFloat(burger.price).toFixed(2) }}......
       <edit-menu-item
         :itemToEdit="menuItemToEdit"
         @save-changes="updateDB($event)"
@@ -33,7 +33,7 @@
       />
       ...
       <img
-        class="ican"
+        class="icon"
         src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
         @click="removeItem(burger, index)"
       />...
@@ -98,7 +98,6 @@ export default {
     addMenuItemToFirebase(addthis) {
       this.burgers.push(addthis);
       this.addingMenuItem = false;
-      console.log(addthis);
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -108,7 +107,6 @@ export default {
     },
     removeItem(removethis, index) {
       this.burgers.splice(index, 1);
-      console.log(removethis);
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -148,7 +146,6 @@ export default {
 
         for (const burgerDB in burgersDB) {
           const burger = burgersDB[burgerDB];
-          console.log(burger);
           burgers.value.push(burger);
         }
       } catch (err) {
@@ -166,22 +163,6 @@ export default {
 </script>
 
 <style>
-.menuitemslist {
-  width: 70%;
-  text-align: right;
-}
-button {
-  background-color: white;
-  color: black;
-}
-.unavailable {
-  background-color: #9c0000;
-}
-.available {
-  background-color: #45be3a;
-}
-.icon {
-  height: 15px;
-}
+
 
 </style>

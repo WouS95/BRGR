@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .menu-item{
     text-align: center;
     background: rgb(0, 73, 10);
@@ -24,7 +24,8 @@ export default {
     font-size: 16px;
     border-radius: 10px;
     padding: 3px 15px;
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     text-decoration: none;
 }
 </style>

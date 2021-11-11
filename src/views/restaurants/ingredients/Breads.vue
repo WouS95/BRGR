@@ -13,7 +13,7 @@
       v-for="(bread, index) in breads"
       :key="bread.id"
     >
-      {{ bread.name }} bun ............ euro: {{ Number.parseFloat(bread.price).toFixed(2) }}......
+      {{ bread.name }} bun ............ €{{ Number.parseFloat(bread.price).toFixed(2) }}......
       <edit-menu-item
         :itemToEdit="menuItemToEdit"
         @save-changes="updateDB($event)"
@@ -21,7 +21,7 @@
         @cancel="editingMenuItem = false"
       />
       <img
-        class="editicon"
+        class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(bread, index)"
       />
@@ -33,7 +33,7 @@
       />
       ...
       <img
-        class="trashcan"
+        class="icon"
         src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
         @click="removeItem(bread, index)"
       />...
@@ -83,7 +83,6 @@ export default {
     },
     updateDB(newValues) {
         const deleteThis = this.menuItemToEdit
-        console.log(newValues)
 
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
           breads: fieldValue.arrayRemove(deleteThis),
@@ -100,7 +99,6 @@ export default {
     addMenuItemToFirebase(addthis) {
       this.breads.push(addthis);
       this.addingMenuItem = false;
-      console.log(addthis);
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -110,7 +108,6 @@ export default {
     },
     removeItem(removethis, index) {
       this.breads.splice(index, 1);
-      console.log(removethis);
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -150,7 +147,6 @@ export default {
 
         for (const breadDB in breadsDB) {
           const bread = breadsDB[breadDB];
-          console.log(bread);
           breads.value.push(bread);
         }
       } catch (err) {
@@ -168,25 +164,5 @@ export default {
 </script>
 
 <style>
-.menuitemslist {
-  width: 70%;
-  text-align: right;
-}
-button {
-  background-color: white;
-  color: black;
-}
-.unavailable {
-  background-color: #9c0000;
-}
-.available {
-  background-color: #45be3a;
-}
-.trashcan {
-  height: 15px;
-}
 
-.editicon {
-  height: 15px;
-}
 </style>

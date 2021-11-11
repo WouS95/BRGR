@@ -9,9 +9,9 @@
       @addToFirebase="addMenuItemToFirebase($event)"
     />
     <div class="menuitemslist" v-for="(drink, index) in drinks" :key="drink.id">
-      {{ drink.name }} ............ euro: {{ Number.parseFloat(drink.price).toFixed(2) }}......
+      {{ drink.name }} ............ €{{ Number.parseFloat(drink.price).toFixed(2) }}......
       <img
-        class="editicon"
+        class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(drink, index)"
       />
@@ -23,7 +23,7 @@
       />
       ...
       <img
-        class="trashcan"
+        class="icon"
         src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
         @click="removeItem(drink, index)"
       />...
@@ -89,7 +89,6 @@ export default {
     addMenuItemToFirebase(addthis) {
       this.drinks.push(addthis);
       this.addingMenuItem = false;
-      console.log(addthis);
       projectFirestore
         .collection("ingredients")
         .doc("drinks")
@@ -99,7 +98,6 @@ export default {
     },
     removeItem(removethis, index) {
         this.drinks.splice(index, 1);
-        console.log(removethis);
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
@@ -138,7 +136,6 @@ export default {
 
         for (const drinkDB in drinksDB) {
           const drink = drinksDB[drinkDB];
-          console.log(drink);
           drinks.value.push(drink);
         }
       } catch (err) {
@@ -156,24 +153,16 @@ export default {
 
 <style>
 .menuitemslist {
-  width: 70%;
   text-align: right;
 }
-button {
-  background-color: white;
-  color: black;
-}
+
 .unavailable {
   background-color: #9c0000;
 }
 .available {
   background-color: #45be3a;
 }
-.trashcan {
-  height: 15px;
-}
-
-.editicon {
+.icon {
   height: 15px;
 }
 </style>

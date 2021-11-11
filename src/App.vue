@@ -43,4 +43,18 @@ button {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.menuitemslist {
+  width: 65%;
+  text-align: right;
+}
+
+.unavailable {
+  background-color: #9c0000;
+}
+.available {
+  background-color: #45be3a;
+}
+.icon {
+  height: 15px;
+}
 </style>
