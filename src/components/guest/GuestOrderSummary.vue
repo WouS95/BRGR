@@ -52,9 +52,9 @@ export default {
     compontents: {OrderStatus},
     setup(props){
         
-
         const router = useRouter()
 
+        // calculates the total price so it can be displayed
         const totalPrice = computed(() => {
             let price = 0
             props.order.order.forEach(element => {
@@ -64,10 +64,7 @@ export default {
             return price
         })
 
-        const goToDetails = () => {
-            router.push('')
-        }
-
+        // gives specific class name to status elements so the correct color will be displayed
         const statusClassName = computed(() => {
             if(props.order.orderStatus === "preparing"){
                 return "orange"
@@ -77,7 +74,7 @@ export default {
             }
         })
 
-        return {totalPrice, goToDetails, statusClassName}
+        return {totalPrice, statusClassName}
     }
 }
 </script>

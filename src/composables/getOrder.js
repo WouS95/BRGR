@@ -10,8 +10,10 @@ const error = ref(null)
   // register the firestore collection reference
   let collectionRef = projectFirestore.collection('orders').doc(id)
 
+  // updates the data when it is changed
   collectionRef.onSnapshot(snap => {
-        order.value = snap.data()
+      // stores the snapshot inside the variable
+      order.value = snap.data()
     }, err => {
     console.log(err.message)
     order.value = null
@@ -21,5 +23,5 @@ const error = ref(null)
   
     return { error, order}
 }
-
+// exports function that returns the order and error
 export default getOrder

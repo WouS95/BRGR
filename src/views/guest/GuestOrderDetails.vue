@@ -7,6 +7,7 @@
         </button>
     </router-link>
     <div class="container">
+        <!-- The total price will be displayed inside the component -->
         <h3 class="totalPrice"><TotalPrice :order="order"/></h3>
         <p class="subtitle">Order number:</p>
         <h1>
