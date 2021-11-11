@@ -1,5 +1,6 @@
 <template>
   <h1>Your orders</h1>
+  <!-- Component that renders the orders -->
   <GuestOrderList/>
 </template>
 

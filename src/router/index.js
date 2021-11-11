@@ -5,6 +5,7 @@ import {
 import Restaurant from '../views/restaurants/Restaurant.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
+import GuestOrderDetails from '../views/guest/GuestOrderDetails'
 
 const routes = [{
     path: '/restaurant',
@@ -20,6 +21,12 @@ const routes = [{
     path: '/guest/orders',
     name: 'GuestOrders',
     component: GuestOrders
+  },
+  {
+    path: '/guest/orders/:id',
+    name: 'GuestOrderDetails',
+    component: GuestOrderDetails,
+    props: true
   },
 ]
 

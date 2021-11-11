@@ -7,6 +7,7 @@
   box-sizing: border-box;
 }
 body,
+
 html {
   background: #1b5e20;
   margin: 0;
@@ -20,13 +21,33 @@ html {
   text-align: center;
   color: #000;
 }
+
 button {
+  font-family: Poppins, Helvetica, Arial, sans-serif;
   background-color: #d32f2f;
   border: none;
   color: white;
-  padding: 1em 2.5em;
+  padding: 0.6em 1em;
   border-radius: 2em;
   cursor: pointer;
   font-weight: 500;
 }
+
+button .material-icons {
+    height: none;
+    vertical-align: middle;
+}
+
+button p {
+  display: inline-block;
+  padding: 0px 0.3em;
+  margin: 0px;
+}
+
+.subtitle {
+        margin: 0px;
+        font-size: 0.9em;
+        color: #757575;
+    }
+
 </style>

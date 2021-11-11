@@ -28,5 +28,5 @@ const getOrders = () => {
 
   return { error, orders }
 }
-
+// exports function that returns the orders and error
 export default getOrders
