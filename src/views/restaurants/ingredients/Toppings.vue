@@ -1,45 +1,49 @@
 <template>
   <div class="menuedits">
-    <edit-ingredients-menu type="Sides"/>
+    <edit-ingredients-menu type="Toppings"/>
     <button @click="addingMenuItem = true">add</button>
-    <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
-      {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}......
+    <div
+      class="menuitemslist"
+      v-for="(topping, index) in toppings"
+      :key="topping.id"
+    >
+      {{ topping.name }} ............ €{{ Number.parseFloat(topping.price).toFixed(2) }}......
       <img
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(side, index)"
+        @click="editItem(topping, index)"
       />
       ...
       <img
         class="icon"
         src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(side, index)"
+        @click="removeItem(topping, index)"
       />...
       <label style="font-size: 70%"> available: </label>
       <button
-        v-if="side.isAvailable"
+        v-if="topping.isAvailable"
         class="available"
-        @click="changeAvailability(side, index)"
+        @click="changeAvailability(topping, index)"
       ></button>
       <button
         v-else
         class="unavailable"
-        @click="changeAvailability(side, index)"
+        @click="changeAvailability(topping, index)"
       ></button>
     </div>
   </div>
-  <add-menu-item
-    type="sides"
-    v-if="addingMenuItem"
-    @cancel="addingMenuItem = false"
-    @addToFirebase="addMenuItemToFirebase($event)"
+    <add-menu-item
+      type="toppings"
+      v-if="addingMenuItem"
+      @cancel="addingMenuItem = false"
+      @addToFirebase="addMenuItemToFirebase($event)"
+    />
+  <edit-menu-item
+    v-if="editingMenuItem"
+    :itemToEdit="menuItemToEdit"
+    @save-changes="updateDB($event)"
+    @cancel="editingMenuItem = false"
   />
-      <edit-menu-item
-        v-if="editingMenuItem"
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        @cancel="editingMenuItem = false"
-      />
 </template>
 
 <script>
@@ -50,27 +54,27 @@ import EditMenuItem from "../../../components/EditMenuItem.vue";
 import AddMenuItem from "../../../components/AddMenuItem.vue";
 
 export default {
-  name: "Sides",
+  name: "Toppings",
   components: {
     EditIngredientsMenu,
     EditMenuItem,
     AddMenuItem,
   },
   setup() {
-    const sides = ref([]);
+    const toppings = ref([]);
     const error = ref(null);
 
     const load = async () => {
       try {
         const res = await projectFirestore
           .collection("ingredients")
-          .doc("sides")
+          .doc("burgerIngredients")
           .get();
-        var sidesDB = { ...res.data().sides };
+        var toppingsDB = { ...res.data().toppings };
 
-        for (const sideDB in sidesDB) {
-          const side = sidesDB[sideDB];
-          sides.value.push(side);
+        for (const toppingDB in toppingsDB) {
+          const topping = toppingsDB[toppingDB];
+          toppings.value.push(topping);
         }
       } catch (err) {
         error.value = err.message;
@@ -92,60 +96,60 @@ export default {
 
     const updateDB = (newValues) => {
       editingMenuItem.value = false;
-      sides.value[editIndex.value]=newValues
+      toppings.value[editIndex.value]=newValues
 
-        projectFirestore.collection("ingredients").doc("sides").update({
-          sides: fieldValue.arrayRemove(menuItemToEdit.value),
+        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
+          toppings: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
-        projectFirestore.collection("ingredients").doc("sides").update({
-            sides: fieldValue.arrayUnion(newValues),
+        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
+            toppings: fieldValue.arrayUnion(newValues),
         })
     
     }
 
     const addMenuItemToFirebase = (addthis) => {
-      sides.value.push(addthis);
+      toppings.value.push(addthis);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
-        .doc("sides")
+        .doc("burgerIngredients")
         .update({
-          sides: fieldValue.arrayUnion(addthis),
+          toppings: fieldValue.arrayUnion(addthis),
         });
     }
 
     const removeItem = (removethis, index) => {
-        sides.value.splice(index, 1);
+        toppings.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
-          .doc("sides")
+          .doc("burgerIngredients")
           .update({
-            sides: fieldValue.arrayRemove(removethis),
+            toppings: fieldValue.arrayRemove(removethis),
           });
       } 
 
-      const changeAvailability = (side, index) => {
-        let changeTo = !side.isAvailable;
+      const changeAvailability = (topping, index) => {
+        let changeTo = !topping.isAvailable;
         projectFirestore
           .collection("ingredients")
-          .doc("sides")
+          .doc("burgerIngredients")
           .update({
-            sides: fieldValue.arrayRemove(side),
+            toppings: fieldValue.arrayRemove(topping),
           });
 
-        sides.value[index].isAvailable = changeTo;
+        toppings.value[index].isAvailable = changeTo;
         projectFirestore
           .collection("ingredients")
-          .doc("sides")
+          .doc("burgerIngredients")
           .update({
-            sides: fieldValue.arrayUnion(side),
+            toppings: fieldValue.arrayUnion(topping),
           });
       }
 
     load();
     return {
-      sides, editingMenuItem, menuItemToEdit, editIndex, addingMenuItem, editItem, updateDB, changeAvailability, removeItem, addMenuItemToFirebase
+      toppings, editingMenuItem, menuItemToEdit, editIndex, addingMenuItem, editItem, updateDB, changeAvailability, removeItem, addMenuItemToFirebase
     };
   },
 };
