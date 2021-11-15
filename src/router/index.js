@@ -18,35 +18,36 @@ const routes = [
   //   component: Home
   // },
   {
-    path: '/burgers',
+    path: '/restaurant/burgers',
     name: 'Burgers',
     component: Burgers
   },
   {
-    path: '/breads',
+    path: '/restaurant/breads',
     name: 'Breads',
     component: Breads
   },
   {
-    path: '/toppings',
+    path: '/restaurant/toppings',
     name: 'Toppings',
     component: Toppings
   },
   {
-    path: '/sauces',
+    path: '/restaurant/sauces',
     name: 'Sauces',
     component: Sauces
   },
   {
-    path: '/sides',
+    path: '/restaurant/sides',
     name: 'Sides',
     component: Sides
   },
   {
-    path: '/drinks',
+    path: '/restaurant/drinks',
     name: 'Drinks',
     component: Drinks
-  }, {
+  }, 
+  {
     path: '/restaurant',
     name: 'Restaurant',
     component: Restaurant
@@ -72,7 +73,7 @@ const routes = [
     name: 'GuestLogin',
     component: GuestLogin,
     props: true
-  }
+  }]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
