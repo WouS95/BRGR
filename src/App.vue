@@ -8,8 +8,7 @@
 }
 body,
 html {
-  /* background: #1b5e20; */
-  background: #f1fdf2;
+  background: #1b5e20;
   margin: 0;
   font-size: 18px;
 }
@@ -44,7 +43,6 @@ button {
   color: #42b983;
 }
 .menuitemslist {
-  width: 65%;
   text-align: right;
 }
 
@@ -56,5 +54,16 @@ button {
 }
 .icon {
   height: 15px;
+}
+.menuedits{
+  background-color: white;
+  width:auto;
+  padding: 1em 2.5em;
+  border-radius: 1em;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 </style>

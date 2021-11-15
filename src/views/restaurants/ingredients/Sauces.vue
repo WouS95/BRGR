@@ -1,13 +1,7 @@
 <template>
-  <div>
-    <edit-ingredients-menu />
+  <div class="menuedits">
+    <edit-ingredients-menu type="Sauces"/>
     <button @click="addingMenuItem = true">add</button>
-    <add-menu-item
-      type="sauces"
-      v-if="addingMenuItem"
-      @cancel="addingMenuItem = false"
-      @addToFirebase="addMenuItemToFirebase($event)"
-    />
     <div
       class="menuitemslist"
       v-for="(sauce, index) in sauces"
@@ -24,12 +18,6 @@
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(sauce, index)"
-      />
-      <edit-menu-item
-        v-if="editingMenuItem"
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        @cancel="editingMenuItem = false"
       />
       ...
       <img
@@ -50,6 +38,18 @@
       ></button>
     </div>
   </div>
+    <add-menu-item
+      type="sauces"
+      v-if="addingMenuItem"
+      @cancel="addingMenuItem = false"
+      @addToFirebase="addMenuItemToFirebase($event)"
+    />
+      <edit-menu-item
+        v-if="editingMenuItem"
+        :itemToEdit="menuItemToEdit"
+        @save-changes="updateDB($event)"
+        @cancel="editingMenuItem = false"
+      />
 </template>
 
 <script>

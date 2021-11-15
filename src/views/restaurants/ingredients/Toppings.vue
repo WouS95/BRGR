@@ -1,13 +1,7 @@
 <template>
-  <div>
-    <edit-ingredients-menu />
+  <div class="menuedits">
+    <edit-ingredients-menu type="Toppings"/>
     <button @click="addingMenuItem = true">add</button>
-    <add-menu-item
-      type="toppings"
-      v-if="addingMenuItem"
-      @cancel="addingMenuItem = false"
-      @addToFirebase="addMenuItemToFirebase($event)"
-    />
     <div
       class="menuitemslist"
       v-for="(topping, index) in toppings"
@@ -24,12 +18,6 @@
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(topping, index)"
-      />
-      <edit-menu-item
-        v-if="editingMenuItem"
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        @cancel="editingMenuItem = false"
       />
       ...
       <img
@@ -50,6 +38,18 @@
       ></button>
     </div>
   </div>
+    <add-menu-item
+      type="toppings"
+      v-if="addingMenuItem"
+      @cancel="addingMenuItem = false"
+      @addToFirebase="addMenuItemToFirebase($event)"
+    />
+  <edit-menu-item
+    v-if="editingMenuItem"
+    :itemToEdit="menuItemToEdit"
+    @save-changes="updateDB($event)"
+    @cancel="editingMenuItem = false"
+  />
 </template>
 
 <script>
@@ -83,6 +83,7 @@ export default {
     },
     updateDB(newValues) {
         const deleteThis = this.menuItemToEdit
+          this.editingMenuItem = false;
 
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
           toppings: fieldValue.arrayRemove(deleteThis),
@@ -92,7 +93,6 @@ export default {
             toppings: fieldValue.arrayUnion(newValues),
         })
     
-    this.editingMenuItem = false;
     this.toppings[this.editIndex]=newValues
     },
 

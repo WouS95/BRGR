@@ -64,7 +64,7 @@ input[type=number]{
   .backdrop{
       top: 0;
       position: fixed;
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.5);
       width: 100%;
       height: 100%;
   }

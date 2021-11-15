@@ -1,25 +1,13 @@
 <template>
-  <div>
-    <edit-ingredients-menu />
+  <div class="menuedits">
+    <edit-ingredients-menu type="Sides"/>
     <button @click="addingMenuItem = true">add</button>
-    <add-menu-item
-      type="sides"
-      v-if="addingMenuItem"
-      @cancel="addingMenuItem = false"
-      @addToFirebase="addMenuItemToFirebase($event)"
-    />
     <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
       {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}......
       <img
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(side, index)"
-      />
-      <edit-menu-item
-        v-if="editingMenuItem"
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        @cancel="editingMenuItem = false"
       />
       ...
       <img
@@ -40,6 +28,18 @@
       ></button>
     </div>
   </div>
+  <add-menu-item
+    type="sides"
+    v-if="addingMenuItem"
+    @cancel="addingMenuItem = false"
+    @addToFirebase="addMenuItemToFirebase($event)"
+  />
+      <edit-menu-item
+        v-if="editingMenuItem"
+        :itemToEdit="menuItemToEdit"
+        @save-changes="updateDB($event)"
+        @cancel="editingMenuItem = false"
+      />
 </template>
 
 <script>

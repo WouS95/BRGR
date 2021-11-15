@@ -1,25 +1,13 @@
 <template>
-  <div>
-    <edit-ingredients-menu />
+  <div class="menuedits">
+    <edit-ingredients-menu type="Drinks"/>
     <button @click="addingMenuItem = true">add</button>
-    <add-menu-item
-      type="drinks"
-      v-if="addingMenuItem"
-      @cancel="addingMenuItem = false"
-      @addToFirebase="addMenuItemToFirebase($event)"
-    />
     <div class="menuitemslist" v-for="(drink, index) in drinks" :key="drink.id">
       {{ drink.name }} ............ €{{ Number.parseFloat(drink.price).toFixed(2) }}......
       <img
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
         @click="editItem(drink, index)"
-      />
-      <edit-menu-item
-        v-if="editingMenuItem"
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        @cancel="editingMenuItem = false"
       />
       ...
       <img
@@ -40,6 +28,18 @@
       ></button>
     </div>
   </div>
+  <add-menu-item
+    type="drinks"
+    v-if="addingMenuItem"
+    @cancel="addingMenuItem = false"
+    @addToFirebase="addMenuItemToFirebase($event)"
+  />
+    <edit-menu-item
+      v-if="editingMenuItem"
+      :itemToEdit="menuItemToEdit"
+      @save-changes="updateDB($event)"
+      @cancel="editingMenuItem = false"
+    />
 </template>
 
 <script>
@@ -72,6 +72,7 @@ export default {
 
     },
     updateDB(newValues) {
+      this.editingMenuItem = false;
         const deleteThis = this.menuItemToEdit
 
         projectFirestore.collection("ingredients").doc("drinks").update({
@@ -82,7 +83,6 @@ export default {
             drinks: fieldValue.arrayUnion(newValues),
         })
     
-    this.editingMenuItem = false;
     this.drinks[this.editIndex]=newValues
     },
 
@@ -152,17 +152,5 @@ export default {
 </script>
 
 <style>
-.menuitemslist {
-  text-align: right;
-}
 
-.unavailable {
-  background-color: #9c0000;
-}
-.available {
-  background-color: #45be3a;
-}
-.icon {
-  height: 15px;
-}
 </style>

@@ -1,31 +1,32 @@
 <template>
   <div class="editIngredients">
-        <router-link class="menu-item" :to="{name: 'Burgers'}"> Burgers </router-link>
-        <router-link class="menu-item" :to="{name: 'Breads'}"> Buns </router-link>
-        <router-link class="menu-item" :to="{name: 'Sauces'}"> Sauces </router-link>
-        <router-link class="menu-item" :to="{name: 'Toppings'}"> Toppings </router-link>
-        <router-link class="menu-item" :to="{name: 'Sides'}"> Side items </router-link>
-        <router-link class="menu-item" :to="{name: 'Drinks'}"> Drinks </router-link>
+        <router-link :class="{currentpage: 'Burgers'=== type}" class="menu-item" :to="{name: 'Burgers'}"> Burgers </router-link>
+        <router-link :class="{currentpage: 'Breads'=== type}" class="menu-item" :to="{name: 'Breads'}"> Buns </router-link>
+        <router-link :class="{currentpage: 'Sauces'=== type}" class="menu-item" :to="{name: 'Sauces'}"> Sauces </router-link>
+        <router-link :class="{currentpage: 'Toppings'=== type}" class="menu-item" :to="{name: 'Toppings'}"> Toppings </router-link>
+        <router-link :class="{currentpage: 'Sides'=== type}" class="menu-item" :to="{name: 'Sides'}"> Side items </router-link>
+        <router-link :class="{currentpage: 'Drinks'=== type}" class="menu-item" :to="{name: 'Drinks'}"> Drinks </router-link>
   <router-view/> 
-      </div>
+  </div>
 </template>
 
 <script>
 export default {
-
+    props: { type: String }
 }
 </script>
 
 <style scoped>
 .menu-item{
     text-align: center;
-    background: rgb(0, 73, 10);
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     font-size: 16px;
-    border-radius: 10px;
-    padding: 3px 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
     text-decoration: none;
+}
+.currentpage{
+    text-decoration: underline;
+    font-weight: bold;
 }
 </style>
