@@ -1,116 +1,46 @@
 <template>
   <h1>New Order</h1>
   <h3>Total: €{{ parseFloat(totalPrice).toFixed(2).replace(/\./g, ",") }}</h3>
-  
-  <form>
-    <div v-if="burgerIngredients">
-        <h2>Select your bread</h2><span class="material-icons">
-expand_more
-</span>
-        <div
-        
-          
-          v-for="(breads, index) in burgerIngredients.breads"
-          :key="breads.name">
 
-        
-        <label :for="'bread'+index">{{breads.name}}</label>
-        <input v-model="selectedIngredients.bread" type="radio" name="bread" :id="'bread'+index">
-        </div>
-          
-      
+  <div v-if="burgerIngredients">
+    <form>
+      <h2>Select your bread</h2>
+      <div
+        v-for="(breads, index) in burgerIngredients.breads"
+        :key="breads.name"
+      >
+        <label v-if="breads.isAvailable" :for="'bread' + index">{{
+          breads.name
+        }}</label>
+        <input
+          v-if="breads.isAvailable"
+          v-model="selectedIngredients.bread"
+          :value="breads"
+          type="radio"
+          name="bread"
+          :id="'bread' + index"
+        />
       </div>
-  </form>
-  
-  <form @submit.prevent>
-    <div class="burgeringredients" v-if="burgerIngredients">
-      <ul v-if="!selectedIngredients.breads">
-        <h2>Select your bread</h2><span class="material-icons">
-expand_more
-</span>
-        <li
-          @click="addBreadToOrder(breads)"
-          v-for="breads in burgerIngredients.breads"
-          :key="breads.name"
-        >
-          {{ breads.name }}
-        </li>
-      </ul>
-      <ul>
- <h2>Select your patty</h2><span class="material-icons">
-expand_more
-</span>
-        <li
-          @click="addPattyToOrder(burgerPattys)"
-          v-for="burgerPattys in burgerIngredients.burgerPatty"
-          :key="burgerPattys.name"
-        >
-          {{ burgerPattys.name }}
-        </li>
-      </ul>
-      <ul>
-         <h2>Select your sauces</h2><span class="material-icons">
-expand_more
-</span>
-        <li
-          @click="addSauceToOrder(sauces)"
-          v-for="sauces in burgerIngredients.sauces"
-          :key="sauces.name"
-        >
-          {{ sauces.name }}
-        </li>
-      </ul>
-      <ul>
-<h2>Select your toppings</h2><span class="material-icons">
-expand_more
-</span>
-        <li
-          @click="addToppingToOrder(toppings)"
-          v-for="toppings in burgerIngredients.toppings"
-          :key="toppings.name"
-        >
-          {{ toppings.name }}
-        </li>
-      </ul>
-    </div>
-  </form>
-  <div
-    v-if="
-      selectedIngredients.bread ||
-      selectedIngredients.patty ||
-      selectedIngredients.sauces[0] ||
-      selectedIngredients.toppings[0]
-    "
-  >
-    <h1>Order</h1>
-    <div
-      v-for="ingredient in selectedIngredients.bread"
-      :key="ingredient"
-      @click="removeBread()"
-    >
-      {{ ingredient }}
-    </div>
-    <div
-      v-for="ingredient in selectedIngredients.patty"
-      :key="ingredient"
-      @click="removePatty()"
-    >
-      {{ ingredient }}
-    </div>
-    <div
-      v-for="ingredient in selectedIngredients.sauces"
-      :key="ingredient"
-      @click="removeSauce(ingredient)"
-    >
-      {{ ingredient }}
-    </div>
-    <div
-      v-for="ingredient in selectedIngredients.toppings"
-      :key="ingredient"
-      @click="removeTopping(ingredient)"
-    >
-      {{ ingredient }}
-    </div>
+      <h2>Select your patty</h2>
+      <div
+        v-for="(pattys, index) in burgerIngredients.burgerPatty"
+        :key="pattys.name"
+      >
+        <label v-if="pattys.isAvailable" :for="'patty' + index">{{
+          pattys.name
+        }}</label>
+        <input
+          v-if="pattys.isAvailable"
+          v-model="selectedIngredients.patty"
+          :value="pattys"
+          type="radio"
+          name="patty"
+          :id="'patty' + index"
+        />
+      </div>
+    </form>
+    <p>bread: {{ selectedIngredients.bread.name }}</p>
+    <p>patty: {{ selectedIngredients.patty.name }}</p>
   </div>
 </template>
 
@@ -119,7 +49,6 @@ import { computed, ref } from "@vue/reactivity";
 import { projectFirestore } from "../../firebase/config";
 
 export default {
-  components: {},
   setup() {
     const tableNumber = ref(12);
     const ingredients = ref(null);
@@ -132,36 +61,6 @@ export default {
       toppings: [],
     });
 
-    const addBreadToOrder = (item) => {
-      selectedIngredients.value.bread = item;
-    };
-    const addPattyToOrder = (item) => {
-      selectedIngredients.value.patty = item;
-    };
-    const addSauceToOrder = (item) => {
-      if (!selectedIngredients.value.sauces.includes(item)) {
-        selectedIngredients.value.sauces.push(item);
-      }
-    };
-    const addToppingToOrder = (item) => {
-      if (!selectedIngredients.value.toppings.includes(item)) {
-        selectedIngredients.value.toppings.push(item);
-      }
-    };
-    const removeBread = () => {
-      selectedIngredients.value.bread = null;
-    };
-    const removePatty = () => {
-      selectedIngredients.value.patty = null;
-    };
-    const removeSauce = (item) => {
-      const index = selectedIngredients.value.sauces.indexOf(item);
-      selectedIngredients.value.sauces.splice(index, 1);
-    };
-    const removeTopping = (item) => {
-      const index = selectedIngredients.value.toppings.indexOf(item);
-      selectedIngredients.value.toppings.splice(index, 1);
-    };
     const totalPrice = computed(() => {
       var price = 0;
       if (selectedIngredients.value.sauces[0]) {
@@ -211,18 +110,10 @@ export default {
       totalPrice,
       tableNumber,
       error,
+      selectedIngredients,
       burgerIngredients,
       load,
       ingredients,
-      addBreadToOrder,
-      addPattyToOrder,
-      addSauceToOrder,
-      addToppingToOrder,
-      selectedIngredients,
-      removeBread,
-      removePatty,
-      removeSauce,
-      removeTopping,
     };
   },
 };
