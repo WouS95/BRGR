@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     handleSubmit(){
-      this.$emit('save-changes', {name: this.name, price: Number.parseFloat(this.price).toFixed(2), isAvailable: this.availability})
+      this.$emit('save-changes', {name: this.name, price: Number(Number.parseFloat(this.price).toFixed(2)), isAvailable: this.availability})
     }
   }
 

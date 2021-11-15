@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     handleSubmit(){
-      this.$emit('addToFirebase', { isAvailable: true, name: this.name, price: Number.parseFloat(this.price).toFixed(2)})
+      this.$emit('addToFirebase', { isAvailable: true, name: this.name, price: Number(Number.parseFloat(this.price).toFixed(2))})
     }
   }
 }
