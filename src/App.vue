@@ -1,5 +1,7 @@
 <template>
+
   <router-view/> 
+
 </template>
 
 <style>
@@ -19,29 +21,31 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #000;
+
 }
+
 button {
+  font-family: Poppins, Helvetica, Arial, sans-serif;
   background-color: #d32f2f;
   border: none;
   color: white;
-  padding: 1em 2.5em;
+  padding: 0.6em 1em;
   border-radius: 2em;
   cursor: pointer;
   font-weight: 500;
 }
 
-#nav {
-  padding: 30px;
+button .material-icons {
+    height: none;
+    vertical-align: middle;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+button p {
+  display: inline-block;
+  padding: 0px 0.3em;
+  margin: 0px;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 .menuitemslist {
   text-align: right;
 }
@@ -66,4 +70,12 @@ button {
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+
+.subtitle {
+        margin: 0px;
+        font-size: 0.9em;
+        color: #757575;
+    }
+
 </style>
