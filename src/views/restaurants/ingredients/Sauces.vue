@@ -1,25 +1,17 @@
 <template>
   <div class="menuedits">
     <edit-ingredients-menu type="Sauces"/>
-    <button @click="addingMenuItem = true">add</button>
+    <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div
       class="menuitemslist"
       v-for="(sauce, index) in sauces"
       :key="sauce.id"
     >
-      {{ sauce.name }} ............ €{{ Number.parseFloat(sauce.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(sauce, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(sauce, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
+      {{ sauce.name }} ............ €{{ Number.parseFloat(sauce.price).toFixed(2) }}
+      <span class="material-icons" @click="editItem(sauce, index)">edit</span>
+      <span class="material-icons" @click="removeItem(sauce, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+
       <button
         v-if="sauce.isAvailable"
         class="available"

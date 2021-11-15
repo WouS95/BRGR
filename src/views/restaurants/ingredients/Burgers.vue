@@ -1,25 +1,13 @@
 <template>
   <div class="menuedits">
     <edit-ingredients-menu type="Burgers"/>
-    <button @click="addingMenuItem = true">add</button>
-    <div
-      class="menuitemslist"
-      v-for="(burger, index) in burgers"
-      :key="burger.id"
-    >
-      {{ burger.name }} burger ............ €{{ Number.parseFloat(burger.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(burger, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(burger, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
+    <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <p v-for="(burger, index) in burgers" :key="burger.id" >
+       {{ burger.name }} burger ............ €{{ Number.parseFloat(burger.price).toFixed(2) }}
+      <span class="material-icons" @click="editItem(burger, index)">edit</span>
+      <span class="material-icons" @click="removeItem(burger, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+
       <button
         v-if="burger.isAvailable"
         class="available"
@@ -30,8 +18,8 @@
         class="unavailable"
         @click="changeAvailability(burger, index)"
       ></button>
+      </p>
     </div>
-  </div>
   <add-menu-item
     type="burgers"
     v-if="addingMenuItem"

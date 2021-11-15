@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+  }
+  body,
+  html {
+    background: #1b5e20;
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  #app {
+    font-family: Poppins, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #000;
+  }
+  
+  button {
+    font-family: Poppins, Helvetica, Arial, sans-serif;
+    background-color: #d32f2f;
+    border: none;
+    color: white;
+    padding: 0.6em 1em;
+    border-radius: 2em;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  button .material-icons {
+      height: none;
+      vertical-align: middle;
+  }
+  
+  button p {
+    display: inline-block;
+    padding: 0px 0.3em;
+    margin: 0px;
+  }
+  
+  .menuedits p {
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid rgb(212, 212, 212);
+  }
+  .unavailable {
+    background-color: #9c0000;
+    padding: 1em 1em;
+    vertical-align: middle;
+  }
+
+  .available {
+    background-color: #45be3a;
+    padding: 1em 1em;
+    vertical-align: middle;
+  }
+
+  .menuedits{
+    background-color: white;
+    width:auto;
+    padding: 1em 2.5em;
+    border-radius: 1em;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+  }
+  .menuedits .material-icons {
+    height: none;
+    vertical-align: middle;
+}
+  
+  .subtitle {
+          margin: 0px;
+          font-size: 0.9em;
+          color: #757575;
+      }
+  
+.edititem input, .additem input{
+  border: 0.8px solid grey;
+  border-bottom: 2px solid grey ;
+}
+    
+  /* https://www.codegrepper.com/code-examples/css/input+type+number+hide+arrows */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none;
+  }
+  input[type=number]{
+      width: 25px;
+  }
+  .edititem, .additem{
+    width: 500px;
+    padding: 1em 2.5em;
+    border-radius: 1em;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: #ffffff;
+    color: black;
+  }
+    .submitwait{
+    background-color: rgb(189, 189, 189);
+  }
+    .backdrop{
+        top: 0;
+        position: fixed;
+        background: rgba(0,0,0,0.5);
+        width: 100%;
+        height: 100%;
+    }

@@ -1,21 +1,14 @@
 <template>
   <div class="menuedits">
     <edit-ingredients-menu type="Sides"/>
-    <button @click="addingMenuItem = true">add</button>
+    <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
-      {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(side, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(side, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
+      {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}
+
+      <span class="material-icons" @click="editItem(side, index)">edit</span>
+      <span class="material-icons" @click="removeItem(side, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+      
       <button
         v-if="side.isAvailable"
         class="available"
