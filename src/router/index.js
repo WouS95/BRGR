@@ -5,8 +5,9 @@ import {
 import Restaurant from '../views/restaurants/Restaurant.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
-import GuestOrderDetails from '../views/guest/GuestOrderDetails'
+import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
 import GuestLogin from '../views/guest/GuestLogin.vue'
+import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
 
 const routes = [{
     path: '/restaurant',
@@ -15,7 +16,7 @@ const routes = [{
   },
   {
     path: '/restaurant/orders',
-    name: 'Orders',
+    name: 'RestaurantOrders',
     component: Orders
   },
   {
@@ -34,6 +35,11 @@ const routes = [{
     name: 'GuestLogin',
     component: GuestLogin,
     props: true
+  },
+  {
+    path: '/restaurant/orders/:id',
+    name: 'RestaurantOrderDetails',
+    component: RestaurantOrderDetails
   }
 
 ]
