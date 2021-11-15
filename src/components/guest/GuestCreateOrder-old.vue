@@ -10,12 +10,12 @@ expand_more
         <div
         
           
-          v-for="(breads, index) in burgerIngredients.breads"
+          v-for="breads in burgerIngredients.breads"
           :key="breads.name">
 
         
-        <label :for="'bread'+index">{{breads.name}}</label>
-        <input v-model="selectedIngredients.bread" type="radio" name="bread" :id="'bread'+index">
+        <label for="">{{breads.name}}</label>
+        <input v-model="breads.name" type="radio" name="bread">
         </div>
           
       
