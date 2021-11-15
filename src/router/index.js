@@ -1,4 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
 import Burgers from '../views/restaurants/ingredients/Burgers.vue'
 import Breads from '../views/restaurants/ingredients/Breads.vue'
 import Toppings from '../views/restaurants/ingredients/Toppings.vue'
@@ -73,6 +76,7 @@ const routes = [
     component: GuestLogin,
     props: true
   }
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
