@@ -56,72 +56,7 @@ export default {
     EditMenuItem,
     AddMenuItem,
   },
-  data() {
-    return {
-      addingMenuItem: false,
-      editingMenuItem: false,
-      menuItemToEdit: {},
-      editIndex: null,
-    };
-  },
-  methods: {
-    editItem(itemToEdit, index) {
-      this.editingMenuItem = true;
-      this.menuItemToEdit = itemToEdit;
-      this.editIndex = index;
-
-    },
-    updateDB(newValues) {
-      this.editingMenuItem = false;
-        const deleteThis = this.menuItemToEdit
-
-        projectFirestore.collection("ingredients").doc("drinks").update({
-          drinks: fieldValue.arrayRemove(deleteThis),
-        })
-       
-        projectFirestore.collection("ingredients").doc("drinks").update({
-            drinks: fieldValue.arrayUnion(newValues),
-        })
-    
-    this.drinks[this.editIndex]=newValues
-    },
-
-    addMenuItemToFirebase(addthis) {
-      this.drinks.push(addthis);
-      this.addingMenuItem = false;
-      projectFirestore
-        .collection("ingredients")
-        .doc("drinks")
-        .update({
-          drinks: fieldValue.arrayUnion(addthis),
-        });
-    },
-    removeItem(removethis, index) {
-        this.drinks.splice(index, 1);
-        projectFirestore
-          .collection("ingredients")
-          .doc("drinks")
-          .update({
-            drinks: fieldValue.arrayRemove(removethis),
-          });
-      },
-      changeAvailability(drink, index) {
-        const changeTo = !drink.isAvailable;
-        projectFirestore
-          .collection("ingredients")
-          .doc("drinks")
-          .update({
-            drinks: fieldValue.arrayRemove(drink),
-          });
-        this.drinks[index].isAvailable = changeTo;
-        projectFirestore
-          .collection("ingredients")
-          .doc("drinks")
-          .update({
-            drinks: fieldValue.arrayUnion(drink),
-          });
-      },
-    },
+  
   setup() {
     const drinks = ref([]);
     const error = ref(null);
@@ -143,9 +78,75 @@ export default {
         console.log(error.value);
       }
     };
+
+      let addingMenuItem = ref(false);
+      let editingMenuItem = ref(false);
+      let menuItemToEdit = ref({});
+      let editIndex = ref(null);
+
+    const editItem = (itemToEdit, index) => {
+      editingMenuItem.value = true;
+      menuItemToEdit.value = itemToEdit;
+      editIndex.value = index;
+
+    } 
+
+    const updateDB = (newValues) => {
+      editingMenuItem.value = false;
+      drinks.value[editIndex.value]=newValues
+
+        projectFirestore.collection("ingredients").doc("drinks").update({
+          drinks: fieldValue.arrayRemove(menuItemToEdit.value),
+        })
+       
+        projectFirestore.collection("ingredients").doc("drinks").update({
+            drinks: fieldValue.arrayUnion(newValues),
+        })
+    
+    }
+
+    const addMenuItemToFirebase = (addthis) => {
+      drinks.value.push(addthis);
+      addingMenuItem.value = false;
+      projectFirestore
+        .collection("ingredients")
+        .doc("drinks")
+        .update({
+          drinks: fieldValue.arrayUnion(addthis),
+        });
+    }
+
+    const removeItem = (removethis, index) => {
+        drinks.value.splice(index, 1);
+        projectFirestore
+          .collection("ingredients")
+          .doc("drinks")
+          .update({
+            drinks: fieldValue.arrayRemove(removethis),
+          });
+      } 
+
+      const changeAvailability = (drink, index) => {
+        let changeTo = !drink.isAvailable;
+        projectFirestore
+          .collection("ingredients")
+          .doc("drinks")
+          .update({
+            drinks: fieldValue.arrayRemove(drink),
+          });
+
+        drinks.value[index].isAvailable = changeTo;
+        projectFirestore
+          .collection("ingredients")
+          .doc("drinks")
+          .update({
+            drinks: fieldValue.arrayUnion(drink),
+          });
+      }
+
     load();
     return {
-      drinks,
+      drinks, editingMenuItem, menuItemToEdit, editIndex, addingMenuItem, editItem, updateDB, changeAvailability, removeItem, addMenuItemToFirebase
     };
   },
 };

@@ -8,12 +8,7 @@
       :key="bread.id"
     >
       {{ bread.name }} bun ............ €{{ Number.parseFloat(bread.price).toFixed(2) }}......
-      <edit-menu-item
-        :itemToEdit="menuItemToEdit"
-        @save-changes="updateDB($event)"
-        v-if="editingMenuItem"
-        @cancel="editingMenuItem = false"
-      />
+
       <img
         class="icon"
         src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
@@ -66,72 +61,6 @@ export default {
     EditMenuItem,
     AddMenuItem,
   },
-  data() {
-    return {
-      addingMenuItem: false,
-      editingMenuItem: false,
-      menuItemToEdit: {},
-      editIndex: null,
-    };
-  },
-  methods: {
-    editItem(itemToEdit, index) {
-      this.editingMenuItem = true;
-      this.menuItemToEdit = itemToEdit;
-      this.editIndex = index;
-
-    },
-    updateDB(newValues) {
-      const deleteThis = this.menuItemToEdit
-      this.editingMenuItem = false;
-
-        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
-          breads: fieldValue.arrayRemove(deleteThis),
-        })
-       
-        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
-            breads: fieldValue.arrayUnion(newValues),
-        })
-    
-    this.breads[this.editIndex]=newValues
-    },
-
-    addMenuItemToFirebase(addthis) {
-      this.breads.push(addthis);
-      this.addingMenuItem = false;
-      projectFirestore
-        .collection("ingredients")
-        .doc("burgerIngredients")
-        .update({
-          breads: fieldValue.arrayUnion(addthis),
-        });
-    },
-    removeItem(removethis, index) {
-      this.breads.splice(index, 1);
-      projectFirestore
-        .collection("ingredients")
-        .doc("burgerIngredients")
-        .update({
-          breads: fieldValue.arrayRemove(removethis),
-        });
-    },
-    changeAvailability(bread, index) {
-      const changeTo = !bread.isAvailable;
-      projectFirestore
-        .collection("ingredients")
-        .doc("burgerIngredients")
-        .update({
-          breads: fieldValue.arrayRemove(bread),
-        });
-      this.breads[index].isAvailable = changeTo;
-      projectFirestore
-        .collection("ingredients")
-        .doc("burgerIngredients")
-        .update({
-          breads: fieldValue.arrayUnion(bread),
-        });
-    },
-  },
   setup() {
     const breads = ref([]);
     const error = ref(null);
@@ -141,8 +70,7 @@ export default {
         const res = await projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
-          .get()
-
+          .get();
         var breadsDB = { ...res.data().breads };
 
         for (const breadDB in breadsDB) {
@@ -155,9 +83,74 @@ export default {
       }
     };
 
+      let addingMenuItem = ref(false);
+      let editingMenuItem = ref(false);
+      let menuItemToEdit = ref({});
+      let editIndex = ref(null);
+
+    const editItem = (itemToEdit, index) => {
+      editingMenuItem.value = true;
+      menuItemToEdit.value = itemToEdit;
+      editIndex.value = index;
+
+    } 
+
+    const updateDB = (newValues) => {
+      editingMenuItem.value = false;
+      breads.value[editIndex.value]=newValues
+
+        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
+          breads: fieldValue.arrayRemove(menuItemToEdit.value),
+        })
+       
+        projectFirestore.collection("ingredients").doc("burgerIngredients").update({
+            breads: fieldValue.arrayUnion(newValues),
+        })
+    
+    }
+
+    const addMenuItemToFirebase = (addthis) => {
+      breads.value.push(addthis);
+      addingMenuItem.value = false;
+      projectFirestore
+        .collection("ingredients")
+        .doc("burgerIngredients")
+        .update({
+          breads: fieldValue.arrayUnion(addthis),
+        });
+    }
+
+    const removeItem = (removethis, index) => {
+        breads.value.splice(index, 1);
+        projectFirestore
+          .collection("ingredients")
+          .doc("burgerIngredients")
+          .update({
+            breads: fieldValue.arrayRemove(removethis),
+          });
+      } 
+
+      const changeAvailability = (bread, index) => {
+        let changeTo = !bread.isAvailable;
+        projectFirestore
+          .collection("ingredients")
+          .doc("burgerIngredients")
+          .update({
+            breads: fieldValue.arrayRemove(bread),
+          });
+
+        breads.value[index].isAvailable = changeTo;
+        projectFirestore
+          .collection("ingredients")
+          .doc("burgerIngredients")
+          .update({
+            breads: fieldValue.arrayUnion(bread),
+          });
+      }
+
     load();
     return {
-      breads
+      breads, editingMenuItem, menuItemToEdit, editIndex, addingMenuItem, editItem, updateDB, changeAvailability, removeItem, addMenuItemToFirebase
     };
   },
 };
