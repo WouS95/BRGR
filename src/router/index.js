@@ -8,55 +8,21 @@ import Toppings from '../views/restaurants/ingredients/Toppings.vue'
 import Sauces from '../views/restaurants/ingredients/Sauces.vue'
 import Drinks from '../views/restaurants/ingredients/Drinks.vue'
 import Sides from '../views/restaurants/ingredients/Sides.vue'
-
 import Restaurant from '../views/restaurants/Restaurant.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
-import GuestOrderDetails from '../views/guest/GuestOrderDetails'
+import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
 import GuestLogin from '../views/guest/GuestLogin.vue'
-const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
-  {
-    path: '/burgers',
-    name: 'Burgers',
-    component: Burgers
-  },
-  {
-    path: '/breads',
-    name: 'Breads',
-    component: Breads
-  },
-  {
-    path: '/toppings',
-    name: 'Toppings',
-    component: Toppings
-  },
-  {
-    path: '/sauces',
-    name: 'Sauces',
-    component: Sauces
-  },
-  {
-    path: '/sides',
-    name: 'Sides',
-    component: Sides
-  },
-  {
-    path: '/drinks',
-    name: 'Drinks',
-    component: Drinks
-  }, {
+import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
+
+const routes = [{
     path: '/restaurant',
     name: 'Restaurant',
     component: Restaurant
   },
   {
     path: '/restaurant/orders',
-    name: 'Orders',
+    name: 'RestaurantOrders',
     component: Orders
   },
   {
@@ -75,6 +41,11 @@ const routes = [
     name: 'GuestLogin',
     component: GuestLogin,
     props: true
+  },
+  {
+    path: '/restaurant/orders/:id',
+    name: 'RestaurantOrderDetails',
+    component: RestaurantOrderDetails
   }
 ]
 

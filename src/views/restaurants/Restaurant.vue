@@ -26,7 +26,7 @@ export default {
     const showLogin = ref(true);
     const router = useRouter();
     const toOrders = () => {
-      router.push({ name: "Orders" });
+      router.push({ name: "RestaurantOrders" });
     };
 
     return { showLogin, toOrders };

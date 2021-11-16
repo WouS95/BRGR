@@ -18,6 +18,10 @@ export default {
             if(props.order.orderStatus === "done" || props.order.orderStatus === "ready"){
                 return "green"
             }
+            if(props.order.orderStatus === "done" || props.order.orderStatus === "canceled"){
+                return "red"
+            }
+            
         })
         return {statusClassName}
     }
@@ -48,7 +52,7 @@ export default {
     }
 
     .status.orange .statusSphere {
-        background: orange;
+        background: #F57C00
     }
 
     .status.green .statusText {
@@ -57,6 +61,14 @@ export default {
 
     .status.green .statusSphere {
         background: green;
+    }
+
+    .status.red .statusSphere {
+        background: #D32F2F
+    }
+
+    .status.red .statusText {
+        color: #D32F2F
     }
 
 
