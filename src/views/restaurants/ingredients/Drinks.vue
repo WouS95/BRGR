@@ -2,8 +2,9 @@
   <div class="menuedits">
     <edit-ingredients-menu type="Drinks"/>
     <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
-    <p v-for="(drink, index) in drinks" :key="drink.id">
-      {{ drink.name }} ............ €{{ Number.parseFloat(drink.price).toFixed(2) }}
+    <div class="menuitem" v-for="(drink, index) in drinks" :key="drink.id">
+      <span class="menuitem-name"> {{ drink.name }} </span>
+       €{{ Number.parseFloat(drink.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(drink, index)">edit</span>
       <span class="material-icons" @click="removeItem(drink, index)"> delete </span>
       <label class="subtitle"> Available: </label>
@@ -15,7 +16,7 @@
         />
         <span class="slider round"></span>
       </label>
-    </p>
+    </div>
   </div>
   <add-menu-item
     type="drinks"

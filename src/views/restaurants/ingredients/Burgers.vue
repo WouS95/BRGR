@@ -4,10 +4,9 @@
     <button @click="addingMenuItem = true">
       <span class="material-icons">add</span> Add
     </button>
-    <p v-for="(burger, index) in burgers" :key="burger.id">
-      <label class="item"> {{ burger.name }} burger </label>............ €{{
-        Number.parseFloat(burger.price).toFixed(2)
-      }}
+    <div class="menuitem" v-for="(burger, index) in burgers" :key="burger.id">
+      <span class="menuitem-name"> {{ burger.name }} burger </span>
+       €{{ Number.parseFloat(burger.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(burger, index)">edit</span>
       <span class="material-icons" @click="removeItem(burger, index)">delete</span>
       <label class="subtitle"> Available: </label>
@@ -19,7 +18,7 @@
         />
         <span class="slider round"></span>
       </label>
-    </p>
+    </div>
   </div>
   <add-menu-item
     type="burgers"
@@ -159,4 +158,5 @@ export default {
 </script>
 
 <style>
+
 </style>

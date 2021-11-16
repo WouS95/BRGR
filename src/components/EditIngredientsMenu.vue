@@ -1,5 +1,5 @@
 <template>
-  <div class="editIngredients">
+  <div class="menu-bar">
         <router-link :class="{currentpage: 'Burgers'=== type}" class="menu-item" :to="{name: 'Burgers'}"> Burgers </router-link>
         <router-link :class="{currentpage: 'Breads'=== type}" class="menu-item" :to="{name: 'Breads'}"> Buns </router-link>
         <router-link :class="{currentpage: 'Sauces'=== type}" class="menu-item" :to="{name: 'Sauces'}"> Sauces </router-link>
@@ -17,8 +17,8 @@ export default {
 </script>
 
 <style scoped>
-.editIngredients{
-    margin-bottom: 1em;
+.menu-bar{
+    margin-bottom: 0.5em;
 }
 .menu-item{
     text-align: center;
