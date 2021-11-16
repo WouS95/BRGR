@@ -2,27 +2,20 @@
   <div class="menuedits">
     <edit-ingredients-menu type="Breads"/>
     <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
-    <div
-      class="menuitemslist"
-      v-for="(bread, index) in breads"
-      :key="bread.id"
-    >
+    <p v-for="(bread, index) in breads" :key="bread.id">
       {{ bread.name }} bun ............ €{{ Number.parseFloat(bread.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(bread, index)">edit</span>
       <span class="material-icons" @click="removeItem(bread, index)"> delete </span>
       <label class="subtitle"> Available: </label>
-      
-      <button
-        v-if="bread.isAvailable"
-        class="available"
-        @click="changeAvailability(bread, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(bread, index)"
-      ></button>
-    </div>
+      <label class="switch">
+        <input
+          v-model="bread.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(bread, index)"
+        />
+        <span class="slider round"></span>
+      </label>
+    </p>
   </div>
   <add-menu-item
     type="breads"

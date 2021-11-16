@@ -18,32 +18,32 @@ const routes = [
   //   component: Home
   // },
   {
-    path: '/restaurant/burgers',
+    path: '/restaurant/ingredients/burgers',
     name: 'Burgers',
     component: Burgers
   },
   {
-    path: '/restaurant/breads',
+    path: '/restaurant/ingredients/breads',
     name: 'Breads',
     component: Breads
   },
   {
-    path: '/restaurant/toppings',
+    path: '/restaurant/ingredients/toppings',
     name: 'Toppings',
     component: Toppings
   },
   {
-    path: '/restaurant/sauces',
+    path: '/restaurant/ingredients/sauces',
     name: 'Sauces',
     component: Sauces
   },
   {
-    path: '/restaurant/sides',
+    path: '/restaurant/ingredients/sides',
     name: 'Sides',
     component: Sides
   },
   {
-    path: '/restaurant/drinks',
+    path: '/restaurant/ingredients/drinks',
     name: 'Drinks',
     component: Drinks
   }, 
@@ -69,7 +69,7 @@ const routes = [
     props: true
   },
   {
-    path: '/guest/login',
+    path: '/',
     name: 'GuestLogin',
     component: GuestLogin,
     props: true

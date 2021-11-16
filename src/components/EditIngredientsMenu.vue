@@ -17,16 +17,20 @@ export default {
 </script>
 
 <style scoped>
+.editIngredients{
+    margin-bottom: 1em;
+}
 .menu-item{
     text-align: center;
     color: rgb(0, 0, 0);
     font-size: 16px;
-    margin-left: 2px;
-    margin-right: 2px;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     text-decoration: none;
 }
 .currentpage{
     text-decoration: underline;
+    text-underline-offset: 0.5em;
     font-weight: bold;
 }
 </style>

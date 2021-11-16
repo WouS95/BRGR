@@ -2,24 +2,21 @@
   <div class="menuedits">
     <edit-ingredients-menu type="Sides"/>
     <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
-    <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
+    <p v-for="(side, index) in sides" :key="side.id">
       {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}
 
       <span class="material-icons" @click="editItem(side, index)">edit</span>
       <span class="material-icons" @click="removeItem(side, index)"> delete </span>
       <label class="subtitle"> Available: </label>
-      
-      <button
-        v-if="side.isAvailable"
-        class="available"
-        @click="changeAvailability(side, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(side, index)"
-      ></button>
-    </div>
+      <label class="switch">
+        <input
+          v-model="side.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(side, index)"
+        />
+        <span class="slider round"></span>
+      </label>
+    </p>
   </div>
   <add-menu-item
     type="sides"
