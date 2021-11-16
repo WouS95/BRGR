@@ -2,7 +2,7 @@
   <div v-if="!newOrder">
     <h1>Your orders</h1>
     <button @click="newOrder = true">New order</button>
-    <GuestOrderList />
+    <GuestOrderList :tableNr="tableNr" />
   </div>
   <div v-else>
     <NewOrder @closeNewOrder="newOrder = false" />
@@ -15,6 +15,7 @@ import { ref } from "@vue/reactivity";
 import GuestOrderList from "../../components/guest/GuestOrderList.vue";
 import NewOrder from "../../components/guest/GuestCreateOrder.vue";
 import FooterStatusBar from "../../components/guest/GuestStatusBarFooter.vue";
+import { useRoute } from "vue-router";
 export default {
   // emits: ["closeNewOrder"],
   components: {
@@ -23,9 +24,10 @@ export default {
     FooterStatusBar,
   },
   setup() {
-    const currentTableNumber = ref(12);
+    const route = useRoute();
+    const tableNr = route.params.tableNr;
     const newOrder = ref(false);
-    return { newOrder, currentTableNumber };
+    return { newOrder, tableNr };
   },
 };
 </script>

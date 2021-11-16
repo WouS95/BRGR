@@ -19,6 +19,7 @@ const getOrders = () => {
     
     // update values
     orders.value = results;
+    console.log(orders.value)
     error.value = null;
   }, err => {
     console.log(err.message)
@@ -28,5 +29,5 @@ const getOrders = () => {
 
   return { error, orders }
 }
-
+// exports function that returns the orders and error
 export default getOrders

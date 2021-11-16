@@ -5,11 +5,13 @@ import {
     projectAuth
 } from '../firebase/config'
 
+// refs
 const user = ref(projectAuth.currentUser)
 
+// listen for auth changes outside of function
+// so only 1 listener is ever attached
 projectAuth.onAuthStateChanged(_user => {
     user.value = _user
-    console.log('user state change. current user is', _user)
 })
 
 const getUser = () => {
