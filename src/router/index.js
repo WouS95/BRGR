@@ -18,7 +18,6 @@ import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
-  console.log('current user:', user)
   if (!user) {
     next({ name: 'Restaurant' })
   } else {
