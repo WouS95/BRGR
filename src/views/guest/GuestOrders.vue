@@ -5,9 +5,7 @@
     <GuestOrderList />
   </div>
   <div v-else>
-    <h1>New order</h1>
-    <button @click="newOrder = false">Cancel</button>
-    <NewOrder />
+    <NewOrder @closeNewOrder="newOrder = false" />
   </div>
   <FooterStatusBar :tableNumber="currentTableNumber" />
 </template>
@@ -18,6 +16,7 @@ import GuestOrderList from "../../components/guest/GuestOrderList.vue";
 import NewOrder from "../../components/guest/GuestCreateOrder.vue";
 import FooterStatusBar from "../../components/guest/GuestStatusBarFooter.vue";
 export default {
+  // emits: ["closeNewOrder"],
   components: {
     GuestOrderList,
     NewOrder,
