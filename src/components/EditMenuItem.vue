@@ -11,7 +11,7 @@
         </div>
         <div style="float:right">
         <label>Price: </label><br>
-        €<input v-model="price" type="Number" step="0.01" required>
+        € <input v-model="price" type="Number" step="0.01" required>
         </div>
         <div class="submit">
         <button v-if="!name || !price" class="submitwait"><span class="material-icons">check_circle</span> Save</button>

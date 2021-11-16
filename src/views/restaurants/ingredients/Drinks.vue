@@ -1,10 +1,10 @@
 <template>
   <div class="menuedits">
     <edit-ingredients-menu type="Drinks"/>
-    <button @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div class="menuitem" v-for="(drink, index) in drinks" :key="drink.id">
       <span class="menuitem-name"> {{ drink.name }} </span>
-       €{{ Number.parseFloat(drink.price).toFixed(2) }}
+       € {{ Number.parseFloat(drink.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(drink, index)">edit</span>
       <span class="material-icons" @click="removeItem(drink, index)"> delete </span>
       <label class="subtitle"> Available: </label>

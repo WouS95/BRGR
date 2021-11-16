@@ -40,7 +40,7 @@ button p {
 }
 
 .menuitem{
-  margin-top: 0.5em;
+  
   border: none;
   border-bottom: 1px solid rgb(212, 212, 212);
   text-align: right;
@@ -110,7 +110,7 @@ input[type=number]{
 
 .switch {
   position: relative;
-  vertical-align: text-bottom;
+  vertical-align: middle;
   display: inline-block;
   width: 2.1em;
   height: 1.2em;
