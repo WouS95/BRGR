@@ -273,7 +273,7 @@ export default {
       }
       console.log(orderData);
 
-      // const res = await projectFirestore.collection("orders").add(orderData);
+      const res = await projectFirestore.collection("orders").add(orderData);
     };
 
     const totalBurgerPrice = computed(() => {
