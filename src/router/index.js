@@ -2,6 +2,7 @@ import {
   createRouter,
   createWebHistory
 } from 'vue-router'
+import { projectAuth } from '../firebase/config'
 import Burgers from '../views/restaurants/ingredients/Burgers.vue'
 import Breads from '../views/restaurants/ingredients/Breads.vue'
 import Toppings from '../views/restaurants/ingredients/Toppings.vue'
@@ -15,6 +16,16 @@ import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
 import GuestLogin from '../views/guest/GuestLogin.vue'
 import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
 
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  console.log('current user:', user)
+  if (!user) {
+    next({ name: 'Restaurant' })
+  } else {
+    next()
+  }
+}
+
 const routes = [{
     path: '/restaurant',
     name: 'Restaurant',
@@ -23,7 +34,8 @@ const routes = [{
   {
     path: '/restaurant/orders',
     name: 'RestaurantOrders',
-    component: Orders
+    component: Orders,
+    beforeEnter: requireAuth
   },
   {
     path: '/guest/orders/:tableNr',
@@ -45,7 +57,48 @@ const routes = [{
   {
     path: '/restaurant/orders/:id',
     name: 'RestaurantOrderDetails',
-    component: RestaurantOrderDetails
+    component: RestaurantOrderDetails,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/ingredients/breads',
+    name: 'Breads',
+    component: Breads
+  },
+  {
+    path: '/restaurant/ingredients/burgers',
+    name: 'Burgers',
+    component: Burgers,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/ingredients/drinks',
+    name: 'Drinks',
+    component: Drinks,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/ingredients/sides',
+    name: 'Sides',
+    component: Sides
+  },
+  {
+    path: '/restaurant/ingredients/sauces',
+    name: 'Sauces',
+    component: Sauces,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/ingredients/toppings',
+    name: 'Toppings',
+    component: Toppings,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/ingredients',
+    name: 'Ingredients',
+    redirect: { name: 'Burgers'},
+    beforeEnter: requireAuth
   }
 ]
 

@@ -20,6 +20,7 @@ import { ref } from "@vue/reactivity";
 import RestaurantLogin from "../../components/restaurant/RestaurantLogin.vue";
 import RestaurantSignup from "../../components/restaurant/RestaurantSignup.vue";
 import { useRouter } from "vue-router";
+
 export default {
   components: { RestaurantLogin, RestaurantSignup },
   setup() {

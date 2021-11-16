@@ -78,4 +78,8 @@ button p {
         color: #757575;
     }
 
+    button {
+      font-size: 100%;
+    }
+
 </style>

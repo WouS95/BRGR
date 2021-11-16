@@ -4,16 +4,39 @@
         <router-link :to="{name: 'RestaurantOrders'}">Orders</router-link>
         <br>
         <br>
-            <router-link :to="{name: 'GuestLogin'}">
+            <router-link :to="{name: 'Ingredients'}" active-class="/ingredients">
                 Ingredients 
-                <span class="material-icons">expand_more</span>
             </router-link>
+            <div class="userInfo" v-if="user">
+                <p class="subtitle">Logged in as</p>
+                <p><strong>{{ user.displayName}}</strong></p>
+                <button @click="logoutUser">
+                    <span class="material-icons">logout</span>
+                    Log out
+                </button>
+            </div>
     </header>
 </template>
 
 <script>
+import getUser from '../../composables/getUser'
+import useLogout from '../../composables/useLogout'
+import { useRouter } from 'vue-router'
+
 
 export default {
+    setup(){
+        const router = useRouter()
+        const { user } = getUser()
+        const { logout, error } = useLogout()
+
+        const logoutUser = () => {
+            logout()
+            router.push({name: "Restaurant"})
+        }
+
+        return { user, logout , error, logoutUser }
+    }
 
 }
 </script>
@@ -52,6 +75,21 @@ export default {
         font-weight: bold;
         border-bottom: 2px solid #000;
     }
+
+    .restaurantHeader .userInfo {
+        position: absolute;
+        bottom: 50px;
+        margin-left: 40px;
+    }
+
+    .restaurantHeader .userInfo p {
+        margin: 0px;
+    }
+    .restaurantHeader .userInfo button {
+        margin-top: 30px;
+    }
+
+    
 
     
 </style>
