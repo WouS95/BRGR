@@ -6,25 +6,22 @@
         Logged in as <br />
         <span
           >Table
-          <input type="number" v-model="tableNumber" />
+          {{ tableNr }}
           <!-- input field for testing purposes -->
         </span>
       </p>
     </div>
-    <p @click="tableNumber = null">Log out</p>
+    <p>Log out</p>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
 export default {
-  props: ["tableNumber"],
+  props: ["tableNr"],
   setup(props) {
-    const tableNumber = ref(props.tableNumber);
-    // if (!tableNumber.value) {
-    //   console.log("no table number");
-    // }
-    return { tableNumber };
+    const tableNr = ref(props.tableNr);
+    return { tableNr };
   },
 };
 </script>

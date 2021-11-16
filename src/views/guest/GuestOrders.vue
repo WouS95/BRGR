@@ -5,9 +5,9 @@
     <GuestOrderList :tableNr="tableNr" />
   </div>
   <div v-else>
-    <NewOrder @closeNewOrder="newOrder = false" />
+    <NewOrder :tableNr="tableNr" @closeNewOrder="newOrder = false" />
   </div>
-  <FooterStatusBar :tableNumber="currentTableNumber" />
+  <FooterStatusBar :tableNr="tableNr" />
 </template>
 
 <script>
@@ -17,7 +17,6 @@ import NewOrder from "../../components/guest/GuestCreateOrder.vue";
 import FooterStatusBar from "../../components/guest/GuestStatusBarFooter.vue";
 import { useRoute } from "vue-router";
 export default {
-  // emits: ["closeNewOrder"],
   components: {
     GuestOrderList,
     NewOrder,

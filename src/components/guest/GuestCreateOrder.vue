@@ -192,9 +192,10 @@ import { computed, ref } from "@vue/reactivity";
 import { projectFirestore, timestamp } from "../../firebase/config";
 
 export default {
+  props: ["tableNr"],
   emits: ["closeNewOrder"],
   setup(props, context) {
-    const tableNumber = ref(12);
+    const tableNumber = props.tableNr;
     const addIngredientMenuOpen = ref(false);
     const ingredients = ref(null);
     const showSelectBurger = ref(true);
@@ -241,7 +242,7 @@ export default {
         orderNr: (await getLastOrderId()) + 1,
         orderStatus: "preparing",
         orderTime: timestamp(),
-        tableNr: Number(tableNumber.value),
+        tableNr: Number(tableNumber),
       };
 
       for (let i = 0; i < selectedIngredients.value.sauces.length; i++) {
@@ -356,7 +357,6 @@ export default {
     load();
     return {
       totalBurgerPrice,
-      tableNumber,
       error,
       selectedIngredients,
       burgerIngredients,
