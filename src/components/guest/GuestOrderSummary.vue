@@ -46,24 +46,20 @@
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
 import OrderStatus from '../OrderStatus.vue'
-
 export default {
     props: ["order"],
     compontents: {OrderStatus},
     setup(props){
         
         const router = useRouter()
-
         // calculates the total price so it can be displayed
         const totalPrice = computed(() => {
             let price = 0
             props.order.order.forEach(element => {
                 price += element.price
             })
-
             return price
         })
-
         // gives specific class name to status elements so the correct color will be displayed
         const statusClassName = computed(() => {
             if(props.order.orderStatus === "preparing"){
@@ -73,14 +69,12 @@ export default {
                 return "green"
             }
         })
-
         return {totalPrice, statusClassName}
     }
 }
 </script>
 
 <style>
-
     .orderSummary {
         padding: 20px 30px;
         box-sizing: border-box;
@@ -91,7 +85,6 @@ export default {
         margin: 20px auto;
         text-align: left;
     }
-
     .orderSummary h2 {
         font-size: 2.2em;
         letter-spacing: -0.1em;
@@ -99,33 +92,25 @@ export default {
         font-weight: 600;
         margin-bottom: 20px;
     }
-
     .orderSummary button {
         font-size: 100%;
     }
-
     .orderSummary .price {
         display: inline-block;
         font-weight: 600;
         font-size: 1.5em;
         margin: 0px;
     }
-
     .orderNumber {
         margin: 0px;
     }
-
     .orderList p {
         margin: 0px;
     }
-
     .orderSummary .bottomItems {
         display: flex;
         width: 100%;
         justify-content: space-between;
         margin-top: 30px;
     }
-
-
-
 </style>

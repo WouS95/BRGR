@@ -1,7 +1,5 @@
 <template>
-
-  <router-view/> 
-
+  <router-view />
 </template>
 
 <style>
@@ -21,7 +19,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #000;
-
 }
 
 button {
@@ -34,10 +31,13 @@ button {
   cursor: pointer;
   font-weight: 500;
 }
+img {
+  max-width: 100%;
+}
 
 button .material-icons {
-    height: none;
-    vertical-align: middle;
+  height: none;
+  vertical-align: middle;
 }
 
 button p {
@@ -59,27 +59,25 @@ button p {
 .icon {
   height: 15px;
 }
-.menuedits{
+.menuedits {
   background-color: white;
-  width:auto;
+  width: auto;
   padding: 1em 2.5em;
   border-radius: 1em;
-  position:absolute;
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 }
 
-
 .subtitle {
-        margin: 0px;
-        font-size: 0.9em;
-        color: #757575;
-    }
+  margin: 0px;
+  font-size: 0.9em;
+  color: #757575;
+}
 
-    button {
-      font-size: 100%;
-    }
-
+button {
+  font-size: 100%;
+}
 </style>

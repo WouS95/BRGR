@@ -2,14 +2,16 @@ import {
   createRouter,
   createWebHistory
 } from 'vue-router'
-import { projectAuth } from '../firebase/config'
+import {
+  projectAuth
+} from '../firebase/config'
 import Burgers from '../views/restaurants/ingredients/Burgers.vue'
 import Breads from '../views/restaurants/ingredients/Breads.vue'
 import Toppings from '../views/restaurants/ingredients/Toppings.vue'
 import Sauces from '../views/restaurants/ingredients/Sauces.vue'
 import Drinks from '../views/restaurants/ingredients/Drinks.vue'
 import Sides from '../views/restaurants/ingredients/Sides.vue'
-import Restaurant from '../views/restaurants/Restaurant.vue'
+import Restaurant from '../views/restaurants/RestaurantWelcome.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
 import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
@@ -19,14 +21,17 @@ import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
   if (!user) {
-    next({ name: 'Restaurant' })
+    next({
+      name: 'Restaurant'
+    })
   } else {
     next()
   }
 }
 
 const routes = [{
-    path: '/restaurant',
+    // RESTAURANT PATHS
+    path: '/restaurant/login',
     name: 'Restaurant',
     component: Restaurant
   },
@@ -36,6 +41,9 @@ const routes = [{
     component: Orders,
     beforeEnter: requireAuth
   },
+
+
+  // GUEST PATHS
   {
     path: '/guest/orders/:tableNr',
     name: 'GuestOrders',
@@ -96,7 +104,9 @@ const routes = [{
   {
     path: '/ingredients',
     name: 'Ingredients',
-    redirect: { name: 'Burgers'},
+    redirect: {
+      name: 'Burgers'
+    },
     beforeEnter: requireAuth
   }
 ]

@@ -1,0 +1,49 @@
+<template>
+  <div id="footer">
+    <img src="../../assets/img/brgr-logo-black.svg" alt="logo" class="logo" />
+    <div class="tabledetails">
+      <p>
+        Logged in as <br />
+        <span
+          >Table
+          <input type="number" v-model="tableNumber" />
+          <!-- input field for testing purposes -->
+        </span>
+      </p>
+    </div>
+    <p @click="tableNumber = null">Log out</p>
+  </div>
+</template>
+
+<script>
+import { ref } from "vue";
+export default {
+  props: ["tableNumber"],
+  setup(props) {
+    const tableNumber = ref(props.tableNumber);
+    // if (!tableNumber.value) {
+    //   console.log("no table number");
+    // }
+    return { tableNumber };
+  },
+};
+</script>
+
+<style>
+#footer {
+  text-align: left;
+  display: flex;
+  padding: 0px 20px;
+  gap: 30px;
+  align-items: center;
+  max-width: 100%;
+  background-color: white;
+}
+#footer img {
+  width: 60px;
+  flex: 0;
+}
+#footer .tabledetails {
+  flex: 1;
+}
+</style>
