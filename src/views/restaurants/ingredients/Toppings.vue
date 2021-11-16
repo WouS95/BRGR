@@ -1,4 +1,5 @@
 <template>
+<RestaurantHeader/>
   <div class="menuedits">
     <edit-ingredients-menu type="Toppings"/>
     <button @click="addingMenuItem = true">add</button>
@@ -52,6 +53,7 @@ import { fieldValue, projectFirestore } from "../../../firebase/config";
 import { ref } from "vue";
 import EditMenuItem from "../../../components/EditMenuItem.vue";
 import AddMenuItem from "../../../components/AddMenuItem.vue";
+import RestaurantHeader from '../../../components/restaurant/RestaurantHeader.vue'
 
 export default {
   name: "Toppings",
@@ -59,6 +61,7 @@ export default {
     EditIngredientsMenu,
     EditMenuItem,
     AddMenuItem,
+    RestaurantHeader
   },
   setup() {
     const toppings = ref([]);
