@@ -28,8 +28,8 @@
                 </h3>
                 <p class="subtitle timestamp">{{ timeStamp }}</p>
                 <div class="buttons">
-                        <button v-if="order.orderStatus == 'preparing'" @click="setToDone">
-                            <p>Set to done</p> 
+                        <button v-if="order.orderStatus == 'preparing'" @click="setToReady">
+                            <p>Set to ready</p> 
                             <span class="material-icons">check_circle</span>
                         </button>
                         <router-link :to="{name: 'RestaurantOrderDetails', params: {id: order.id}}">
@@ -79,8 +79,8 @@ export default {
             }
         })
 
-        const setToDone = async () => {
-            await projectFirestore.collection('orders').doc(props.order.id).update({orderStatus: "done"}) 
+        const setToReady = async () => {
+            await projectFirestore.collection('orders').doc(props.order.id).update({orderStatus: "ready"}) 
         }
 
         const timeStamp = computed(() => {
@@ -88,7 +88,7 @@ export default {
         })
 
 
-        return {totalPrice, statusClassName, setToDone, timeStamp}
+        return {totalPrice, statusClassName, setToReady, timeStamp}
     }
 
 }
