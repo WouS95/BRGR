@@ -1,3 +1,4 @@
+/* general */
 * {
     box-sizing: border-box;
   }
@@ -27,38 +28,16 @@ button {
   cursor: pointer;
   font-weight: 500;
 }
-  
+
 button .material-icons {
-    height: none;
-    vertical-align: middle;
+  height: none;
+  vertical-align: middle;
 }
 
 button p {
   display: inline-block;
   padding: 0px 0.3em;
   margin: 0px;
-}
-
-.menuitem{
-  
-  border: none;
-  border-bottom: 1px solid rgb(212, 212, 212);
-  text-align: right;
-}
-.menuitem-name{
-  float: left;;
-}
-
-.menuedits{
-  background-color: white;
-  width:auto;
-  padding: 1em 2.5em;
-  border-radius: 1em;
-  position:absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  
 }
 .material-icons {
   height: none;
@@ -70,14 +49,32 @@ button p {
     font-size: 0.9em;
     color: #757575;
 }
+
+/* for editing the menu items */
+.menuitem{
   
+  border: none;
+  border-bottom: 1px solid rgb(212, 212, 212);
+  text-align: right;
+}
+.menuitem-name{
+  float: left;;
+}
+.menuedits{
+  background-color: white;
+  width:auto;
+  padding: 1em 2.5em;
+  border-radius: 1em;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+} 
 .edititem input, .additem input{
   border: 0.8px solid grey;
   border-bottom: 2px solid grey ;
   margin-bottom: 1em;
 }
-    
-  /* https://www.codegrepper.com/code-examples/css/input+type+number+hide+arrows */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
@@ -108,6 +105,7 @@ input[type=number]{
   height: 100%;
 }
 
+/* for the toggle switch */
 .switch {
   position: relative;
   vertical-align: middle;
