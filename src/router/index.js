@@ -31,7 +31,7 @@ const requireAuth = (to, from, next) => {
 
 const routes = [{
     // RESTAURANT PATHS
-    path: '/restaurant/login',
+    path: '/restaurant',
     name: 'Restaurant',
     component: Restaurant
   },
