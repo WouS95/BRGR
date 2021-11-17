@@ -1,8 +1,17 @@
-<template>orders</template>
+<template>
+    <RestaurantHeader/>
+    <RestaurantOrderList/>
+</template>
 
 <script>
-export default {};
+import RestaurantHeader from '../../components/restaurant/RestaurantHeader.vue'
+import RestaurantOrderList from '../../components/restaurant/RestaurantOrderList.vue'
+export default {
+    components: {RestaurantHeader, RestaurantOrderList}
+
+};
 </script>
 
 <style>
+
 </style>

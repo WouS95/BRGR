@@ -46,8 +46,7 @@ import {useRoute} from 'vue-router'
 import TotalPrice from '../../components/TotalPrice.vue'
 import OrderStatus from '../../components/OrderStatus.vue'
 
-export default {
-    
+export default {  
     props: ['id'],
     components: {TotalPrice, OrderStatus},
     setup(props){
@@ -56,7 +55,7 @@ export default {
         const { order, error } = getOrder(route.params.id)
         
 
-        return{ order, error}
+        return{ order, error }
     }
 
 }

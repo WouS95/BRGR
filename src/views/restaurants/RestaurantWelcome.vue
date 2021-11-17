@@ -20,13 +20,14 @@ import { ref } from "@vue/reactivity";
 import RestaurantLogin from "../../components/restaurant/RestaurantLogin.vue";
 import RestaurantSignup from "../../components/restaurant/RestaurantSignup.vue";
 import { useRouter } from "vue-router";
+
 export default {
   components: { RestaurantLogin, RestaurantSignup },
   setup() {
     const showLogin = ref(true);
     const router = useRouter();
     const toOrders = () => {
-      router.push({ name: "Orders" });
+      router.push({ name: "RestaurantOrders" });
     };
 
     return { showLogin, toOrders };
