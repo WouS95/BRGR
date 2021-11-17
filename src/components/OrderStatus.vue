@@ -45,6 +45,7 @@ export default {
 
     .statusText {
         display: inline-block;
+        font-weight: 500;
     }
 
     .status.orange .statusText {

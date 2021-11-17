@@ -5,13 +5,9 @@
                 <p class="statusText">{{ order.orderStatus }}</p>
             </div>
             <h2 class="orderNumber">
-                <span v-if="order.orderNr < 10">
-                    0
-                </span>
-                <span v-if="order.orderNr < 100">
-                    0
-                </span>
-                {{ order.orderNr }}
+                <span v-if="order.orderNr < 10">0</span>
+                <span v-if="order.orderNr < 100">0</span>
+                <span>{{ order.orderNr }}</span>
                 </h2>
                 <p class="subtitle">Table {{ order.tableNr }}</p>
             <div class="orderList">
@@ -122,7 +118,6 @@ export default {
 
     .restaurantOrderSummary h2 {
         font-size: 2.2em;
-        letter-spacing: -0.12em;
         line-height: 1em;
         font-weight: 600;
         margin-bottom: 20px;

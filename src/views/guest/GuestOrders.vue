@@ -1,13 +1,15 @@
 <template>
-  <div v-if="!newOrder">
-    <h1>Your orders</h1>
-    <button @click="newOrder = true">New order</button>
-    <GuestOrderList :tableNr="tableNr" />
+  <div class="guestOrders">
+    <div v-if="!newOrder">
+      <h1>Your orders</h1>
+      <button @click="newOrder = true"> <span class="material-icons">add_circle</span> New order</button>
+      <GuestOrderList :tableNr="tableNr" />
+    </div>
+    <div v-else>
+      <NewOrder :tableNr="tableNr" @closeNewOrder="newOrder = false" />
+    </div>
+    <FooterStatusBar :tableNr="tableNr" />
   </div>
-  <div v-else>
-    <NewOrder :tableNr="tableNr" @closeNewOrder="newOrder = false" />
-  </div>
-  <FooterStatusBar :tableNr="tableNr" />
 </template>
 
 <script>
@@ -32,4 +34,8 @@ export default {
 </script>
 
 <style>
+
+.guestOrders {
+  margin-bottom: 150px;
+}
 </style>

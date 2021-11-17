@@ -2,27 +2,16 @@
   <div id="footer">
     <img src="../../assets/img/brgr-logo-black.svg" alt="logo" class="logo" />
     <div class="tabledetails">
-      <p>
-        Logged in as <br />
-        <span
-          >Table
-          {{ tableNr }}
-          <!-- input field for testing purposes -->
-        </span>
-      </p>
+        <p class="subtitle">Logged in as </p>
+        <span>Table {{ tableNr }} </span>
     </div>
-    <p>Log out</p>
+    <router-link :to="{name: 'GuestLogin'}">Log out</router-link>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
 export default {
   props: ["tableNr"],
-  setup(props) {
-    const tableNr = ref(props.tableNr);
-    return { tableNr };
-  },
 };
 </script>
 
@@ -30,17 +19,35 @@ export default {
 #footer {
   text-align: left;
   display: flex;
-  padding: 0px 20px;
-  gap: 30px;
+  padding: 20px 25px;
+  gap: 20px;
   align-items: center;
-  max-width: 100%;
+  width: 100%;
   background-color: white;
+  position: fixed;
+  bottom: 0px;
+  border-top: solid #E0E0E0 1px;
 }
 #footer img {
-  width: 60px;
+  width: 75px;
   flex: 0;
 }
 #footer .tabledetails {
   flex: 1;
 }
+
+#footer span {
+  font-weight: 600;
+}
+
+#footer .subtitle {
+  font-size: 0.8em;
+}
+
+#footer a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #000;
+}
+
 </style>
