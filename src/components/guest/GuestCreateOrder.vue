@@ -1,7 +1,7 @@
 <template>
   <h1>New Order</h1>
   <button class="close" @click="closeNewOrder">Cancel</button>
-  <button @click="checkoutOrder">Checkout</button>
+  <button :disabled="invalidForm" @click="checkoutOrder">Checkout</button>
   <div class="backdrop" :class="{ active: addIngredientMenuOpen }"></div>
   <div v-if="burgerIngredients">
     <div
@@ -173,6 +173,7 @@
       />
       <label for="addIngredientButton" class="addingredientbutton">+</label>
     </nav>
+    <div>{{ fullOrder.order }}</div>
   </div>
   <div v-else>loading</div>
 </template>
@@ -214,7 +215,7 @@ export default {
     const addBurgerToOrder = () => {
       const orderResult = {
         ingredients: [],
-        price: totalBurgerPrice(),
+        price: Number(totalBurgerPrice()),
         type: "burger",
       };
       // first add the bread and patty in ingredients array
@@ -253,7 +254,7 @@ export default {
     const addDrinkToOrder = () => {
       const orderResult = {
         name: selectedIngredients.value.drink.name,
-        price: selectedIngredients.value.drink.price,
+        price: Number(selectedIngredients.value.drink.price),
         type: "drink",
       };
       fullOrder.value.order.push(orderResult);
@@ -264,7 +265,7 @@ export default {
       for (let i = 0; i < selectedIngredients.value.sides.length; i++) {
         orderResult.push({
           name: selectedIngredients.value.sides[i].name,
-          price: selectedIngredients.value.sides[i].price,
+          price: Number(selectedIngredients.value.sides[i].price),
           type: "side",
         });
       }
@@ -298,7 +299,7 @@ export default {
           .limit(1)
           .get();
         result = res.docs.map((doc) => {
-          console.log(doc.data().orderNr);
+          // console.log(doc.data().orderNr);
           return doc.data().orderNr;
         });
       } catch (err) {
@@ -307,6 +308,27 @@ export default {
       }
       return result[0];
     };
+    const checkoutOrder = async () => {
+      // console.log("ckecking out", fullOrder.value.order);
+      const res = JSON.stringify(fullOrder.value.order);
+      const orderData = {
+        order: JSON.parse(res),
+        orderNr: (await getLastOrderId()) + 1,
+        orderStatus: "preparing",
+        orderTime: timestamp(),
+        tableNr: Number(tableNumber),
+      };
+
+      console.log(orderData);
+      const query = await projectFirestore.collection("orders").add(orderData);
+    };
+    const invalidForm = computed(() => {
+      // if (fullOrder.value.order.includes("burger")) {
+      //   return false;
+      // }
+      // const res = JSON.stringify(fullOrder.value.order);
+      return !JSON.stringify(fullOrder.value.order).includes('"type":"burger"');
+    });
     const totalBurgerPrice = () => {
       var price = 0;
       if (selectedIngredients.value.burger.sauces[0]) {
@@ -368,6 +390,8 @@ export default {
       showSelectDrink,
       addIngredientMenuOpen,
       fullOrder,
+      checkoutOrder,
+      invalidForm,
     };
   },
 };
