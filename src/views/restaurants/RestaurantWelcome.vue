@@ -66,7 +66,9 @@ export default {
 .login form button {
   align-self: flex-start;
   font-size: 100%;
+  margin: auto;
 }
+
 .login .togglelogin {
   align-self: flex-start;
   cursor: pointer;

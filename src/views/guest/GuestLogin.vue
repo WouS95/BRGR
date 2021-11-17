@@ -42,7 +42,7 @@ export default {
     bottom: 0px;
 }
 
-.loginContainer input { 
+.loginContainer input[type=number] { 
     display: block;
     margin: auto;
     border: solid #E0E0E0 1px;

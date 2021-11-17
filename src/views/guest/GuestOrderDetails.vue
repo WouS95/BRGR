@@ -37,7 +37,7 @@
         </div>
     </div>
 </div>
-
+<FooterStatusBar v-if="order" :tableNr="order.tableNr" />
 </template>
 
 <script>
@@ -45,13 +45,14 @@ import getOrder from '../../composables/getOrder'
 import {useRoute} from 'vue-router'
 import TotalPrice from '../../components/TotalPrice.vue'
 import OrderStatus from '../../components/OrderStatus.vue'
+import FooterStatusBar from "../../components/guest/GuestStatusBarFooter.vue";
 
 export default {  
     props: ['id'],
-    components: {TotalPrice, OrderStatus},
+    components: {TotalPrice, OrderStatus, FooterStatusBar},
     setup(props){
         const route = useRoute()
-        
+
         const { order, error } = getOrder(route.params.id)
         
 
@@ -68,12 +69,13 @@ export default {
         max-width: 350px;
         margin: 20px auto;
         text-align: left;
+        margin-bottom: 200px;
     }
 
     .orderDetails h1 {
         margin: 0px;
         font-size: 2.5em;
-        font-weight: 600;
+        color: #000;
     }
 
     .orderDetails .container {

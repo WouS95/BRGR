@@ -6,13 +6,9 @@
         </div>
         <p class="subtitle">Order nr:</p>
         <h2 class="orderNumber">
-            <span v-if="order.orderNr < 10">
-                0
-            </span>
-            <span v-if="order.orderNr < 100">
-                0
-            </span>
-            {{ order.orderNr }}
+            <span v-if="order.orderNr < 10">0</span>
+            <span v-if="order.orderNr < 100">0</span>
+            <span>{{ order.orderNr }}</span>
             </h2>
         <div class="orderList">
             <div v-for="item in order.order.slice(0,3)" :key="item.id">
@@ -76,7 +72,7 @@ export default {
 
 <style>
     .orderSummary {
-        padding: 20px 30px;
+        padding: 25px 30px;
         box-sizing: border-box;
         background: #fff;
         width: 90%;
@@ -87,11 +83,12 @@ export default {
     }
     .orderSummary h2 {
         font-size: 2.2em;
-        letter-spacing: -0.1em;
         line-height: 1em;
         font-weight: 600;
         margin-bottom: 20px;
     }
+
+
     .orderSummary button {
         font-size: 100%;
     }
