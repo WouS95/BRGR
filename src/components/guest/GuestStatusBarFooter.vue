@@ -33,8 +33,11 @@ export default {
   padding: 0px 20px;
   gap: 30px;
   align-items: center;
-  max-width: 100%;
+  width: 100%;
   background-color: white;
+  position: fixed;
+  bottom: 0px;
+  border-top: solid #E0E0E0 1px;
 }
 #footer img {
   width: 60px;
