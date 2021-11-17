@@ -56,7 +56,7 @@ const routes = [{
     props: true
   },
   {
-    path: '/guest/login',
+    path: '/',
     name: 'GuestLogin',
     component: GuestLogin,
     props: true

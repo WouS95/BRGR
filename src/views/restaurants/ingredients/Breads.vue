@@ -2,36 +2,21 @@
   <RestaurantHeader/>
   <div class="menuedits">
     <edit-ingredients-menu type="Breads"/>
-    <button @click="addingMenuItem = true">add</button>
-    <div
-      class="menuitemslist"
-      v-for="(bread, index) in breads"
-      :key="bread.id"
-    >
-      {{ bread.name }} bun ............ €{{ Number.parseFloat(bread.price).toFixed(2) }}......
-
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(bread, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(bread, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
-      <button
-        v-if="bread.isAvailable"
-        class="available"
-        @click="changeAvailability(bread, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(bread, index)"
-      ></button>
+    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <div class="menuitem" v-for="(bread, index) in breads" :key="bread.id">
+      <span class="menuitem-name"> {{ bread.name }} bun </span>
+       € {{ Number.parseFloat(bread.price).toFixed(2) }}
+      <span class="material-icons" @click="editItem(bread, index)">edit</span>
+      <span class="material-icons" @click="removeItem(bread, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+      <label class="switch">
+        <input
+          v-model="bread.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(bread, index)"
+        />
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
   <add-menu-item

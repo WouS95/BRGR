@@ -2,35 +2,21 @@
 <RestaurantHeader/>
   <div class="menuedits">
     <edit-ingredients-menu type="Toppings"/>
-    <button @click="addingMenuItem = true">add</button>
-    <div
-      class="menuitemslist"
-      v-for="(topping, index) in toppings"
-      :key="topping.id"
-    >
-      {{ topping.name }} ............ €{{ Number.parseFloat(topping.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(topping, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(topping, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
-      <button
-        v-if="topping.isAvailable"
-        class="available"
-        @click="changeAvailability(topping, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(topping, index)"
-      ></button>
+    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <div class="menuitem" v-for="(topping, index) in toppings" :key="topping.id">
+      <span class="menuitem-name"> {{ topping.name }}</span>
+       € {{ Number.parseFloat(topping.price).toFixed(2) }}
+      <span class="material-icons" @click="editItem(topping, index)">edit</span>
+      <span class="material-icons" @click="removeItem(topping, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+      <label class="switch">
+        <input
+          v-model="topping.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(topping, index)"
+        />
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
     <add-menu-item

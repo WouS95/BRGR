@@ -2,31 +2,21 @@
 <RestaurantHeader/>
   <div class="menuedits">
     <edit-ingredients-menu type="Drinks"/>
-    <button @click="addingMenuItem = true">add</button>
-    <div class="menuitemslist" v-for="(drink, index) in drinks" :key="drink.id">
-      {{ drink.name }} ............ €{{ Number.parseFloat(drink.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(drink, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(drink, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
-      <button
-        v-if="drink.isAvailable"
-        class="available"
-        @click="changeAvailability(drink, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(drink, index)"
-      ></button>
+    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <div class="menuitem" v-for="(drink, index) in drinks" :key="drink.id">
+      <span class="menuitem-name"> {{ drink.name }} </span>
+       € {{ Number.parseFloat(drink.price).toFixed(2) }}
+      <span class="material-icons" @click="editItem(drink, index)">edit</span>
+      <span class="material-icons" @click="removeItem(drink, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+      <label class="switch">
+        <input
+          v-model="drink.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(drink, index)"
+        />
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
   <add-menu-item

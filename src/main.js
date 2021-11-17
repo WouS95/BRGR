@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
+import './styles.css'
 import { projectAuth } from './firebase/config'
 
 // waits with mounting the app until the program knows if a user logged in

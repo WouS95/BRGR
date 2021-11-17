@@ -2,31 +2,22 @@
 <RestaurantHeader/>
   <div class="menuedits">
     <edit-ingredients-menu type="Sides"/>
-    <button @click="addingMenuItem = true">add</button>
-    <div class="menuitemslist" v-for="(side, index) in sides" :key="side.id">
-      {{ side.name }} ............ €{{ Number.parseFloat(side.price).toFixed(2) }}......
-      <img
-        class="icon"
-        src="https://cdn0.iconfinder.com/data/icons/glyphpack/45/edit-alt-512.png"
-        @click="editItem(side, index)"
-      />
-      ...
-      <img
-        class="icon"
-        src="http://cdn.onlinewebfonts.com/svg/img_216917.png"
-        @click="removeItem(side, index)"
-      />...
-      <label style="font-size: 70%"> available: </label>
-      <button
-        v-if="side.isAvailable"
-        class="available"
-        @click="changeAvailability(side, index)"
-      ></button>
-      <button
-        v-else
-        class="unavailable"
-        @click="changeAvailability(side, index)"
-      ></button>
+    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <div class="menuitem" v-for="(side, index) in sides" :key="side.id">
+      <span class="menuitem-name">{{ side.name }} </span>
+       € {{ Number.parseFloat(side.price).toFixed(2) }}
+
+      <span class="material-icons" @click="editItem(side, index)">edit</span>
+      <span class="material-icons" @click="removeItem(side, index)"> delete </span>
+      <label class="subtitle"> Available: </label>
+      <label class="switch">
+        <input
+          v-model="side.isAvailable"
+          type="checkbox"
+          @click="changeAvailability(side, index)"
+        />
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
   <add-menu-item
