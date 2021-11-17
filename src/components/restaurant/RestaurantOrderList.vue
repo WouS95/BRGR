@@ -48,9 +48,8 @@ export default {
 
 <style>
     .restaurantOrderList  {
-        width: 100%;
         text-align: left;
-        margin-left: 220px;
+        margin-left: 230px;
     }
 
     .restaurantOrderList  h1 {

@@ -7,23 +7,25 @@
     <div v-for=" (ingredient, index) in order.order[route.params.index].ingredients" :key="index">
       {{ingredient}}
     </div>
-    
-
 </template>
 
 <script>
 import {useRoute} from 'vue-router'
 import getOrder from '../../composables/getOrder'
+import getIngredients from '../../composables/getIngredients'
 
 export default {
     setup(){
         const route = useRoute()
 
+        const {restaurantIngredients, load} = getIngredients()
+        load()
+
         const { order, error } = getOrder(route.params.id)
 
         // const burger = order.order[route.params.index]
 
-        return {route, order, error}
+        return {route, order, error, restaurantIngredients}
     }
 
 }
