@@ -248,7 +248,7 @@ export default {
       }
       fullOrder.value.order.push(orderResult);
       // add populated order to full order object
-      console.log(fullOrder);
+      console.log(fullOrder.value);
     };
     const addDrinkToOrder = () => {
       const orderResult = {
