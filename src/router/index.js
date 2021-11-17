@@ -17,6 +17,8 @@ import GuestOrders from '../views/guest/GuestOrders.vue'
 import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
 import GuestLogin from '../views/guest/GuestLogin.vue'
 import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
+import RestaurantEditOrder from '../views/restaurants/RestaurantEditOrder.vue'
+import RestaurantEditOrderBurger from '../views/restaurants/RestaurantEditOrderBurger.vue'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
@@ -40,26 +42,6 @@ const routes = [{
     name: 'RestaurantOrders',
     component: Orders,
     beforeEnter: requireAuth
-  },
-
-
-  // GUEST PATHS
-  {
-    path: '/guest/orders/:tableNr',
-    name: 'GuestOrders',
-    component: GuestOrders
-  },
-  {
-    path: '/guest/orders/:tableNr/:id',
-    name: 'GuestOrderDetails',
-    component: GuestOrderDetails,
-    props: true
-  },
-  {
-    path: '/',
-    name: 'GuestLogin',
-    component: GuestLogin,
-    props: true
   },
   {
     path: '/restaurant/orders/:id',
@@ -108,6 +90,38 @@ const routes = [{
       name: 'Burgers'
     },
     beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/orders/:id/edit',
+    name: 'RestaurantEditOrder',
+    component: RestaurantEditOrder,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/orders/:id/edit/burger/:index',
+    name: 'RestaurantEditOrderBurger',
+    component: RestaurantEditOrderBurger,
+    beforeEnter: requireAuth
+  },
+
+
+  // GUEST PATHS
+  {
+    path: '/guest/orders/:tableNr',
+    name: 'GuestOrders',
+    component: GuestOrders
+  },
+  {
+    path: '/guest/orders/:tableNr/:id',
+    name: 'GuestOrderDetails',
+    component: GuestOrderDetails,
+    props: true
+  },
+  {
+    path: '/',
+    name: 'GuestLogin',
+    component: GuestLogin,
+    props: true
   }
 ]
 
