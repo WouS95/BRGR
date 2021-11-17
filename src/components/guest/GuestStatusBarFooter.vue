@@ -34,7 +34,10 @@ export default {
   gap: 30px;
   align-items: center;
   max-width: 100%;
+  width: 100%;
   background-color: white;
+  position: fixed;
+  bottom: 0px;
 }
 #footer img {
   width: 60px;
