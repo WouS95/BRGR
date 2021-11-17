@@ -1,188 +1,179 @@
 <template>
   <h1>New Order</h1>
-  <button class="close" @click="closeNewOrder">Close</button>
-  <h3>
-    Total: €{{ parseFloat(totalBurgerPrice).toFixed(2).replace(/\./g, ",") }}
-  </h3>
+  <button class="close" @click="closeNewOrder">Cancel</button>
+  <button :disabled="invalidForm" @click="checkoutOrder">Checkout</button>
+  <div class="backdrop" :class="{ active: addIngredientMenuOpen }"></div>
   <div v-if="burgerIngredients">
-    <form @submit.prevent="handleSubmit">
-      <button :disabled="invalidForm">Checkout</button>
-      <div class="selectburger" v-show="showSelectBurger">
-        <h2>Select your bread</h2>
-        <div
-          v-for="(breads, index) in burgerIngredients.breads"
-          :key="breads.name"
+    <div
+      @click="
+        showSelectBurger = false;
+        showSelectDrink = false;
+      "
+      class="backdrop"
+      :class="{ active: showSelectBurger || showSelectDrink }"
+    ></div>
+    <form v-show="showSelectBurger" @submit.prevent="addBurgerToOrder">
+      <h2>add bread</h2>
+      <div
+        v-for="(breads, index) in burgerIngredients.breads"
+        :key="breads.name"
+      >
+        <label v-if="breads.isAvailable" :for="'bread' + index"
+          >{{ breads.name }} bread</label
         >
-          <label v-if="breads.isAvailable" :for="'bread' + index">{{
-            breads.name
-          }}</label>
-          <input
-            required
-            v-if="breads.isAvailable"
-            v-model="selectedIngredients.bread"
-            :value="breads"
-            type="radio"
-            name="bread"
-            :id="'bread' + index"
-          />
-        </div>
-        <h2>Select your patty</h2>
-        <div
-          v-for="(pattys, index) in burgerIngredients.burgerPatty"
-          :key="pattys.name"
-        >
-          <label v-if="pattys.isAvailable" :for="'patty' + index">{{
-            pattys.name
-          }}</label>
-          <input
-            required
-            v-if="pattys.isAvailable"
-            v-model="selectedIngredients.patty"
-            :value="pattys"
-            type="radio"
-            name="patty"
-            :id="'patty' + index"
-          />
-        </div>
-
-        <h2>Select your toppings</h2>
-        <div
-          v-for="(toppings, index) in burgerIngredients.toppings"
-          :key="toppings.name"
-        >
-          <label v-if="toppings.isAvailable" :for="'topping' + index">{{
-            toppings.name
-          }}</label>
-          <input
-            v-if="toppings.isAvailable"
-            v-model="selectedIngredients.toppings"
-            type="checkbox"
-            name="topping"
-            :id="'topping' + index"
-            :value="toppings"
-          />
-        </div>
-        <h2>Select your sauces</h2>
-        <div
-          v-for="(sauces, index) in burgerIngredients.sauces"
-          :key="sauces.name"
-        >
-          <label v-if="sauces.isAvailable" :for="'sauce' + index">{{
-            sauces.name
-          }}</label>
-          <input
-            v-if="sauces.isAvailable"
-            v-model="selectedIngredients.sauces"
-            type="checkbox"
-            name="sauce"
-            :id="'sauce' + index"
-            :value="sauces"
-          />
-        </div>
-        <div @click="showSelectBurger = false">x</div>
+        <input
+          required
+          v-if="breads.isAvailable"
+          v-model="selectedIngredients.burger.bread"
+          :value="breads"
+          type="radio"
+          name="bread"
+          :id="'bread' + index"
+        />
       </div>
-      <div v-show="showSelectDrink" class="selectdrink">
-        <h2 @click="selectedIngredients.drink = null">Select your drink</h2>
-        <div
-          v-for="(drinks, index) in drinkIngredients.drinks"
-          :key="drinks.name"
+      <h2>add patty</h2>
+      <div
+        v-for="(pattys, index) in burgerIngredients.burgerPatty"
+        :key="pattys.name"
+      >
+        <label v-if="pattys.isAvailable" :for="'patty' + index"
+          >{{ pattys.name }} patty</label
         >
-          <label v-if="drinks.isAvailable" :for="'drink' + index">{{
-            drinks.name
-          }}</label>
-          <input
-            v-if="drinks.isAvailable"
-            v-model="selectedIngredients.drinks"
-            type="checkbox"
-            name="drink"
-            :id="'drink' + index"
-            :value="drinks"
-          />
-        </div>
+        <input
+          required
+          v-if="pattys.isAvailable"
+          v-model="selectedIngredients.burger.patty"
+          :value="pattys"
+          type="radio"
+          name="patty"
+          :id="'patty' + index"
+        />
       </div>
-      <div v-show="showSelectSide" class="selectside">
-        <h2 @click="selectedIngredients.side = null">Select your side</h2>
-        <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
-          <label v-if="sides.isAvailable" :for="'side' + index">{{
-            sides.name
-          }}</label>
-          <input
-            v-if="sides.isAvailable"
-            v-model="selectedIngredients.sides"
-            type="checkbox"
-            name="side"
-            :id="'side' + index"
-            :value="sides"
-          />
-        </div>
+      <h2>Select your toppings</h2>
+      <div
+        v-for="(toppings, index) in burgerIngredients.toppings"
+        :key="toppings.name"
+      >
+        <label v-if="toppings.isAvailable" :for="'topping' + index">{{
+          toppings.name
+        }}</label>
+        <input
+          v-if="toppings.isAvailable"
+          v-model="selectedIngredients.burger.toppings"
+          type="checkbox"
+          name="topping"
+          :id="'topping' + index"
+          :value="toppings"
+        />
       </div>
+      <h2>Select your sauces</h2>
+      <div
+        v-for="(sauces, index) in burgerIngredients.sauces"
+        :key="sauces.name"
+      >
+        <label v-if="sauces.isAvailable" :for="'sauce' + index">{{
+          sauces.name
+        }}</label>
+        <input
+          v-if="sauces.isAvailable"
+          v-model="selectedIngredients.burger.sauces"
+          type="checkbox"
+          name="sauce"
+          :id="'sauce' + index"
+          :value="sauces"
+        />
+      </div>
+      <button>Add burger to order</button>
     </form>
-    <div id="burgerCard">
-      <p v-if="selectedIngredients.bread">
-        bread: {{ selectedIngredients.bread }}
-        {{ selectedIngredients.bread.price }}
-      </p>
-      <p v-if="selectedIngredients.patty">
-        Patty: {{ selectedIngredients.patty }}
-        {{ selectedIngredients.patty.price }}
-      </p>
+    <!-- form to add new burger -->
+    <!-- step 1: select patty -->
+    <!-- step 2: select bread -->
+    <!-- step 3: select topping -->
+    <!-- step 4: select sauce -->
 
-      <p v-if="selectedIngredients.toppings">
-        Toppings:
-        <span
-          v-for="topping in selectedIngredients.toppings"
-          :key="topping.name"
+    <form v-show="showSelectDrink" @submit.prevent="addDrinkToOrder">
+      <h2>Select your drink</h2>
+      <div
+        v-for="(drinks, index) in drinkIngredients.drinks"
+        :key="drinks.name"
+      >
+        <label v-if="drinks.isAvailable" :for="'drink' + index">{{
+          drinks.name
+        }}</label>
+        <input
+          v-if="drinks.isAvailable"
+          v-model="selectedIngredients.drink"
+          type="radio"
+          name="drink"
+          :id="'drink' + index"
+          :value="drinks"
+        />
+      </div>
+      <button>Add drink to order</button>
+    </form>
+    <!-- form to add new drink -->
+
+    <form v-show="showSelectSide" @submit.prevent="addSideToOrder">
+      <h2>Select your side</h2>
+      <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
+        <label v-if="sides.isAvailable" :for="'side' + index">{{
+          sides.name
+        }}</label>
+        <input
+          v-if="sides.isAvailable"
+          v-model="selectedIngredients.sides"
+          type="checkbox"
+          name="side"
+          :id="'side' + index"
+          :value="sides"
+        />
+      </div>
+      <button>Add side to order</button>
+    </form>
+    <!-- form to add new side -->
+    <div id="checkoutOrders">
+      <div
+        class="orderItem"
+        v-for="(orderItem, index) in fullOrder.order"
+        :key="index"
+      >
+        {{ orderItem }}
+      </div>
+    </div>
+    <nav
+      id="addIngredientMenuWithToggleButton"
+      class="backgroundOverlay"
+      :class="{ active: addIngredientMenuOpen }"
+    >
+      <div id="addIngredientMenu">
+        <p
+          @click="
+            showSelectBurger = true;
+            addIngredientMenuOpen = false;
+          "
         >
-          {{ topping.name }},
-        </span>
-      </p>
-
-      <p v-if="selectedIngredients.sauces">
-        Sauces:
-        <span v-for="sauce in selectedIngredients.sauces" :key="sauce.name">
-          {{ sauce.name }},
-        </span>
-      </p>
-    </div>
-    <div id="drinkCard">
-      <p v-if="selectedIngredients.drinks">
-        drinks: {{ selectedIngredients.drinks }}
-        {{ selectedIngredients.drinks.price }}
-      </p>
-    </div>
-    <div id="sideCard">
-      <p v-if="selectedIngredients.sides">
-        sides: {{ selectedIngredients.sides }}
-        {{ selectedIngredients.sides.price }}
-      </p>
-    </div>
-    <input
-      hidden
-      id="addIngredientButton"
-      type="checkbox"
-      class="addbutton"
-      v-model="addIngredientMenuOpen"
-    />
-    <label for="addIngredientButton" class="addingredientbutton">+</label>
-    <div v-if="addIngredientMenuOpen">
-      <p
-        @click="
-          showSelectBurger = true;
-          addIngredientMenuOpen = false;
-        "
-      >
-        burger
-      </p>
-      <p
-        @click="
-          showSelectDrink = true;
-          addIngredientMenuOpen = false;
-        "
-      >
-        drinks
-      </p>
-      <p>sides</p>
-    </div>
+          burger
+        </p>
+        <p
+          @click="
+            showSelectDrink = true;
+            addIngredientMenuOpen = false;
+          "
+        >
+          drinks
+        </p>
+        <p>sides</p>
+      </div>
+      <input
+        hidden
+        id="addIngredientButton"
+        type="checkbox"
+        class="addbutton"
+        v-model="addIngredientMenuOpen"
+      />
+      <label for="addIngredientButton" class="addingredientbutton">+</label>
+    </nav>
+    <div>{{ fullOrder.order }}</div>
   </div>
   <div v-else>loading</div>
 </template>
@@ -198,104 +189,93 @@ export default {
     const tableNumber = props.tableNr;
     const addIngredientMenuOpen = ref(false);
     const ingredients = ref(null);
-    const showSelectBurger = ref(true);
-    const showSelectDrink = ref(true);
-    const showSelectSide = ref(true);
+    const showSelectBurger = ref(false);
+    const showSelectDrink = ref(false);
+    const showSelectSide = ref(false);
+    const selectedIngredients = ref({
+      burger: {
+        bread: null,
+        patty: null,
+        sauces: [],
+        toppings: [],
+      },
+      drink: null,
+      sides: [],
+    });
+    const fullOrder = ref({
+      order: [],
+      orderNr: null,
+      orderStatus: "preparing",
+      orderTime: timestamp(),
+      tableNr: Number(tableNumber),
+    });
     // const burgerIngredients = ref(false);
     // const totalBurgerPrice = ref(null);
     const error = ref(null);
-    const selectedIngredients = ref({
-      bread: null,
-      patty: null,
-      drinks: [],
-      sides: [],
-      sauces: [],
-      toppings: [],
-    });
-    const invalidForm = computed(() => {
-      return (
-        selectedIngredients.value.bread == null ||
-        selectedIngredients.value.patty == null
+    const addBurgerToOrder = () => {
+      const orderResult = {
+        ingredients: [],
+        price: Number(totalBurgerPrice()),
+        type: "burger",
+      };
+      // first add the bread and patty in ingredients array
+      orderResult.ingredients.push(
+        {
+          name: selectedIngredients.value.burger.patty.name,
+          type: "burgerPatty",
+        },
+        {
+          name: selectedIngredients.value.burger.bread.name,
+          type: "bread",
+        }
       );
-    });
+      // add toppings
+      for (
+        let i = 0;
+        i < selectedIngredients.value.burger.toppings.length;
+        i++
+      ) {
+        orderResult.ingredients.push({
+          name: selectedIngredients.value.burger.toppings[i].name,
+          type: "topping",
+        });
+      }
+      // add sauces
+      for (let i = 0; i < selectedIngredients.value.burger.sauces.length; i++) {
+        orderResult.ingredients.push({
+          name: selectedIngredients.value.burger.sauces[i].name,
+          type: "sauce",
+        });
+      }
+      fullOrder.value.order.push(orderResult);
+      // add populated order to full order object
+      console.log(fullOrder.value);
+    };
+    const addDrinkToOrder = () => {
+      const orderResult = {
+        name: selectedIngredients.value.drink.name,
+        price: Number(selectedIngredients.value.drink.price),
+        type: "drink",
+      };
+      fullOrder.value.order.push(orderResult);
+      console.log(fullOrder);
+    };
+    const addSideToOrder = () => {
+      const orderResult = [];
+      for (let i = 0; i < selectedIngredients.value.sides.length; i++) {
+        orderResult.push({
+          name: selectedIngredients.value.sides[i].name,
+          price: Number(selectedIngredients.value.sides[i].price),
+          type: "side",
+        });
+      }
+      fullOrder.value.order.push(orderResult);
+      console.log(fullOrder.value);
+    };
+
     const closeNewOrder = () => {
       context.emit("closeNewOrder");
     };
-    const handleSubmit = async () => {
-      const orderData = {
-        order: [
-          {
-            ingredients: [
-              {
-                type: "burgerPatty",
-                name: selectedIngredients.value.patty.name,
-              },
-              {
-                type: "bread",
-                name: selectedIngredients.value.bread.name,
-              },
-            ],
-            price: Number(totalBurgerPrice.value),
-            type: "burger",
-          },
-        ],
-        orderNr: (await getLastOrderId()) + 1,
-        orderStatus: "preparing",
-        orderTime: timestamp(),
-        tableNr: Number(tableNumber),
-      };
-
-      for (let i = 0; i < selectedIngredients.value.sauces.length; i++) {
-        orderData.order[0].ingredients.push({
-          type: "sauce",
-          name: selectedIngredients.value.sauces[i].name,
-        });
-      }
-      for (let i = 0; i < selectedIngredients.value.toppings.length; i++) {
-        orderData.order[0].ingredients.push({
-          type: "topping",
-          name: selectedIngredients.value.toppings[i].name,
-        });
-      }
-      for (let i = 0; i < selectedIngredients.value.drinks.length; i++) {
-        orderData.order.push({
-          type: "drink",
-          name: selectedIngredients.value.drinks[i].name,
-          price: Number(selectedIngredients.value.drinks[i].price),
-        });
-      }
-      for (let i = 0; i < selectedIngredients.value.sides.length; i++) {
-        orderData.order.push({
-          type: "side",
-          name: selectedIngredients.value.sides[i].name,
-          price: Number(selectedIngredients.value.sides[i].price),
-        });
-      }
-      console.log(orderData);
-
-      const res = await projectFirestore.collection("orders").add(orderData);
-    };
-
-    const totalBurgerPrice = computed(() => {
-      var price = 0;
-      if (selectedIngredients.value.sauces[0]) {
-        selectedIngredients.value.sauces.forEach((element) => {
-          price += Number(element.price);
-        });
-      }
-      if (selectedIngredients.value.toppings[0]) {
-        selectedIngredients.value.toppings.forEach((element) => {
-          price += Number(element.price);
-        });
-      }
-      if (selectedIngredients.value.bread) {
-        price += Number(selectedIngredients.value.bread.price);
-      }
-      if (selectedIngredients.value.patty) {
-        price += Number(selectedIngredients.value.patty.price);
-      }
-      return price;
-    });
 
     let load = async () => {
       try {
@@ -319,7 +299,7 @@ export default {
           .limit(1)
           .get();
         result = res.docs.map((doc) => {
-          console.log(doc.data().orderNr);
+          // console.log(doc.data().orderNr);
           return doc.data().orderNr;
         });
       } catch (err) {
@@ -328,7 +308,47 @@ export default {
       }
       return result[0];
     };
+    const checkoutOrder = async () => {
+      // console.log("ckecking out", fullOrder.value.order);
+      const res = JSON.stringify(fullOrder.value.order);
+      const orderData = {
+        order: JSON.parse(res),
+        orderNr: (await getLastOrderId()) + 1,
+        orderStatus: "preparing",
+        orderTime: timestamp(),
+        tableNr: Number(tableNumber),
+      };
 
+      console.log(orderData);
+      const query = await projectFirestore.collection("orders").add(orderData);
+    };
+    const invalidForm = computed(() => {
+      // if (fullOrder.value.order.includes("burger")) {
+      //   return false;
+      // }
+      // const res = JSON.stringify(fullOrder.value.order);
+      return !JSON.stringify(fullOrder.value.order).includes('"type":"burger"');
+    });
+    const totalBurgerPrice = () => {
+      var price = 0;
+      if (selectedIngredients.value.burger.sauces[0]) {
+        selectedIngredients.value.burger.sauces.forEach((element) => {
+          price += Number(element.price);
+        });
+      }
+      if (selectedIngredients.value.burger.toppings[0]) {
+        selectedIngredients.value.burger.toppings.forEach((element) => {
+          price += Number(element.price);
+        });
+      }
+      if (selectedIngredients.value.burger.bread) {
+        price += Number(selectedIngredients.value.burger.bread.price);
+      }
+      if (selectedIngredients.value.burger.patty) {
+        price += Number(selectedIngredients.value.burger.patty.price);
+      }
+      return price;
+    };
     const burgerIngredients = computed(() => {
       if (ingredients.value) {
         const res = ingredients.value.filter((doc) => {
@@ -356,26 +376,37 @@ export default {
 
     load();
     return {
-      totalBurgerPrice,
-      error,
-      selectedIngredients,
+      addBurgerToOrder,
+      addDrinkToOrder,
+      addSideToOrder,
       burgerIngredients,
-      drinkIngredients,
       sideIngredients,
-      load,
-      handleSubmit,
-      showSelectBurger,
-      showSelectDrink,
-      showSelectSide,
-      invalidForm,
-      addIngredientMenuOpen,
+      drinkIngredients,
       closeNewOrder,
+      selectedIngredients,
+      getLastOrderId,
+      showSelectBurger,
+      showSelectSide,
+      showSelectDrink,
+      addIngredientMenuOpen,
+      fullOrder,
+      checkoutOrder,
+      invalidForm,
     };
   },
 };
 </script>
 
 <style>
+.backdrop.active {
+  position: fixed;
+  background: black;
+  opacity: 0.5;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  z-index: 0;
+}
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -384,6 +415,29 @@ button.close {
   border: 2px solid white;
   color: white;
   background: none;
+}
+#addIngredientMenuWithToggleButton {
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+}
+form {
+  position: relative;
+  background: white;
+}
+#checkoutOrders .orderItem {
+  background: white;
+  width: 60%;
+  margin: 20px auto;
+}
+#addIngredientMenu {
+  position: absolute;
+  right: -100px;
+  bottom: 0;
+  transition: all 0.2s ease;
+}
+nav.active #addIngredientMenu {
+  transform: translate(-110px);
 }
 label.addingredientbutton {
   position: fixed;
