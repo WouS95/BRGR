@@ -40,6 +40,7 @@ export default {
     background: #FFF;
     position: absolute;
     bottom: 0px;
+    text-align: center;
 }
 
 .loginContainer input[type=number] { 
@@ -55,6 +56,7 @@ export default {
 
 .loginLogoContainer {
     margin-top: 100px;
+    text-align: center;
 }
 
 .loginContainer button {
@@ -75,7 +77,7 @@ export default {
 .loginLogoContainer img {
     width: 40%;
     max-width: 400px;
-    min-width: 200px;
+    min-width: 250px;
     vertical-align: middle;
 }
 

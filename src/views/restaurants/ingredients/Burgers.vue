@@ -1,5 +1,6 @@
 <template>
 <RestaurantHeader/>
+  <h1 class="ingredientsHeader">Ingredients</h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Burgers" />
     <button style="margin-bottom:0.5em;" @click="addingMenuItem = true">
