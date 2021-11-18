@@ -1,7 +1,16 @@
 <template>
   <h1>New Order</h1>
-  <button class="close" @click="closeNewOrder">Cancel</button>
-  <button :disabled="invalidForm" @click="checkoutOrder">Checkout</button>
+  <h3>
+    Total: €{{ parseFloat(totalOrderPrice).toFixed(2).replace(/\./g, ",") }}
+  </h3>
+  <div class="cancelAndCheckoutButtons">
+    <span class="close" @click="closeNewOrder">
+      <span class="material-icons">highlight_off</span> Cancel
+    </span>
+    <button :disabled="invalidForm" @click="checkoutOrder">
+      <span class="material-icons">shopping_cart</span> Checkout
+    </button>
+  </div>
   <div
     @click="addIngredientMenuOpen = false"
     :class="{ backdrop: addIngredientMenuOpen }"
@@ -21,7 +30,7 @@
       @submit.prevent="addBurgerToOrder"
     >
       <h1>Create your burger</h1>
-      <button @click="showSelectBurger = false" class="close">Cancel</button>
+      <span @click="showSelectBurger = false" class="close">Cancel</span>
       <h2>add bread</h2>
       <div
         v-for="(breads, index) in burgerIngredients.breads"
@@ -36,8 +45,12 @@
           name="bread"
           :id="'bread' + index"
         />
-        <label v-if="breads.isAvailable" :for="'bread' + index"
-          >{{ breads.name }} bread</label
+        <label v-if="breads.isAvailable" :for="'bread' + index">
+          <span class="orderItemName">{{ breads.name }} bread</span>
+          <span class="orderItemPrice"
+            >€
+            {{ parseFloat(breads.price).toFixed(2).replace(/\./g, ",") }}</span
+          ></label
         >
       </div>
       <h2>add patty</h2>
@@ -103,6 +116,7 @@
       @submit.prevent="addDrinkToOrder"
     >
       <h2>Select your drink</h2>
+      <span @click="showSelectDrink = false" class="close">Cancel</span>
       <div
         v-for="(drinks, index) in drinkIngredients.drinks"
         :key="drinks.name"
@@ -128,6 +142,7 @@
       @submit.prevent="addSideToOrder"
     >
       <h2>Select your side</h2>
+      <span @click="showSelectSide = false" class="close">Cancel</span>
       <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
         <input
           v-if="sides.isAvailable"
@@ -176,7 +191,7 @@
             addIngredientMenuOpen = false;
           "
         >
-          Burger
+          <span class="material-icons"> lunch_dining </span> Burger
         </p>
         <p
           @click="
@@ -184,7 +199,7 @@
             addIngredientMenuOpen = false;
           "
         >
-          Drink
+          <span class="material-icons"> local_drink </span> Drink
         </p>
         <p
           @click="
@@ -436,6 +451,13 @@ export default {
       }
       return price;
     };
+    const totalOrderPrice = computed(() => {
+      let price = 0;
+      fullOrder.value.order.forEach((element) => {
+        price += element.price;
+      });
+      return price;
+    });
     const burgerIngredients = computed(() => {
       if (ingredients.value) {
         const res = ingredients.value.filter((doc) => {
@@ -482,12 +504,17 @@ export default {
       orderNumber,
       orderCheckoutSuccess,
       removeItem,
+      totalOrderPrice,
     };
   },
 };
 </script>
 
 <style>
+.cancelAndCheckoutButtons {
+  display: flex;
+  justify-content: space-between;
+}
 .backdrop {
   z-index: 1;
 }
@@ -495,9 +522,16 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-button.close {
-  border: 2px solid white;
+.close {
+  font-family: Poppins, Helvetica, Arial, sans-serif;
   color: white;
+  padding: 0.55em 1em 0.6em 1em;
+  border-radius: 2em;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 100%;
+  box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 15%);
+  border: 2px solid white;
   background: none;
 }
 #addIngredientMenuWithToggleButton {
@@ -511,6 +545,7 @@ button.close {
 #addSideForm {
   position: fixed;
   top: 0;
+  left: 0;
   overflow: scroll;
   padding: 30px;
   width: 100%;
@@ -524,7 +559,6 @@ button.close {
 }
 #checkoutOrders .orderItem {
   background: white;
-  width: 60%;
   margin: 20px auto;
   border-radius: 10px;
   padding: 20px 30px;
@@ -548,6 +582,7 @@ nav.active #addIngredientMenu {
   border-radius: 50px;
   background: #1b5e20;
   box-shadow: #00000026 0 3px 10px;
+  text-align: right;
 }
 label.addingredientbutton {
   position: fixed;
@@ -559,6 +594,7 @@ label.addingredientbutton {
   line-height: 56px;
   height: 56px;
   width: 56px;
+  text-align: center;
 }
 #addIngredientButton[type="checkbox"]:checked + label {
   transform: rotate(45deg);
@@ -567,6 +603,11 @@ label.addingredientbutton {
 #addDrinkForm input:checked + label,
 #addSideForm input:checked + label {
   font-weight: bold;
+}
+#addBurgerForm input + label,
+#addDrinkForm input + label,
+#addSideForm input + label {
+  background: white;
 }
 #orderSuccessModal {
   background: white;
@@ -585,6 +626,17 @@ h2.orderNumber {
   font-size: 2.2em;
   line-height: 1em;
   font-weight: 600;
-  margin-bottom: 20 px;
+  margin-bottom: 20px;
+}
+#addBurgerForm input,
+#addDrinkForm input,
+#addSideForm input {
+  opacity: 0;
+  margin-right: -13px;
+  margin-top: -13px;
+}
+.orderItemName,
+.orderItemPrice {
+  display: block;
 }
 </style>
