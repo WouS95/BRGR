@@ -14,7 +14,7 @@ html {
   font-family: Poppins, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #000;
 }
 
@@ -112,6 +112,7 @@ input[type=number]{
 }
 .backdrop{
   top: 0;
+  left:0;
   position: fixed;
   background: rgba(0,0,0,0.5);
   width: 100%;
@@ -141,6 +142,13 @@ input[type=number]{
   background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
+}
+
+.guestOrders {
+  margin-bottom: 150px;
+  width: 90vw;
+  max-width: 600px;
+  margin: 0 auto;
 }
 .slider:before {
   position: absolute;
