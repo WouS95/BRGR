@@ -207,6 +207,8 @@
             addIngredientMenuOpen = false;
           "
         >
+          <span class="material-icons"> takeout_dining </span>
+
           Side
         </p>
       </div>
