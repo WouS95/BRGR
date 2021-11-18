@@ -1,9 +1,11 @@
 <template>
 <RestaurantHeader/>
+<h1 class="burger-ingredients-title">Burger Ingrediënts </h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Toppings"/>
-    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <button class="add-new-ingredient" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div class="menuitem" v-for="(topping, index) in toppings" :key="topping.id">
+      <img v-if="topping.image" :src="topping.image">
       <span class="menuitem-name"> {{ topping.name }}</span>
        € {{ Number.parseFloat(topping.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(topping, index)">edit</span>
@@ -83,43 +85,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      toppings.value[editIndex.value]=newValues
+      toppings.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
           toppings: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
-            toppings: fieldValue.arrayUnion(newValues),
+            toppings: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      toppings.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      toppings.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          toppings: fieldValue.arrayUnion(addthis),
+          toppings: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         toppings.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
           .update({
-            toppings: fieldValue.arrayRemove(removethis),
+            toppings: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (topping, index) => {
-        let changeTo = !topping.isAvailable;
+        let newAvailibility = !topping.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
@@ -127,7 +129,7 @@ export default {
             toppings: fieldValue.arrayRemove(topping),
           });
 
-        toppings.value[index].isAvailable = changeTo;
+        toppings.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
