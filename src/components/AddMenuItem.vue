@@ -18,7 +18,7 @@
         <input @change="setImg" type="file" accept="image/*">
         </div>
          <div class="submit" >
-        <button v-if="!name || !price" class="submitwait"><span class="material-icons">check_circle</span> Save</button>
+        <button v-if="!name || !price" class="submit-wait"><span class="material-icons">check_circle</span> Save</button>
         <button v-else><span class="material-icons">check_circle</span> Save</button>
         </div>
       </form>

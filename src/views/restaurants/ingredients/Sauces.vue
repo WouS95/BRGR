@@ -85,43 +85,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      sauces.value[editIndex.value]=newValues
+      sauces.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
           sauces: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
-            sauces: fieldValue.arrayUnion(newValues),
+            sauces: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      sauces.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      sauces.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          sauces: fieldValue.arrayUnion(addthis),
+          sauces: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         sauces.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
           .update({
-            sauces: fieldValue.arrayRemove(removethis),
+            sauces: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (sauce, index) => {
-        let changeTo = !sauce.isAvailable;
+        let newAvailibility = !sauce.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
@@ -129,7 +129,7 @@ export default {
             sauces: fieldValue.arrayRemove(sauce),
           });
 
-        sauces.value[index].isAvailable = changeTo;
+        sauces.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")

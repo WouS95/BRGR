@@ -91,6 +91,8 @@ button p {
   margin-right: 1em;
   border-radius: 20px;
 }
+
+/* for the add /edit ingredient components */
 .edititem input, .additem input{
   border: 0.8px solid grey;
   border-bottom: 2px solid grey ;
@@ -115,7 +117,7 @@ input[type=number]{
   background: #ffffff;
   color: black;
 }
-.submitwait{
+.submit-wait{
   background-color: rgb(189, 189, 189);
 }
 .backdrop{

@@ -86,43 +86,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      drinks.value[editIndex.value]=newValues
+      drinks.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("drinks").update({
           drinks: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("drinks").update({
-            drinks: fieldValue.arrayUnion(newValues),
+            drinks: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      drinks.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      drinks.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("drinks")
         .update({
-          drinks: fieldValue.arrayUnion(addthis),
+          drinks: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         drinks.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
           .update({
-            drinks: fieldValue.arrayRemove(removethis),
+            drinks: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (drink, index) => {
-        let changeTo = !drink.isAvailable;
+        let newAvailibility = !drink.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
@@ -130,7 +130,7 @@ export default {
             drinks: fieldValue.arrayRemove(drink),
           });
 
-        drinks.value[index].isAvailable = changeTo;
+        drinks.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("drinks")

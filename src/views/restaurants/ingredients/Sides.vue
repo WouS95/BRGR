@@ -85,43 +85,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      sides.value[editIndex.value]=newValues
+      sides.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("sides").update({
           sides: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("sides").update({
-            sides: fieldValue.arrayUnion(newValues),
+            sides: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      sides.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      sides.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("sides")
         .update({
-          sides: fieldValue.arrayUnion(addthis),
+          sides: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         sides.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("sides")
           .update({
-            sides: fieldValue.arrayRemove(removethis),
+            sides: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (side, index) => {
-        let changeTo = !side.isAvailable;
+        let newAvailibility = !side.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("sides")
@@ -129,7 +129,7 @@ export default {
             sides: fieldValue.arrayRemove(side),
           });
 
-        sides.value[index].isAvailable = changeTo;
+        sides.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("sides")

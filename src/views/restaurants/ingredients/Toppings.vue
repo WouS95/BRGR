@@ -85,43 +85,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      toppings.value[editIndex.value]=newValues
+      toppings.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
           toppings: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("burgerIngredients").update({
-            toppings: fieldValue.arrayUnion(newValues),
+            toppings: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      toppings.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      toppings.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          toppings: fieldValue.arrayUnion(addthis),
+          toppings: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         toppings.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
           .update({
-            toppings: fieldValue.arrayRemove(removethis),
+            toppings: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (topping, index) => {
-        let changeTo = !topping.isAvailable;
+        let newAvailibility = !topping.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
@@ -129,7 +129,7 @@ export default {
             toppings: fieldValue.arrayRemove(topping),
           });
 
-        toppings.value[index].isAvailable = changeTo;
+        toppings.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("burgerIngredients")
