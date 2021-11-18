@@ -1,11 +1,13 @@
 <template>
 <RestaurantHeader/>
+<h1 class="burger-ingredients-title">Burger Ingrediënts </h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Burgers" />
-    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true">
+    <button class="add-new-ingredient" @click="addingMenuItem = true">
       <span class="material-icons">add</span> Add
     </button>
     <div class="menuitem" v-for="(burger, index) in burgers" :key="burger.id">
+      <img v-if="burger.image" :src="burger.image">
       <span class="menuitem-name"> {{ burger.name }} burger </span>
        € {{ Number.parseFloat(burger.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(burger, index)">edit</span>
@@ -144,6 +146,7 @@ export default {
     };
 
     load();
+
     return {
       burgers,
       editingMenuItem,

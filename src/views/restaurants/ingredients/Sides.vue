@@ -1,12 +1,13 @@
 <template>
 <RestaurantHeader/>
+<h1 class="burger-ingredients-title">Burger Ingrediënts </h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Sides"/>
-    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <button class="add-new-ingredient" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div class="menuitem" v-for="(side, index) in sides" :key="side.id">
+      <img v-if="side.image" :src="side.image">
       <span class="menuitem-name">{{ side.name }} </span>
        € {{ Number.parseFloat(side.price).toFixed(2) }}
-
       <span class="material-icons" @click="editItem(side, index)">edit</span>
       <span class="material-icons" @click="removeItem(side, index)"> delete </span>
       <label class="subtitle"> Available: </label>
