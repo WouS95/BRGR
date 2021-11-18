@@ -36,9 +36,4 @@ export default {
 </script>
 
 <style>
-.guestOrders {
-  margin-bottom: 150px;
-  width: 60%;
-  margin: 0 auto;
-}
 </style>
