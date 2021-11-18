@@ -7,7 +7,10 @@
                 <router-link :to="{name: 'RestaurantOrders'}">
                     <button><span class="material-icons leftButton">arrow_back</span>Back</button>
                 </router-link>
+
+                <router-link :to="{name: 'RestaurantEditOrder', params: {id: route.params.id}}">
                 <button>Edit<span class="material-icons rightButton">edit</span></button>
+                </router-link>
                 <button @click="isChangingStatus = true" >Update status<span class="material-icons rightButton">send</span></button>
             </div>
             <div class="orderInfo">
@@ -185,6 +188,7 @@ export default {
         font-weight: 600;
         font-size: 3em;
         margin: 0px;
+        color: #000;
     }
 
 
