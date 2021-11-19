@@ -50,7 +50,7 @@
               <img :src="pattys.image" :alt="pattys.name" />
               {{ pattys.name }} patty
             </label>
-            <span class="subtitle price">
+            <span v-if="pattys.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(pattys.price).toFixed(2).replace(/\./g, ",")
@@ -78,7 +78,7 @@
               <img :src="breads.image" :alt="breads.name" />
               {{ breads.name }} bread
             </label>
-            <span class="subtitle price">
+            <span v-if="breads.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(breads.price).toFixed(2).replace(/\./g, ",")
@@ -104,7 +104,7 @@
               <img :src="toppings.image" :alt="toppings.name" />
               {{ toppings.name }}</label
             >
-            <span class="subtitle price">
+            <span v-if="toppings.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(toppings.price).toFixed(2).replace(/\./g, ",")
@@ -130,7 +130,7 @@
               <img :src="sauces.image" :alt="sauces.name" />
               {{ sauces.name }}</label
             >
-            <span class="subtitle price">
+            <span v-if="sauces.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(sauces.price).toFixed(2).replace(/\./g, ",")
@@ -169,6 +169,11 @@
               <img :src="drinks.image" :alt="drinks.name" />
               {{ drinks.name }}</label
             >
+            <span v-if="drinks.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(drinks.price).toFixed(2).replace(/\./g, ",")
+              }}</span>
           </div>
         </div>
         <button>Add drink to order</button>
@@ -198,6 +203,11 @@
               <img :src="sides.image" :alt="sides.name" />
               {{ sides.name }}</label
             >
+            <span v-if="sides.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(sides.price).toFixed(2).replace(/\./g, ",")
+              }}</span>
           </div>
         </div>
         <button>Add side to order</button>
