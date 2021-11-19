@@ -5,7 +5,7 @@
         <div class="restaurantOrderDetails">
             <div class="buttons">
                 <router-link :to="{name: 'RestaurantOrders'}">
-                    <button><span class="material-icons leftButton">arrow_back</span>Back</button>
+                    <button class="secondary" ><span class="material-icons leftButton">arrow_back</span>Back</button>
                 </router-link>
 
                 <router-link :to="{name: 'RestaurantEditOrder', params: {id: route.params.id}}">
