@@ -64,11 +64,6 @@ button p {
 }
 
 /* for editing the menu items */
-.burger-ingredients-title{
-  color: white;
-  position:absolute;
-  left: 300px;
-}
 .add-new-ingredient{
   margin-bottom: 0.5em;
   font-size: .8em;
