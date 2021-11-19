@@ -630,6 +630,7 @@ button:disabled {
   height: 100%;
   background: #1b5e20;
   z-index: 2;
+  color: black;
 }
 #checkoutOrders {
   list-style: none;
@@ -755,7 +756,7 @@ h2.orderNumber {
   background: #fff;
   border-radius: 10px;
   padding: 20px 25px;
-  margin-bottom: 20px;
+  margin: 20px 0px;
   text-align: left;
 }
 
