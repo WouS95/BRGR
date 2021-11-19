@@ -19,6 +19,7 @@ import GuestLogin from '../views/guest/GuestLogin.vue'
 import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
 import RestaurantEditOrder from '../views/restaurants/RestaurantEditOrder.vue'
 import RestaurantEditOrderBurger from '../views/restaurants/RestaurantEditOrderBurger.vue'
+import PathNotFound from '../views/PathNotFound.vue'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
@@ -122,12 +123,17 @@ const routes = [{
     name: 'GuestLogin',
     component: GuestLogin,
     props: true
-  }
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'PathNotFound',
+    component: PathNotFound
+}
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes, 
 })
 
 export default router

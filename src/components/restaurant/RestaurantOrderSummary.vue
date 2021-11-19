@@ -32,6 +32,10 @@
                             <p>Set to ready</p> 
                             <span class="material-icons">check_circle</span>
                         </button>
+                        <button v-if="order.orderStatus == 'ready'" @click="setToDone">
+                            <p>Set to done</p> 
+                            <span class="material-icons">check_circle</span>
+                        </button>
                         <router-link :to="{name: 'RestaurantOrderDetails', params: {id: order.id}}">
                             <button>
                             <p>Details</p> 
@@ -82,13 +86,16 @@ export default {
         const setToReady = async () => {
             await projectFirestore.collection('orders').doc(props.order.id).update({orderStatus: "ready"}) 
         }
+        const setToDone = async () => {
+            await projectFirestore.collection('orders').doc(props.order.id).update({orderStatus: "done"}) 
+        }
 
         const timeStamp = computed(() => {
             return moment(props.order.orderTime.toDate()).startOf('minute').fromNow() + " at " + moment(props.order.orderTime.toDate()).format('h:mm a')
         })
 
 
-        return {totalPrice, statusClassName, setToReady, timeStamp}
+        return {totalPrice, statusClassName, setToReady, timeStamp, setToDone}
     }
 
 }
