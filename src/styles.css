@@ -180,6 +180,7 @@ input[type=number]{
   width: 90vw;
   max-width: 600px;
   margin: 0 auto;
+  margin-bottom: 150px;
 }
 .slider:before {
   position: absolute;
