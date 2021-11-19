@@ -2,8 +2,12 @@
 
 <div class="restaurantOrderList">
     <h1>Orders</h1>
-    <input v-model="showFinishedOrders" type="checkbox">
-    <label>Also show finished orders</label>
+    <label class="switch">
+        <input v-model="showFinishedOrders" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+
+    <label class="toggleLabel">Also show finished orders</label>
         <div class="RestaurantOrderWrapper">
             <!-- Renders the orders that are not done first, so the they will be sorted -->
             <div v-for="order in orders" :key="order.orderNr">
@@ -75,4 +79,31 @@ export default {
         display: flex;
         flex-wrap: wrap;
     }
+
+    .restaurantOrderList .switch {
+        height: 40px;
+        width: 65px;
+        margin-left: 30px;
+        margin-right: 10px;
+        bottom: 10px;
+    }
+
+    .restaurantOrderList .slider:before {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 2px;
+        left: 5px;
+    }
+
+    .restaurantOrderList input:checked + .slider:before {
+        -webkit-transform: translateX(23px);
+        -ms-transform: translateX(23px);
+        transform: translateX(23px);
+    }
+
+    .restaurantOrderList .toggleLabel {
+       position: relative;
+       bottom: 5px;
+    }
+    
 </style>
