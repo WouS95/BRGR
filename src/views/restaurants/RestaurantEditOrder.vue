@@ -110,7 +110,8 @@
                             <p class="subtitle price">€ {{ parseFloat(item.price).toFixed(2).replace(/\./g, ",") }}</p>
                             <h3>{{item.name}}</h3>
                         </div>
-                        <button @click="handleDelete(index)"><span class="material-icons">delete</span> Delete</button>
+                        <button @click="deleteCheck=true"><span class="material-icons">delete</span> Delete</button>
+                        <confirmDelete v-if="deleteCheck" @confirmDelete="handleDelete(index)" @denyDelete="deleteCheck=false" />
                     </div>
                 </div>
             </div>
@@ -130,14 +131,16 @@ import Timestamp from '../../components/restaurant/Timestamp.vue'
 import RestaurantStatusPopup from '../../components/restaurant/RestaurantStatusPopup.vue'
 import { projectFirestore } from '../../firebase/config'
 import getIngredients from '../../composables/getIngredients'
+import confirmDelete from '../../components/restaurant/RestaurantConfirmDelete.vue'
 
 export default {
-    components: {RestaurantHeader,RestaurantOrderItem, OrderStatus, TotalPrice, Timestamp, RestaurantStatusPopup},
+    components: {RestaurantHeader,RestaurantOrderItem, OrderStatus, TotalPrice, Timestamp, RestaurantStatusPopup, confirmDelete},
     setup(){
 
         const isCreatingBurger = ref(false)
         const isAddingDrink = ref(false)
         const isAddingSide = ref(false)
+        const deleteCheck = ref(false)
 
         const newDrink = ref(null)
         const newSide = ref(null)
@@ -168,7 +171,7 @@ export default {
 
         const handleDelete = async (index) => {
             let newOrderArray = []
-            
+            deleteCheck.value = false
             for (let i = 0; i < order.value.order.length; i++) {
                 if( i != index ){
                     console.log(order.value.order[i])
@@ -276,7 +279,8 @@ export default {
             totalBurgerPrice,
             handleBurgerSubmit,
             handleSideSubmit,
-            handleDrinkSubmit
+            handleDrinkSubmit,
+            deleteCheck
             }
     }
 
