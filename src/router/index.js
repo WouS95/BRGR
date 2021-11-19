@@ -36,7 +36,7 @@ const routes = [{
     // RESTAURANT PATHS
     path: '/restaurant',
     name: 'Restaurant',
-    component: Restaurant
+    component: Restaurant,
   },
   {
     path: '/restaurant/orders',
@@ -130,7 +130,14 @@ const routes = [{
     path: '/:catchAll(.*)',
     name: 'PathNotFound',
     component: PathNotFound
-}
+},
+{
+    path: '/guest',
+    name: 'guest',
+    redirect: {
+      name: 'GuestLogin'
+    },
+  },
 ]
 
 const router = createRouter({

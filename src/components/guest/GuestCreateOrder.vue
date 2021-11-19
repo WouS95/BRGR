@@ -1,5 +1,5 @@
 <template>
-<div class="createOrder">
+  <div class="createOrder">
     <h1>New Order</h1>
     <h3>
       Total: €{{ parseFloat(totalOrderPrice).toFixed(2).replace(/\./g, ",") }}
@@ -46,12 +46,16 @@
               type="radio"
               name="patty"
               :id="'patty' + index"
-            /><label v-if="pattys.isAvailable" :for="'patty' + index"
-              >
-              <img :src="pattys.image" :alt="pattys.name">
-              {{ pattys.name }} patty </label
+            /><label v-if="pattys.isAvailable" :for="'patty' + index">
+              <img :src="pattys.image" :alt="pattys.name" />
+              {{ pattys.name }} patty
+            </label>
+            <span v-if="pattys.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(pattys.price).toFixed(2).replace(/\./g, ",")
+              }}</span
             >
-            <span class="subtitle price"> € {{ parseFloat(pattys.price).toFixed(2).replace(/\./g, ",") }}</span>
           </div>
         </div>
 
@@ -71,10 +75,15 @@
               :id="'bread' + index"
             />
             <label v-if="breads.isAvailable" :for="'bread' + index">
-              <img :src="breads.image" :alt="breads.name">
-              {{ breads.name }} bread 
-              </label>
-              <span class="subtitle price"> € {{ parseFloat(breads.price).toFixed(2).replace(/\./g, ",") }}</span>
+              <img :src="breads.image" :alt="breads.name" />
+              {{ breads.name }} bread
+            </label>
+            <span v-if="breads.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(breads.price).toFixed(2).replace(/\./g, ",")
+              }}</span
+            >
           </div>
         </div>
 
@@ -92,11 +101,15 @@
               :id="'topping' + index"
               :value="toppings"
             /><label v-if="toppings.isAvailable" :for="'topping' + index">
-              <img :src="toppings.image" :alt="toppings.name">
+              <img :src="toppings.image" :alt="toppings.name" />
+              {{ toppings.name }}</label
+            >
+            <span v-if="toppings.isAvailable" class="subtitle price">
+              €
               {{
-              toppings.name
-            }}</label>
-            <span class="subtitle price"> € {{ parseFloat(toppings.price).toFixed(2).replace(/\./g, ",") }}</span>
+                parseFloat(toppings.price).toFixed(2).replace(/\./g, ",")
+              }}</span
+            >
           </div>
         </div>
 
@@ -114,11 +127,15 @@
               :id="'sauce' + index"
               :value="sauces"
             /><label v-if="sauces.isAvailable" :for="'sauce' + index">
-              <img :src="sauces.image" :alt="sauces.name">
+              <img :src="sauces.image" :alt="sauces.name" />
+              {{ sauces.name }}</label
+            >
+            <span v-if="sauces.isAvailable" class="subtitle price">
+              €
               {{
-              sauces.name
-            }}</label>
-            <span class="subtitle price"> € {{ parseFloat(sauces.price).toFixed(2).replace(/\./g, ",") }}</span>
+                parseFloat(sauces.price).toFixed(2).replace(/\./g, ",")
+              }}</span
+            >
           </div>
         </div>
         <button>Add burger to order</button>
@@ -149,9 +166,14 @@
               :id="'drink' + index"
               :value="drinks"
             /><label v-if="drinks.isAvailable" :for="'drink' + index">
-              <img :src="drinks.image" :alt="drinks.name"> {{
-              drinks.name
-            }}</label>
+              <img :src="drinks.image" :alt="drinks.name" />
+              {{ drinks.name }}</label
+            >
+            <span v-if="drinks.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(drinks.price).toFixed(2).replace(/\./g, ",")
+              }}</span>
           </div>
         </div>
         <button :disabled="!selectedIngredients.drink">Add drink to order</button>
@@ -179,6 +201,11 @@
             {{
             sides.name
           }}</label>
+          <span v-if="sides.isAvailable" class="subtitle price">
+              €
+              {{
+                parseFloat(sides.price).toFixed(2).replace(/\./g, ",")
+              }}</span>
         </div>
       </div>
       <button :disabled="!selectedIngredients.side">Add side to order</button>
@@ -190,18 +217,35 @@
           v-for="(orderItem, index) in fullOrder.order"
           :key="index"
         >
-        <span class="subtitle"> € {{ parseFloat(orderItem.price).toFixed(2).replace(/\./g, ",") }}</span>
+          <span class="subtitle">
+            €
+            {{
+              parseFloat(orderItem.price).toFixed(2).replace(/\./g, ",")
+            }}</span
+          >
           <h3 v-if="orderItem.type == 'burger'">
             {{ orderItem.ingredients[0].name }} burger
           </h3>
           <h3 v-else>{{ orderItem.name }}</h3>
           <div v-if="orderItem.type == 'burger'">
-            <p v-for="ingredient in orderItem.ingredients" :key="ingredient.name">
-              <span v-if="ingredient.type == 'bread'">{{ ingredient.name }} bread</span>
-              <span v-if="ingredient.type != 'burgerPatty' && ingredient.type != 'bread'">{{ ingredient.name }}</span>
+            <p
+              v-for="ingredient in orderItem.ingredients"
+              :key="ingredient.name"
+            >
+              <span v-if="ingredient.type == 'bread'"
+                >{{ ingredient.name }} bread</span
+              >
+              <span
+                v-if="
+                  ingredient.type != 'burgerPatty' && ingredient.type != 'bread'
+                "
+                >{{ ingredient.name }}</span
+              >
             </p>
           </div>
-          <i class="delete material material-icons" @click="removeItem(orderItem)"
+          <i
+            class="delete material material-icons"
+            @click="removeItem(orderItem)"
             >delete</i
           >
         </li>
@@ -562,7 +606,6 @@ button:disabled {
   border: 2px solid white;
   background: none;
   display: inline-block;
-  margin-bottom: 20px;
 }
 #addIngredientMenuWithToggleButton {
   position: fixed;
@@ -597,7 +640,7 @@ button:disabled {
 }
 
 #checkoutOrders .subtitle {
-  float:right;
+  float: right;
   margin-top: 12px;
 }
 
@@ -658,13 +701,12 @@ label.addingredientbutton {
 }
 #addBurgerForm label img,
 #addDrinkForm label img,
-#addSideForm label img{
+#addSideForm label img {
   width: 40px;
   vertical-align: middle;
   position: relative;
   bottom: 5px;
   margin-right: 10px;
-  
 }
 
 #orderSuccessModal {
@@ -695,11 +737,11 @@ h2.orderNumber {
 }
 
 .instructionText {
-  color: #FFF;
+  color: #fff;
 }
 
 .ingredientContainer {
-  background: #FFF;
+  background: #fff;
   border-radius: 10px;
   padding: 20px 25px;
   margin-bottom: 20px;

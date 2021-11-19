@@ -44,14 +44,52 @@
                     </router-link>
                 </div>
     </div>
+    <h2 class="orderNumber">
+      <span v-if="order.orderNr < 10">0</span>
+      <span v-if="order.orderNr < 100">0</span>
+      <span>{{ order.orderNr }}</span>
+    </h2>
+    <p class="subtitle">Table {{ order.tableNr }}</p>
+    <div class="orderList">
+      <div v-for="item in order.order.slice(0, 3)" :key="item.id">
+        <div v-if="item.type === 'burger'">
+          <!-- The program assumes the first ingredient in the burger is always the burger patty -->
+          <p>{{ item.ingredients[0].name }} {{ item.type }}</p>
+        </div>
+        <div v-else>
+          <p>{{ item.name }}</p>
+        </div>
+      </div>
+      <div v-if="order.order.length > 3">...</div>
+    </div>
+    <h3 class="price">
+      €
+      {{ parseFloat(totalPrice).toFixed(2).replace(/\./g, ",") }}
+    </h3>
+    <p class="subtitle timestamp">{{ timeStamp }}</p>
+    <div class="buttons">
+      <button v-if="order.orderStatus == 'preparing'" @click="setToReady">
+        <p>Set to ready</p>
+        <span class="material-icons">check_circle</span>
+      </button>
+      <router-link
+        :to="{ name: 'RestaurantOrderDetails', params: { id: order.id } }"
+      >
+        <button class="secondary">
+          <p>Details</p>
+          <span class="material-icons">arrow_forward</span>
+        </button>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
-import {computed} from 'vue'
-import {useRouter} from 'vue-router'
-import OrderStatus from '../OrderStatus.vue'
-import {projectFirestore} from '../../firebase/config'
-import moment from 'moment'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import OrderStatus from "../OrderStatus.vue";
+import { projectFirestore } from "../../firebase/config";
+import moment from "moment";
 
 export default {
     props: ["order"],
@@ -102,82 +140,78 @@ export default {
 </script>
 
 <style>
+.restaurantOrderSummary {
+  padding: 20px 30px;
+  box-sizing: border-box;
+  background: #fff;
+  width: 400px;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: left;
+}
 
-    .restaurantOrderSummary {
-        padding: 20px 30px;
-        box-sizing: border-box;
-        background: #fff;
-        width: 400px;
-        border-radius: 10px;
-        margin: 20px;
-        text-align: left;
-    }
+.restaurantOrderSummary .router-link-active {
+  color: #000;
+  text-decoration: none;
+}
 
-    .restaurantOrderSummary .router-link-active {
-        color: #000;
-        text-decoration: none;
-    }
+.restaurantOrderSummary a {
+  color: #000;
+  text-decoration: none;
+}
 
-    .restaurantOrderSummary a{
-        color: #000;
-        text-decoration: none;
-    }
+.restaurantOrderSummary h2 {
+  font-size: 2.2em;
+  line-height: 1em;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: inline-block;
+}
 
-    .restaurantOrderSummary h2 {
-        font-size: 2.2em;
-        line-height: 1em;
-        font-weight: 600;
-        margin-bottom: 20px;
-        display: inline-block;
-    }
+.restaurantOrderSummary .subtitle {
+  display: inline-block;
+  margin-left: 15px;
+}
 
-    .restaurantOrderSummary .subtitle {
-        display: inline-block;
-        margin-left: 15px;
-    }
+.restaurantOrderSummary button {
+  font-size: 100%;
+}
 
-    .restaurantOrderSummary button {
-        font-size: 100%;
-    }
+.restaurantOrderSummary .price {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1.5em;
+  margin: 0px;
+}
 
-    .restaurantOrderSummary .price {
-        display: inline-block;
-        font-weight: 600;
-        font-size: 1.5em;
-        margin: 0px;
-    }
+.restaurantOrderSummary .status {
+  float: right;
+}
 
-    .restaurantOrderSummary .status {
-        float: right;
-    }
+.restaurantOrderSummary .statusText {
+  margin: 0px;
+}
 
-    .restaurantOrderSummary .statusText {
-        margin: 0px;
-    }
+.orderNumber {
+  margin: 0px;
+}
 
-    .orderNumber {
-        margin: 0px;
-    }
+.orderList p {
+  margin: 0px;
+}
 
-    .orderList p {
-        margin: 0px;
-    }
+.restaurantOrderSummary.buttons {
+  margin-top: 20px;
+}
 
-    .restaurantOrderSummary.buttons {
-        margin-top: 20px;
-    }
+.restaurantOrderSummary .buttons button {
+  display: block;
+  margin-bottom: 10px;
+}
 
-    .restaurantOrderSummary .buttons button {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .restaurantOrderSummary .subtitle.timestamp {
-        font-style: italic;
-        display: block;
-        margin: 20px 0px;
-    }
-
-
-
+.restaurantOrderSummary .subtitle.timestamp {
+  font-style: italic;
+  display: block;
+  margin: 20px 0px;
+}
 </style>
