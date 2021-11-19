@@ -1,6 +1,6 @@
 <template>
 <RestaurantHeader/>
-<h1 class="burger-ingredients-title">Burger Ingrediënts </h1>
+  <h1 class="ingredientsHeader">Ingredients</h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Drinks"/>
     <button class="add-new-ingredient" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
