@@ -173,10 +173,13 @@
               €
               {{
                 parseFloat(drinks.price).toFixed(2).replace(/\./g, ",")
-              }}</span>
+              }}</span
+            >
           </div>
         </div>
-        <button :disabled="!selectedIngredients.drink">Add drink to order</button>
+        <button :disabled="!selectedIngredients.drink">
+          Add drink to order
+        </button>
       </form>
       <!-- form to add new drink -->
 
@@ -185,30 +188,31 @@
         v-show="showSelectSide"
         @submit.prevent="addSideToOrder"
       >
-      <span @click="showSelectSide = false" class="close">Cancel</span>
-      <div class="ingredientContainer">
-        <h2>Select your side</h2>
-        <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
-          <input
-            v-if="sides.isAvailable"
-            v-model="selectedIngredients.side"
-            type="radio"
-            name="side"
-            :id="'side' + index"
-            :value="sides"
-          /><label v-if="sides.isAvailable" :for="'side' + index">
-            <img :src="sides.image" :alt="sides.name">
-            {{
-            sides.name
-          }}</label>
-          <span v-if="sides.isAvailable" class="subtitle price">
+        <span @click="showSelectSide = false" class="close">Cancel</span>
+        <div class="ingredientContainer">
+          <h2>Select your side</h2>
+          <div
+            v-for="(sides, index) in sideIngredients.sides"
+            :key="sides.name"
+          >
+            <input
+              v-if="sides.isAvailable"
+              v-model="selectedIngredients.side"
+              type="radio"
+              name="side"
+              :id="'side' + index"
+              :value="sides"
+            /><label v-if="sides.isAvailable" :for="'side' + index">
+              <img :src="sides.image" :alt="sides.name" />
+              {{ sides.name }}</label
+            >
+            <span v-if="sides.isAvailable" class="subtitle price">
               €
-              {{
-                parseFloat(sides.price).toFixed(2).replace(/\./g, ",")
-              }}</span>
+              {{ parseFloat(sides.price).toFixed(2).replace(/\./g, ",") }}</span
+            >
+          </div>
         </div>
-      </div>
-      <button :disabled="!selectedIngredients.side">Add side to order</button>
+        <button :disabled="!selectedIngredients.side">Add side to order</button>
       </form>
       <!-- form to add new side -->
       <ul id="checkoutOrders">
@@ -291,7 +295,8 @@
         <label for="addIngredientButton" class="addingredientbutton">+</label>
       </nav>
       <div class="instructionText" v-if="!fullOrder.order[0]">
-        Add your first order by clicking the plus icon
+        Add your first order
+        <span class="material-icons"> arrow_forward </span>
       </div>
       <div :class="{ backdrop: orderCheckoutSuccess }"></div>
       <div id="orderSuccessModal" v-if="orderCheckoutSuccess">
@@ -675,6 +680,7 @@ nav.active #addIngredientMenu {
   background: #1b5e20;
   box-shadow: #00000026 0 3px 10px;
   text-align: right;
+  cursor: pointer;
 }
 
 label.addingredientbutton {
@@ -688,6 +694,7 @@ label.addingredientbutton {
   height: 60px;
   width: 60px;
   text-align: center;
+  cursor: pointer;
 }
 
 #addIngredientButton[type="checkbox"]:checked + label {
@@ -738,6 +745,10 @@ h2.orderNumber {
 
 .instructionText {
   color: #fff;
+  position: fixed;
+  text-align: right;
+  bottom: 160px;
+  right: 130px;
 }
 
 .ingredientContainer {
@@ -765,5 +776,6 @@ h2.orderNumber {
 
 .createOrder {
   margin-bottom: 200px;
+  color: white;
 }
 </style>
