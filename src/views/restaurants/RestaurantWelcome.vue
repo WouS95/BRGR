@@ -43,9 +43,17 @@ export default {
   margin: 40px auto;
   padding: 50px;
   border-radius: 20px;
+  text-align: center;
 }
+
+.login h1 {
+  color: #000;
+}
+
 .login .logo {
-  width: 35%;
+  margin-top: 50px;
+  width: 50%;
+  min-width: 250px;
 }
 .login h1 {
   font: normal normal 600 40px/60px Poppins;
