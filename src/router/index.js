@@ -35,7 +35,7 @@ const routes = [{
     // RESTAURANT PATHS
     path: '/restaurant',
     name: 'Restaurant',
-    component: Restaurant
+    component: Restaurant,
   },
   {
     path: '/restaurant/orders',
@@ -52,7 +52,8 @@ const routes = [{
   {
     path: '/restaurant/ingredients/breads',
     name: 'Breads',
-    component: Breads
+    component: Breads,
+    beforeEnter: requireAuth
   },
   {
     path: '/restaurant/ingredients/burgers',
@@ -69,7 +70,8 @@ const routes = [{
   {
     path: '/restaurant/ingredients/sides',
     name: 'Sides',
-    component: Sides
+    component: Sides,
+    beforeEnter: requireAuth
   },
   {
     path: '/restaurant/ingredients/sauces',
@@ -122,7 +124,14 @@ const routes = [{
     name: 'GuestLogin',
     component: GuestLogin,
     props: true
-  }
+  },
+  {
+    path: '/guest',
+    name: 'guest',
+    redirect: {
+      name: 'GuestLogin'
+    },
+  },
 ]
 
 const router = createRouter({
