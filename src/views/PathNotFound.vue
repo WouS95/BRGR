@@ -1,7 +1,7 @@
 <template>
 <div class="path-not-found">
   <h2> The page you are looking for does not exist. </h2>
-    <h3><router-link :to="{name: 'GuestLogin'}">Direct home</router-link></h3>
+    <router-link :to="{name: 'GuestLogin'}"> <h3>Go to the home page</h3></router-link>
 </div>
 </template>
 

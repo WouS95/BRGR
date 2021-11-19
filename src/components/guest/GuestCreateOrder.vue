@@ -154,7 +154,7 @@
             }}</label>
           </div>
         </div>
-        <button>Add drink to order</button>
+        <button :disabled="!selectedIngredients.drink">Add drink to order</button>
       </form>
       <!-- form to add new drink -->
 
@@ -169,7 +169,7 @@
         <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
           <input
             v-if="sides.isAvailable"
-            v-model="selectedIngredients.sides"
+            v-model="selectedIngredients.side"
             type="radio"
             name="side"
             :id="'side' + index"
@@ -181,7 +181,7 @@
           }}</label>
         </div>
       </div>
-      <button>Add side to order</button>
+      <button :disabled="!selectedIngredients.side">Add side to order</button>
       </form>
       <!-- form to add new side -->
       <ul id="checkoutOrders">
@@ -377,8 +377,8 @@ export default {
 
     const addSideToOrder = () => {
       const orderResult = {
-        name: selectedIngredients.value.sides.name,
-        price: Number(selectedIngredients.value.sides.price),
+        name: selectedIngredients.value.side.name,
+        price: Number(selectedIngredients.value.side.price),
         type: "side",
       };
       fullOrder.value.order.push(orderResult);
