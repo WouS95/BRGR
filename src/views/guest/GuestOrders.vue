@@ -36,4 +36,9 @@ export default {
 </script>
 
 <style>
+
+.guestOrders {
+  text-align: center;
+}
+
 </style>

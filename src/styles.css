@@ -64,11 +64,6 @@ button p {
 }
 
 /* for editing the menu items */
-.burger-ingredients-title{
-  color: white;
-  position:absolute;
-  left: 300px;
-}
 .add-new-ingredient{
   margin-bottom: 0.5em;
   font-size: .8em;
@@ -77,25 +72,28 @@ button p {
 .menuitem{
   line-height: 1.8em;
   border: none;
-  border-bottom: 1px solid rgb(212, 212, 212);
+  border-bottom: 1px solid #E0E0E0;
   text-align: right;
-  padding-top: 5px;
   padding-bottom: 5px;
+  margin: 20px 0px;
 }
 .menuitem-name{
   float: left;
-  font-weight:500;
 }
 .menuedits{
   background-color: white;
-  width:700px;
   padding: 1em 2.5em;
-  border-radius: 0.5em;
-  position:absolute;
-  left: 300px;
-  top: 100px;
-  transform: translateY(0%);
+  border-radius: 1em;
+  margin-top: 30px;
+  margin-left: 250px;
+  width: 750px;
 } 
+
+.menuitem .material-icons {
+  font-size: 30px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
 .menuitem img{
   height: 1.8em;
   max-width: 1.8em;
@@ -104,7 +102,6 @@ button p {
   margin-right: 1em;
   border-radius: 20px;
 }
-
 /* for the add /edit ingredient components */
 .edititem input, .additem input{
   border: 0.8px solid grey;
@@ -142,6 +139,17 @@ input[type=number]{
   height: 100%;
 }
 
+.menu-bar {
+  margin-top: 10px;
+  padding-bottom: 30px;
+}
+
+.ingredientsHeader {
+  margin-left: 260px;
+  margin-bottom: 0px;
+  font-size: 2.5em;
+}
+
 /* for the toggle switch */
 .switch {
   position: relative;
@@ -172,6 +180,7 @@ input[type=number]{
   width: 90vw;
   max-width: 600px;
   margin: 0 auto;
+  margin-bottom: 150px;
 }
 .slider:before {
   position: absolute;
