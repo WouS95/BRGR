@@ -176,7 +176,7 @@
               }}</span>
           </div>
         </div>
-        <button>Add drink to order</button>
+        <button :disabled="!selectedIngredients.drink">Add drink to order</button>
       </form>
       <!-- form to add new drink -->
 
@@ -185,32 +185,30 @@
         v-show="showSelectSide"
         @submit.prevent="addSideToOrder"
       >
-        <span @click="showSelectSide = false" class="close">Cancel</span>
-        <div class="ingredientContainer">
-          <h2>Select your side</h2>
-          <div
-            v-for="(sides, index) in sideIngredients.sides"
-            :key="sides.name"
-          >
-            <input
-              v-if="sides.isAvailable"
-              v-model="selectedIngredients.sides"
-              type="radio"
-              name="side"
-              :id="'side' + index"
-              :value="sides"
-            /><label v-if="sides.isAvailable" :for="'side' + index">
-              <img :src="sides.image" :alt="sides.name" />
-              {{ sides.name }}</label
-            >
-            <span v-if="sides.isAvailable" class="subtitle price">
+      <span @click="showSelectSide = false" class="close">Cancel</span>
+      <div class="ingredientContainer">
+        <h2>Select your side</h2>
+        <div v-for="(sides, index) in sideIngredients.sides" :key="sides.name">
+          <input
+            v-if="sides.isAvailable"
+            v-model="selectedIngredients.side"
+            type="radio"
+            name="side"
+            :id="'side' + index"
+            :value="sides"
+          /><label v-if="sides.isAvailable" :for="'side' + index">
+            <img :src="sides.image" :alt="sides.name">
+            {{
+            sides.name
+          }}</label>
+          <span v-if="sides.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(sides.price).toFixed(2).replace(/\./g, ",")
               }}</span>
-          </div>
         </div>
-        <button>Add side to order</button>
+      </div>
+      <button :disabled="!selectedIngredients.side">Add side to order</button>
       </form>
       <!-- form to add new side -->
       <ul id="checkoutOrders">
@@ -423,8 +421,8 @@ export default {
 
     const addSideToOrder = () => {
       const orderResult = {
-        name: selectedIngredients.value.sides.name,
-        price: Number(selectedIngredients.value.sides.price),
+        name: selectedIngredients.value.side.name,
+        price: Number(selectedIngredients.value.side.price),
         type: "side",
       };
       fullOrder.value.order.push(orderResult);
