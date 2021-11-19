@@ -53,7 +53,8 @@ const routes = [{
   {
     path: '/restaurant/ingredients/breads',
     name: 'Breads',
-    component: Breads
+    component: Breads,
+    beforeEnter: requireAuth
   },
   {
     path: '/restaurant/ingredients/burgers',
@@ -70,7 +71,8 @@ const routes = [{
   {
     path: '/restaurant/ingredients/sides',
     name: 'Sides',
-    component: Sides
+    component: Sides,
+    beforeEnter: requireAuth
   },
   {
     path: '/restaurant/ingredients/sauces',
