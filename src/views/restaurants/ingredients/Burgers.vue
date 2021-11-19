@@ -3,10 +3,11 @@
   <h1 class="ingredientsHeader">Ingredients</h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Burgers" />
-    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true">
+    <button class="add-new-ingredient" @click="addingMenuItem = true">
       <span class="material-icons">add</span> Add
     </button>
     <div class="menuitem" v-for="(burger, index) in burgers" :key="burger.id">
+      <img v-if="burger.image" :src="burger.image">
       <span class="menuitem-name"> {{ burger.name }} burger </span>
        € {{ Number.parseFloat(burger.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(burger, index)">edit</span>
@@ -86,9 +87,9 @@ export default {
       editIndex.value = index;
     };
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      burgers.value[editIndex.value] = newValues;
+      burgers.value[editIndex.value] = newValuesIngredient;
 
       projectFirestore
         .collection("ingredients")
@@ -101,33 +102,33 @@ export default {
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          burgerPatty: fieldValue.arrayUnion(newValues),
+          burgerPatty: fieldValue.arrayUnion(newValuesIngredient),
         });
     };
 
-    const addMenuItemToFirebase = (addthis) => {
-      burgers.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      burgers.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          burgerPatty: fieldValue.arrayUnion(addthis),
+          burgerPatty: fieldValue.arrayUnion(menuItemToAdd),
         });
     };
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
       burgers.value.splice(index, 1);
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
         .update({
-          burgerPatty: fieldValue.arrayRemove(removethis),
+          burgerPatty: fieldValue.arrayRemove(menuItemToRemove),
         });
     };
 
     const changeAvailability = (burger, index) => {
-      let changeTo = !burger.isAvailable;
+      let newAvailibility = !burger.isAvailable;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -135,7 +136,7 @@ export default {
           burgerPatty: fieldValue.arrayRemove(burger),
         });
 
-      burgers.value[index].isAvailable = changeTo;
+      burgers.value[index].isAvailable = newAvailibility;
       projectFirestore
         .collection("ingredients")
         .doc("burgerIngredients")
@@ -145,6 +146,7 @@ export default {
     };
 
     load();
+
     return {
       burgers,
       editingMenuItem,

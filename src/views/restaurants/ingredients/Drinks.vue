@@ -3,8 +3,9 @@
   <h1 class="ingredientsHeader">Ingredients</h1>
   <div class="menuedits">
     <edit-ingredients-menu type="Drinks"/>
-    <button style="margin-bottom:0.5em;" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
+    <button class="add-new-ingredient" @click="addingMenuItem = true"><span class="material-icons">add</span> Add</button>
     <div class="menuitem" v-for="(drink, index) in drinks" :key="drink.id">
+      <img v-if="drink.image" :src="drink.image">
       <span class="menuitem-name"> {{ drink.name }} </span>
        € {{ Number.parseFloat(drink.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(drink, index)">edit</span>
@@ -85,43 +86,43 @@ export default {
 
     } 
 
-    const updateDB = (newValues) => {
+    const updateDB = (newValuesIngredient) => {
       editingMenuItem.value = false;
-      drinks.value[editIndex.value]=newValues
+      drinks.value[editIndex.value]=newValuesIngredient
 
         projectFirestore.collection("ingredients").doc("drinks").update({
           drinks: fieldValue.arrayRemove(menuItemToEdit.value),
         })
        
         projectFirestore.collection("ingredients").doc("drinks").update({
-            drinks: fieldValue.arrayUnion(newValues),
+            drinks: fieldValue.arrayUnion(newValuesIngredient),
         })
     
     }
 
-    const addMenuItemToFirebase = (addthis) => {
-      drinks.value.push(addthis);
+    const addMenuItemToFirebase = (menuItemToAdd) => {
+      drinks.value.push(menuItemToAdd);
       addingMenuItem.value = false;
       projectFirestore
         .collection("ingredients")
         .doc("drinks")
         .update({
-          drinks: fieldValue.arrayUnion(addthis),
+          drinks: fieldValue.arrayUnion(menuItemToAdd),
         });
     }
 
-    const removeItem = (removethis, index) => {
+    const removeItem = (menuItemToRemove, index) => {
         drinks.value.splice(index, 1);
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
           .update({
-            drinks: fieldValue.arrayRemove(removethis),
+            drinks: fieldValue.arrayRemove(menuItemToRemove),
           });
       } 
 
       const changeAvailability = (drink, index) => {
-        let changeTo = !drink.isAvailable;
+        let newAvailibility = !drink.isAvailable;
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
@@ -129,7 +130,7 @@ export default {
             drinks: fieldValue.arrayRemove(drink),
           });
 
-        drinks.value[index].isAvailable = changeTo;
+        drinks.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
           .doc("drinks")
