@@ -79,9 +79,6 @@ export default {
         max-width: 350px;
         border-radius: 10px;
         margin: 20px auto;
-
-        margin-bottom: 150px;
-
         text-align: left;
     }
     .orderSummary h2 {
