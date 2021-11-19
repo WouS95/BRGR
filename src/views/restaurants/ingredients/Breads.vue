@@ -42,6 +42,8 @@ import { ref } from "vue";
 import EditMenuItem from "../../../components/EditMenuItem.vue";
 import AddMenuItem from "../../../components/AddMenuItem.vue";
 import RestaurantHeader from '../../../components/restaurant/RestaurantHeader.vue'
+import {useRouter} from 'vue-router'
+
 
 export default {
   name: "Breads",
@@ -52,6 +54,7 @@ export default {
     RestaurantHeader
   },
   setup() {
+    const router = useRouter();
     const breads = ref([]);
     const error = ref(null);
 
@@ -122,13 +125,28 @@ export default {
 
       const changeAvailability = (bread, index) => {
         let newAvailibility = !bread.isAvailable;
-        projectFirestore
-          .collection("ingredients")
-          .doc("burgerIngredients")
-          .update({
-            breads: fieldValue.arrayRemove(bread),
-          });
-
+        ////Probeersel om te preventen dat alle breads uit staan, moet nog gaan werken maar komt later
+        if (newAvailibility === false){
+          let otherAvailableBreads = 0
+          for (let i = 0; i<breads.value.length; i++){
+            if(breads.value[i] === bread ){
+              console.log('is current bread')
+            }
+            else if(breads.value[i].isAvailable){
+              otherAvailableBreads ++
+            } 
+          }
+          if (otherAvailableBreads === 0){
+            alert("Please set at least one type of bread to available")      
+          }
+        }
+        ///////////
+            projectFirestore
+              .collection("ingredients")
+              .doc("burgerIngredients")
+              .update({
+                breads: fieldValue.arrayRemove(bread),
+              });
         breads.value[index].isAvailable = newAvailibility;
         projectFirestore
           .collection("ingredients")
