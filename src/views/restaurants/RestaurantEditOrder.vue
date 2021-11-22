@@ -211,14 +211,20 @@ export default {
                 price: totalBurgerPrice.value,
                 ingredients: []
             }
+            creatingBurger.value.patty.type = 'burgerPatty'
             newBurger.ingredients.push(creatingBurger.value.patty)
+
+            creatingBurger.value.bread.type = 'bread'
             newBurger.ingredients.push(creatingBurger.value.bread)
             
             for(let i = 0; i < creatingBurger.value.toppings.length; i++){
+                creatingBurger.value.toppings[i].type = 'topping'
                 newBurger.ingredients.push(creatingBurger.value.toppings[i])
+                console.log(creatingBurger.value.toppings[i])
             }
 
             for(let i = 0; i < creatingBurger.value.sauces.length; i++){
+                creatingBurger.value.toppings[i].type = 'sauce'
                 newBurger.ingredients.push(creatingBurger.value.sauces[i])
             }
             console.log(newBurger)

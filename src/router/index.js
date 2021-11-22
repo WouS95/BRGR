@@ -18,7 +18,6 @@ import GuestOrderDetails from '../views/guest/GuestOrderDetails.vue'
 import GuestLogin from '../views/guest/GuestLogin.vue'
 import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
 import RestaurantEditOrder from '../views/restaurants/RestaurantEditOrder.vue'
-import RestaurantEditOrderBurger from '../views/restaurants/RestaurantEditOrderBurger.vue'
 import PathNotFound from '../views/PathNotFound.vue'
 
 const requireAuth = (to, from, next) => {
@@ -98,12 +97,6 @@ const routes = [{
     path: '/restaurant/orders/:id/edit',
     name: 'RestaurantEditOrder',
     component: RestaurantEditOrder,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/orders/:id/edit/burger/:index',
-    name: 'RestaurantEditOrderBurger',
-    component: RestaurantEditOrderBurger,
     beforeEnter: requireAuth
   },
 
