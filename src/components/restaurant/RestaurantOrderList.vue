@@ -19,7 +19,13 @@
             <div v-for="order in orders" :key="order.orderNr">
             <RestaurantOrderSummary
                 :order="order"
-                v-if="(order.orderStatus == 'done' || order.orderStatus == 'ready') && showFinishedOrders"
+                v-if="order.orderStatus == 'ready'"
+            />
+            </div>
+            <div v-for="order in orders" :key="order.orderNr">
+            <RestaurantOrderSummary
+                :order="order"
+                v-if="(order.orderStatus == 'done') && showFinishedOrders"
             />
             <RestaurantOrderSummary
                 :order="order"
