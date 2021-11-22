@@ -4,7 +4,7 @@
     </button>
     <div class="menuitem" v-for="(ingredient, index) in ingredientList" :key="ingredient.id">
       <img v-if="ingredient.image" :src="ingredient.image">
-      <span class="menuitem-name"> {{ ingredient.name }} </span>
+      <span class="menuitem-name"> {{ ingredient.name }} {{addition}} </span>
        € {{ Number.parseFloat(ingredient.price).toFixed(2) }}
       <span class="material-icons" @click="editItem(ingredient, index)">edit</span>
       <span class="material-icons" @click="removeItem(ingredient, index)">delete</span>
@@ -19,7 +19,7 @@
       </label>
     </div>
   <add-menu-item
-    :type="ingredientType"
+    :type="nameIngredient"
     v-if="addingMenuItem"
     @cancel="addingMenuItem = false"
     @addToFirebase="addMenuItemToFirebase($event)"
@@ -48,75 +48,30 @@ export default {
     EditMenuItem,
     AddMenuItem,
   },
+  computed: {
+      nameIngredient: function(){
+          if (this.ingredientType === "burgerPatty"){
+              return "burgers"
+          }
+          else if (this.ingredientType === "sides"){
+              return "side items"
+          }
+          else{
+              return this.ingredientType
+          }
+      },
+      addition: function(){
+          if (this.ingredientType === "burgerPatty"){
+              return "burger"
+          }
+          else if (this.ingredientType === "breads"){
+              return "bread"
+          }
+      }
+  },
   setup(props) {
     const ingredientList = ref([]);
-    const error = ref(null);
-
     ingredientList.value = props.ingredientList
-//   // register the firestore collection reference
-//   let collectionRef = projectFirestore.collection('ingredients').doc(props.documentName)
-
-//   collectionRef.onSnapshot(snap => {
-//     let results = [];
-//     snap.docs.forEach(doc => {
-//       // must wait for the server to create the timestamp & send it back
-//       // we don't want to edit data until it has done this
-//       doc.data() && results.push({
-//         ...doc.data(),
-//         id: doc.id
-//       })
-//     });
-
-//     // update values
-//     for( var i =0; i<results.length; i++){
-//         if (props.documentName === results[i].id){
-//              console.log(results[i])
-           
-//         }
-//     }
-//     ingredientList.value = results;
-//     // console.log(orders.value)
-//     error.value = null;
-//   }, err => {
-//     console.log(err.message)
-//     ingredientList.value = null
-//     error.value = 'could not fetch the data'
-//   })
-
-    // const loadIngredientList = async () => {
-    //     try {
-    //         const res = await projectFirestore
-    //       .collection("ingredients")
-    //       .doc(props.documentName)
-    //       .get();
-    //     if (props.ingredientType == "burgerPatty"){
-    //         var ingredientsFromDB = { ...res.data().burgerPatty};
-    //     }
-    //     else if (props.ingredientType == "breads"){
-    //         var ingredientsFromDB = { ...res.data().breads};
-    //     }
-    //     else if (props.ingredientType == "sauces"){
-    //         var ingredientsFromDB = { ...res.data().sauces};
-    //     }
-    //     else if (props.ingredientType == "toppings"){
-    //         var ingredientsFromDB = { ...res.data().toppings};
-    //     }
-    //     else if (props.ingredientType == "drinks"){
-    //         var ingredientsFromDB = { ...res.data().drinks};
-    //     }
-    //     else if (props.ingredientType == "sides"){
-    //         var ingredientsFromDB = { ...res.data().sides};
-    //     }
-
-    //     for (const ingredientFromDB in ingredientsFromDB) {
-    //       const ingredient = ingredientsFromDB[ingredientFromDB];
-    //       ingredientList.value.push(ingredient);
-    //     }
-    //   } catch (err) {
-    //     error.value = err.message;
-    //     console.log(error.value);
-    //   }
-    // };
 
     let addingMenuItem = ref(false);
     let editingMenuItem = ref(false);

@@ -9,19 +9,19 @@
         <span :class="{currentpage: 'sides'=== type}" class="menu-item" @click="type='sides'"> Side items </span>
         <span :class="{currentpage: 'drinks'=== type}" class="menu-item" @click="type='drinks'"> Drinks </span>
     </div>
-    <ShowIngredients v-if="type === 'burgerPatty' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="burgerPattyList"/>
-    <ShowIngredients v-if="type === 'breads' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="breadsList"/>
-    <ShowIngredients v-if="type === 'toppings' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="toppingsList"/>
-    <ShowIngredients v-if="type === 'sauces' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="saucesList"/>
-    <ShowIngredients v-if="type === 'sides' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="sidesList"/>
-    <ShowIngredients v-if="type === 'drinks' " :ingredientType="type" :documentName="nameOfDocument" :ingredientList="drinksList"/>
+    <ShowIngredients v-if="type === 'burgerPatty' " :ingredientType="type" documentName="burgerIngredients" :ingredientList="burgerPattyList"/>
+    <ShowIngredients v-if="type === 'breads' " :ingredientType="type" documentName="burgerIngredients" :ingredientList="breadsList"/>
+    <ShowIngredients v-if="type === 'toppings' " :ingredientType="type" documentName="burgerIngredients" :ingredientList="toppingsList"/>
+    <ShowIngredients v-if="type === 'sauces' " :ingredientType="type" documentName="burgerIngredients" :ingredientList="saucesList"/>
+    <ShowIngredients v-if="type === 'sides' " :ingredientType="type" documentName="sides" :ingredientList="sidesList"/>
+    <ShowIngredients v-if="type === 'drinks' " :ingredientType="type" documentName="drinks" :ingredientList="drinksList"/>
 </div>
 </template>
 
 <script>
 import RestaurantHeader from '../../components/restaurant/RestaurantHeader.vue';
 import ShowIngredients from '../../components/restaurant/RestaurantShowIngredients.vue'
-import { fieldValue, projectFirestore } from "../../firebase/config";
+import { projectFirestore } from "../../firebase/config";
 import { ref } from "vue";
 
 export default {
@@ -36,20 +36,6 @@ export default {
           theingredientList: []
       }
   },
-  computed:{
-        nameOfDocument: function(){
-            if (this.type == "burgerPatty" || this.type == "breads" || this.type == "sauces" || this.type == "toppings"){
-                return "burgerIngredients"
-            }
-            else if(this.type == "sides"){
-                return "sides"
-            }
-            else if(this.type == "drinks"){
-                return "drinks"
-            }
-            },
-
-    },
     setup(){
         const burgerPattyList = ref([]);
         const breadsList = ref([]);
@@ -59,7 +45,7 @@ export default {
         const sidesList = ref([]);
         const error = ref(null);
         
-        const loadIngredientLists = async () => {
+        const loadIngredientsLists = async () => {
         try {
             const res = await projectFirestore
           .collection("ingredients")
@@ -128,7 +114,7 @@ export default {
       }
     };
 
-    loadIngredientLists()
+    loadIngredientsLists()
     loadDrinksList()
     loadSidesList()
 
