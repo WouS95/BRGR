@@ -20,6 +20,7 @@ import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.
 import RestaurantEditOrder from '../views/restaurants/RestaurantEditOrder.vue'
 import RestaurantEditOrderBurger from '../views/restaurants/RestaurantEditOrderBurger.vue'
 import PathNotFound from '../views/PathNotFound.vue'
+import EditIngredients from '../views/restaurants/RestaurantEditIngredients'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
@@ -85,6 +86,11 @@ const routes = [{
     name: 'Toppings',
     component: Toppings,
     beforeEnter: requireAuth
+  },
+  {
+    path: '/restaurant/ingredients/edit',
+    name: 'EditIngredients',
+    component: EditIngredients,
   },
   {
     path: '/ingredients',
