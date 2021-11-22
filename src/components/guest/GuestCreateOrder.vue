@@ -604,9 +604,10 @@ form button {
   left:50%;
   transform:translate(-50%);
   bottom:20px;
+  width: fit-content;
 }
 button:disabled {
-  opacity: 0.5;
+  background:#bdbdbd;
   cursor: not-allowed;
 }
 .close {
@@ -797,7 +798,7 @@ h2.orderNumber {
   position: relative;
 
 }
-.ingredientContainer h2 {
+.ingredientContainer h2 { 
   margin: 0px;
   margin-bottom: 25px;
   font-size: 1.5em;
@@ -828,6 +829,9 @@ h2.orderNumber {
   .ingredientContainer > div {
      width: calc(50vw - 55px);
   height: calc(50vw - 55px);
+  }
+  #addBurgerForm input + label, #addDrinkForm input + label, #addSideForm input + label{
+    padding-top:8px;
   }
 }
 </style>
