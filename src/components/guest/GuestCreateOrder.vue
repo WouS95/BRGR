@@ -154,6 +154,7 @@
         v-show="showSelectDrink"
         @submit.prevent="addDrinkToOrder"
       >
+      <h1>Choose your poison</h1>
         <span @click="showSelectDrink = false" class="close">Cancel</span>
         <div class="ingredientContainer">
           <h2>Select your drink</h2>
@@ -192,6 +193,7 @@
         v-show="showSelectSide"
         @submit.prevent="addSideToOrder"
       >
+      <h1>Finish your order with a side</h1>
         <span @click="showSelectSide = false" class="close">Cancel</span>
         <div class="ingredientContainer">
           <h2>Select your side</h2>
