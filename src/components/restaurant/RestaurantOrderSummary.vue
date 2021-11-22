@@ -37,7 +37,7 @@
                             <span class="material-icons">check_circle</span>
                         </button>
                         <router-link :to="{name: 'RestaurantOrderDetails', params: {id: order.id}}">
-                            <button>
+                            <button class="secondary">
                             <p>Details</p> 
                             <span class="material-icons">arrow_forward</span>
                         </button>
