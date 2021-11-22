@@ -8,7 +8,7 @@
       <span class="close" @click="closeNewOrder">
         <span class="material-icons">highlight_off</span> Cancel
       </span>
-      <button :disabled="invalidForm" @click="checkoutOrder">
+      <button :disabled="!fullOrder.order[0]" @click="checkoutOrder">
         <span class="material-icons">shopping_cart</span> Checkout
       </button>
     </div>
@@ -354,8 +354,6 @@ export default {
       orderTime: timestamp(),
       tableNr: Number(tableNumber),
     });
-    // const burgerIngredients = ref(false);
-    // const totalBurgerPrice = ref(null);
     const error = ref(null);
     const addBurgerToOrder = () => {
       const orderResult = {
@@ -505,13 +503,7 @@ export default {
       orderCheckoutSuccess.value = true;
       orderNumber.value = orderData.orderNr;
     };
-    const invalidForm = computed(() => {
-      // if (fullOrder.value.order.includes("burger")) {
-      //   return false;
-      // }
-      // const res = JSON.stringify(fullOrder.value.order);
-      return !JSON.stringify(fullOrder.value.order).includes('"type":"burger"');
-    });
+
     const totalBurgerPrice = () => {
       var price = 0;
       if (selectedIngredients.value.burger.sauces[0]) {
@@ -581,7 +573,6 @@ export default {
       addIngredientMenuOpen,
       fullOrder,
       checkoutOrder,
-      invalidForm,
       orderNumber,
       orderCheckoutSuccess,
       removeItem,
@@ -646,6 +637,7 @@ button:disabled {
 #checkoutOrders {
   list-style: none;
   padding: 0;
+  color:black;
 }
 #checkoutOrders .orderItem {
   background: white;
@@ -724,6 +716,7 @@ label.addingredientbutton {
 
 #orderSuccessModal {
   background: white;
+  color:black;
   position: fixed;
   z-index: 1;
   left: 50%;
