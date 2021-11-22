@@ -14,7 +14,7 @@
             </div>
             <!-- Adding a new burger -->
             <div class="addingButtons" v-if="!isAddingSide && !isAddingDrink">
-                <button v-if="isCreatingBurger" @click="isCreatingBurger = false"> 
+                <button v-if="isCreatingBurger" @click="cancelBurger"> 
                     <span class="material-icons">cancel</span>
                     Cancel Burger
                 </button>
@@ -25,15 +25,12 @@
             </div>
             <form @submit.prevent="handleBurgerSubmit" class="container" v-if="isCreatingBurger">
                 <h3>Creating burger</h3>
-                <label for="burgerPatty">Select a patty:</label>
-                <br>
+                <p class="selectTitle">Select a patty:</p>
                 <select name="burgerPatty" v-model="creatingBurger.patty">
                     <option v-for="burgerPatty in restaurantIngredients[0].burgerPatty" :key="burgerPatty.name" :value="burgerPatty"> {{ burgerPatty.name }} </option>
                 </select>
                 <br>
-                <br>
-                <label for="burgerBread">Select a bun:</label>
-                <br>
+                <p class="selectTitle" for="burgerBread">Select a bun:</p>
                 <select name="burgerBread" v-model="creatingBurger.bread">
                     <option v-for="bread in restaurantIngredients[0].breads" :key="bread.name" :value="bread"> {{ bread.name }} </option>
                 </select>
@@ -55,12 +52,12 @@
             
         <!-- Adding a new side -->
         <div class="addingButtons" v-if="!isCreatingBurger && !isAddingDrink">
-            <button v-if="isAddingSide" @click="isAddingSide = false">
+            <button v-if="isAddingSide" @click="cancelSide">
                 <span class="material-icons">cancel</span>
                  Cancel side
                 </button>
             <button v-else @click="isAddingSide = true">
-                <span class="material-icons">takeout_dining</span>
+                <span class="material-icons" >takeout_dining</span>
                 Add side
             </button>
         </div>
@@ -70,12 +67,12 @@
                     <input type="radio"  v-model="newSide" :value="side">
                     <label> {{ side.name }} </label>
                 </div>
-                <button>Add side</button>
+                <button :disabled="!newSide" >Add side</button>
             </form>
 
             <!-- Adding a new drink -->
             <div class="addingButtons" v-if="!isCreatingBurger && !isAddingSide">
-                <button v-if="isAddingDrink" @click="isAddingDrink = false">
+                <button v-if="isAddingDrink" @click="cancelDrink">
                     <span class="material-icons">cancel</span>
                     Cancel drink
                 </button>
@@ -90,7 +87,7 @@
                     <input type="radio"  v-model="newDrink" :value="drink">
                     <label> {{ drink.name }} </label>
                 </div>
-                <button>Add drink</button>
+                <button :disabled="!newDrink" >Add drink</button>
             </form>
             <div class="orderItems">
                 <div v-for="(item, index) in order.order" :key="index">
@@ -268,6 +265,29 @@ export default {
             newSide.value = null
         }
 
+        const cancelDrink = () => {
+            newDrink.value = null
+            isAddingDrink.value = false
+            
+        }
+
+        const cancelSide = () => {
+            newSide.value = null
+            isAddingSide.value = false
+        }
+
+        const cancelBurger = () => {
+            isCreatingBurger.value = false
+            creatingBurger.value = {
+                patty: null,
+                bread: null,
+                toppings: [],
+                sauces: [],
+                type: 'burger'
+            }
+        }
+
+
 
         return{ 
             order, 
@@ -286,7 +306,10 @@ export default {
             handleBurgerSubmit,
             handleSideSubmit,
             handleDrinkSubmit,
-            deleteCheck
+            deleteCheck,
+            cancelDrink,
+            cancelSide,
+            cancelBurger
             }
     }
 
@@ -345,9 +368,22 @@ export default {
     .restaurantOrderDetails.editOrder .container {
         padding: 20px 25px;
         border-radius: 10px;
-        width: 400px;
+        width: 500px;
         margin-top: 20px;
         margin-bottom: 40px;
+        background: #FFF;
+    }
+
+    .restaurantOrderDetails.editOrder .container select {
+        padding: 10px;
+        width: 80%;
+        border: solid 1px #BDBDBD;
+        font-size: 1em;
+        border-radius: 5px;
+    }
+
+    .restaurantOrderDetails.editOrder .container .selectTitle {
+        font-weight: 600;
     }
 
     .restaurantOrderDetails.editOrder .addingButtons {
@@ -364,11 +400,12 @@ export default {
     }
 
     .restaurantOrderDetails.editOrder input {
-        width: 20px;
-        height: 20px;
-        vertical-align: top;
+        width: 25px;
+        height: 25px;
+        vertical-align: middle;
         margin-right: 10px;
         margin-bottom: 10px;
+        position: relative;
+        top: 1px;
     }
-
 </style>

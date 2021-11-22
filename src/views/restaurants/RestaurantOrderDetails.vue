@@ -180,7 +180,7 @@ export default {
 
     .restaurantOrderDetails .orderTypeItems {
         overflow-y: scroll;
-        height: 525px;
+        height: 522px;
         padding-left: 20px;
     }
 
