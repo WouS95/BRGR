@@ -592,7 +592,9 @@ export default {
 .backdrop {
   z-index: 1;
 }
-form button {
+#addBurgerForm button,
+#addDrinkForm button,
+#addSideForm button {
   position:fixed;
   left:50%;
   transform:translate(-50%);
