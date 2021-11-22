@@ -41,7 +41,8 @@ import AddMenuItem from "../../components/AddMenuItem.vue";
 export default {
   name: "ShowIngredients",
   props: { ingredientType: String,
-           documentName: String
+           documentName: String,
+           ingredientList: Array
              },
   components: {
     EditMenuItem,
@@ -51,6 +52,7 @@ export default {
     const ingredientList = ref([]);
     const error = ref(null);
 
+    ingredientList.value = props.ingredientList
 //   // register the firestore collection reference
 //   let collectionRef = projectFirestore.collection('ingredients').doc(props.documentName)
 
@@ -81,40 +83,40 @@ export default {
 //     error.value = 'could not fetch the data'
 //   })
 
-    const loadIngredientList = async () => {
-        try {
-            const res = await projectFirestore
-          .collection("ingredients")
-          .doc(props.documentName)
-          .get();
-        if (props.ingredientType == "burgerPatty"){
-            var ingredientsFromDB = { ...res.data().burgerPatty};
-        }
-        else if (props.ingredientType == "breads"){
-            var ingredientsFromDB = { ...res.data().breads};
-        }
-        else if (props.ingredientType == "sauces"){
-            var ingredientsFromDB = { ...res.data().sauces};
-        }
-        else if (props.ingredientType == "toppings"){
-            var ingredientsFromDB = { ...res.data().toppings};
-        }
-        else if (props.ingredientType == "drinks"){
-            var ingredientsFromDB = { ...res.data().drinks};
-        }
-        else if (props.ingredientType == "sides"){
-            var ingredientsFromDB = { ...res.data().sides};
-        }
+    // const loadIngredientList = async () => {
+    //     try {
+    //         const res = await projectFirestore
+    //       .collection("ingredients")
+    //       .doc(props.documentName)
+    //       .get();
+    //     if (props.ingredientType == "burgerPatty"){
+    //         var ingredientsFromDB = { ...res.data().burgerPatty};
+    //     }
+    //     else if (props.ingredientType == "breads"){
+    //         var ingredientsFromDB = { ...res.data().breads};
+    //     }
+    //     else if (props.ingredientType == "sauces"){
+    //         var ingredientsFromDB = { ...res.data().sauces};
+    //     }
+    //     else if (props.ingredientType == "toppings"){
+    //         var ingredientsFromDB = { ...res.data().toppings};
+    //     }
+    //     else if (props.ingredientType == "drinks"){
+    //         var ingredientsFromDB = { ...res.data().drinks};
+    //     }
+    //     else if (props.ingredientType == "sides"){
+    //         var ingredientsFromDB = { ...res.data().sides};
+    //     }
 
-        for (const ingredientFromDB in ingredientsFromDB) {
-          const ingredient = ingredientsFromDB[ingredientFromDB];
-          ingredientList.value.push(ingredient);
-        }
-      } catch (err) {
-        error.value = err.message;
-        console.log(error.value);
-      }
-    };
+    //     for (const ingredientFromDB in ingredientsFromDB) {
+    //       const ingredient = ingredientsFromDB[ingredientFromDB];
+    //       ingredientList.value.push(ingredient);
+    //     }
+    //   } catch (err) {
+    //     error.value = err.message;
+    //     console.log(error.value);
+    //   }
+    // };
 
     let addingMenuItem = ref(false);
     let editingMenuItem = ref(false);
@@ -184,7 +186,7 @@ export default {
           [props.ingredientType]: fieldValue.arrayUnion(ingredient),
         });
     };
-    loadIngredientList()
+    // loadIngredientList()
 
     return {
       ingredientList,
