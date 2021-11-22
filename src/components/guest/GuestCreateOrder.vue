@@ -49,13 +49,13 @@
             /><label v-if="pattys.isAvailable" :for="'patty' + index">
               <img :src="pattys.image" :alt="pattys.name" />
               {{ pattys.name }} patty
-            </label>
             <span v-if="pattys.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(pattys.price).toFixed(2).replace(/\./g, ",")
-              }}</span
-            >
+              }}</span>
+            </label>
+            
           </div>
         </div>
 
@@ -77,13 +77,13 @@
             <label v-if="breads.isAvailable" :for="'bread' + index">
               <img :src="breads.image" :alt="breads.name" />
               {{ breads.name }} bread
-            </label>
             <span v-if="breads.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(breads.price).toFixed(2).replace(/\./g, ",")
               }}</span
             >
+            </label>
           </div>
         </div>
 
@@ -102,13 +102,14 @@
               :value="toppings"
             /><label v-if="toppings.isAvailable" :for="'topping' + index">
               <img :src="toppings.image" :alt="toppings.name" />
-              {{ toppings.name }}</label
-            >
+              {{ toppings.name }}
             <span v-if="toppings.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(toppings.price).toFixed(2).replace(/\./g, ",")
               }}</span
+            >
+              </label
             >
           </div>
         </div>
@@ -128,17 +129,19 @@
               :value="sauces"
             /><label v-if="sauces.isAvailable" :for="'sauce' + index">
               <img :src="sauces.image" :alt="sauces.name" />
-              {{ sauces.name }}</label
-            >
-            <span v-if="sauces.isAvailable" class="subtitle price">
+              {{ sauces.name }}
+              <span v-if="sauces.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(sauces.price).toFixed(2).replace(/\./g, ",")
               }}</span
             >
+            </label
+            >
+            
           </div>
         </div>
-        <button>Add burger to order</button>
+        <button :disabled="!selectedIngredients.burger.patty || !selectedIngredients.burger.bread">Add burger to order</button>
       </form>
       <!-- form to add new burger -->
       <!-- step 1: select patty -->
@@ -167,13 +170,14 @@
               :value="drinks"
             /><label v-if="drinks.isAvailable" :for="'drink' + index">
               <img :src="drinks.image" :alt="drinks.name" />
-              {{ drinks.name }}</label
-            >
+              {{ drinks.name }}
             <span v-if="drinks.isAvailable" class="subtitle price">
               €
               {{
                 parseFloat(drinks.price).toFixed(2).replace(/\./g, ",")
               }}</span
+            >
+              </label
             >
           </div>
         </div>
@@ -204,12 +208,12 @@
               :value="sides"
             /><label v-if="sides.isAvailable" :for="'side' + index">
               <img :src="sides.image" :alt="sides.name" />
-              {{ sides.name }}</label
-            >
-            <span v-if="sides.isAvailable" class="subtitle price">
+              {{ sides.name }}<span v-if="sides.isAvailable" class="subtitle price">
               €
               {{ parseFloat(sides.price).toFixed(2).replace(/\./g, ",") }}</span
+            ></label
             >
+            
           </div>
         </div>
         <button :disabled="!selectedIngredients.side">Add side to order</button>
@@ -595,6 +599,12 @@ export default {
 .backdrop {
   z-index: 1;
 }
+form button {
+  position:fixed;
+  left:50%;
+  transform:translate(-50%);
+  bottom:20px;
+}
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -701,20 +711,14 @@ label.addingredientbutton {
 #addIngredientButton[type="checkbox"]:checked + label {
   transform: rotate(45deg);
 }
-#addBurgerForm input:checked + label,
-#addDrinkForm input:checked + label,
-#addSideForm input:checked + label {
-  font-weight: bold;
-  text-decoration: underline;
-}
 #addBurgerForm label img,
 #addDrinkForm label img,
 #addSideForm label img {
-  width: 40px;
-  vertical-align: middle;
+  height: 40%;
   position: relative;
   bottom: 5px;
-  margin-right: 10px;
+  display:block;
+  margin:0 auto;
 }
 
 #orderSuccessModal {
@@ -739,10 +743,28 @@ h2.orderNumber {
 #addBurgerForm input,
 #addDrinkForm input,
 #addSideForm input {
-  opacity: 0;
-  margin-right: -13px;
-  margin-top: -13px;
+  margin-top: 0px;
+  clear:both;
+  display:block;
 }
+#addBurgerForm input + label,
+#addDrinkForm input + label,
+#addSideForm input + label {
+  width:100%;
+  position:absolute;
+  height:100%;
+  top:0;
+  left:0;
+  padding-top:25%;
+  border-radius: 5px;
+  border:1px solid #bdbdbd;
+
+}
+  #addBurgerForm input:checked + label,
+  #addDrinkForm input:checked + label,
+  #addSideForm input:checked + label {
+    border:3px solid #0a941c;
+  }
 
 .instructionText {
   color: #fff;
@@ -756,15 +778,31 @@ h2.orderNumber {
   background: #fff;
   border-radius: 10px;
   padding: 20px 25px;
-  margin: 20px 0px;
+  margin: 60px 0px;
   text-align: left;
+  width:100%;
+  display:flex;
+  flex-wrap: wrap;
 }
+.ingredientContainer > div {
+  width:100px;
+  height:100px;
+  float:left;
+  width: calc(25vw - 33px);
+  height: calc(25vw - 33px);
+  text-align: center;
 
+  padding:10px;
+  margin:5px;
+  position: relative;
+
+}
 .ingredientContainer h2 {
   margin: 0px;
   margin-bottom: 25px;
   font-size: 1.5em;
-  text-align: center;
+  text-align: left;
+  width:100%;
 }
 
 .ingredientContainer input {
@@ -772,11 +810,24 @@ h2.orderNumber {
 }
 
 .ingredientContainer .price {
-  float: right;
+  display:block;
+  clear: both;
 }
 
 .createOrder {
   margin-bottom: 200px;
   color: white;
+}
+@media (max-width: 900px) {
+  .ingredientContainer > div {
+     width: calc(33.33vw - 40px);
+  height: calc(33.33vw - 40px);
+  }
+}
+@media (max-width: 650px) {
+  .ingredientContainer > div {
+     width: calc(50vw - 55px);
+  height: calc(50vw - 55px);
+  }
 }
 </style>
