@@ -5,12 +5,6 @@ import {
 import {
   projectAuth
 } from '../firebase/config'
-import Burgers from '../views/restaurants/ingredients/Burgers.vue'
-import Breads from '../views/restaurants/ingredients/Breads.vue'
-import Toppings from '../views/restaurants/ingredients/Toppings.vue'
-import Sauces from '../views/restaurants/ingredients/Sauces.vue'
-import Drinks from '../views/restaurants/ingredients/Drinks.vue'
-import Sides from '../views/restaurants/ingredients/Sides.vue'
 import Restaurant from '../views/restaurants/RestaurantWelcome.vue'
 import Orders from '../views/restaurants/RestaurantOrders.vue'
 import GuestOrders from '../views/guest/GuestOrders.vue'
@@ -19,6 +13,7 @@ import GuestLogin from '../views/guest/GuestLogin.vue'
 import RestaurantOrderDetails from '../views/restaurants/RestaurantOrderDetails.vue'
 import RestaurantEditOrder from '../views/restaurants/RestaurantEditOrder.vue'
 import PathNotFound from '../views/PathNotFound.vue'
+import Ingredients from '../views/restaurants/RestaurantEditIngredients'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
@@ -50,47 +45,9 @@ const routes = [{
     beforeEnter: requireAuth
   },
   {
-    path: '/restaurant/ingredients/breads',
-    name: 'Breads',
-    component: Breads,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/ingredients/burgers',
-    name: 'Burgers',
-    component: Burgers,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/ingredients/drinks',
-    name: 'Drinks',
-    component: Drinks,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/ingredients/sides',
-    name: 'Sides',
-    component: Sides,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/ingredients/sauces',
-    name: 'Sauces',
-    component: Sauces,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/restaurant/ingredients/toppings',
-    name: 'Toppings',
-    component: Toppings,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/ingredients',
+    path: '/restaurant/ingredients',
     name: 'Ingredients',
-    redirect: {
-      name: 'Burgers'
-    },
+    component: Ingredients,
     beforeEnter: requireAuth
   },
   {
